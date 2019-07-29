@@ -8,10 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Modalidade implements Serializable {
+public class ModalidadePosicao implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -19,21 +21,25 @@ public class Modalidade implements Serializable {
 	private Integer id;
 	private String descricao;
 	
-	@ManyToMany(mappedBy="modalidades")
-	private List<ModalidadePosicao> modalidadePosicoes = new ArrayList<ModalidadePosicao>();
+	@ManyToMany
+	@JoinTable(name = "POSICAO_MODALIDADE",
+		joinColumns = @JoinColumn(name = "id_posicao"),
+		inverseJoinColumns = @JoinColumn(name = "id_modalidade")
+	)
+	private List<Modalidade> modalidades = new ArrayList<Modalidade>();
 	
 	
-	public Modalidade() {
+	public ModalidadePosicao() {
 		
 	}
 
-	public Modalidade(Integer id, String descricao) {
+	public ModalidadePosicao(Integer id, String descricao) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 	}
-	
 
+	
 	public Integer getId() {
 		return id;
 	}
@@ -49,15 +55,15 @@ public class Modalidade implements Serializable {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	public List<ModalidadePosicao> getModalidadePosicoes() {
-		return modalidadePosicoes;
+
+	public List<Modalidade> getModalidades() {
+		return modalidades;
 	}
 
-	public void setModalidadePosicoes(List<ModalidadePosicao> modalidadePosicoes) {
-		this.modalidadePosicoes = modalidadePosicoes;
+	public void setModalidades(List<Modalidade> modalidades) {
+		this.modalidades = modalidades;
 	}
-	
+
 	
 	@Override
 	public int hashCode() {
@@ -75,7 +81,7 @@ public class Modalidade implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Modalidade other = (Modalidade) obj;
+		ModalidadePosicao other = (ModalidadePosicao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
