@@ -9,27 +9,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lucasloose.appfooturestars.domain.Modalidade;
-import com.lucasloose.appfooturestars.services.ModalidadeService;
+import com.lucasloose.appfooturestars.domain.ClubeFutebol;
+import com.lucasloose.appfooturestars.services.ClubeFutebolService;
 
 @RestController
-@RequestMapping(value="/modalidades")
-public class ModalidadeResource {
+@RequestMapping(value="/clubes")
+public class ClubeFutebolResource {
 	
 	@Autowired
-	private ModalidadeService modalidadeService;
+	private ClubeFutebolService clubeFutebolService;
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> list() {
-		List<Modalidade> listaModalidades = modalidadeService.buscarLista();
-		return ResponseEntity.ok().body(listaModalidades);
+		List<ClubeFutebol> listaClubes = clubeFutebolService.buscarLista();
+		return ResponseEntity.ok().body(listaClubes);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Modalidade modalidade = modalidadeService.buscar(id);
-		return ResponseEntity.ok().body(modalidade);
+		ClubeFutebol clubeFutebol = clubeFutebolService.buscar(id);
+		return ResponseEntity.ok().body(clubeFutebol);
 	}
 	
 }

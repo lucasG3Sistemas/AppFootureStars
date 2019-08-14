@@ -1,5 +1,7 @@
 package com.lucasloose.appfooturestars.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,15 @@ public class ModalidadeService {
 
 	@Autowired
 	private ModalidadeRepository modalidadeRepository;
+	
+	public List<Modalidade> buscarLista() {
+		List<Modalidade> modalidade = modalidadeRepository.findAll();
+		if (modalidade == null) {
+			throw new ObjectNotFoundException("Modalidades não encontradas!"
+					+ ", Tipo: " + Modalidade.class.getName());
+		}
+		return modalidade;
+	}
 	
 	public Modalidade buscar(Integer id) {
 		Modalidade modalidade = modalidadeRepository.findOne(id);

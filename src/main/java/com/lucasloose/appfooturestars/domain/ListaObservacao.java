@@ -11,39 +11,44 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class ModalidadePosicao implements Serializable {
+public class ListaObservacao implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String descricao;
 	
-	@JsonBackReference
+	@JsonManagedReference
 	@ManyToMany
-	@JoinTable(name = "POSICAO_MODALIDADE",
-		joinColumns = @JoinColumn(name = "id_posicao"),
-		inverseJoinColumns = @JoinColumn(name = "id_modalidade")
+	@JoinTable(name = "LISTA_OBS_JOGADOR",
+		joinColumns = @JoinColumn(name = "id_jogador"),
+		inverseJoinColumns = @JoinColumn(name = "id_lista_observacao")
 	)
-	private List<Modalidade> modalidades = new ArrayList<Modalidade>();
-	
-	@JsonBackReference
-	@ManyToMany(mappedBy="posicoes")
 	private List<Jogador> jogadores = new ArrayList<Jogador>();
 	
+	@JsonManagedReference
+	@OneToOne
+	@JoinColumn(name = "id_clube_futebol")
+	private ClubeFutebol clubeFutebol;
 	
-	public ModalidadePosicao() {
+	@JsonManagedReference
+	@OneToOne
+	@JoinColumn(name = "id_empresario")
+	private Empresario empresario;
+	
+	
+	public ListaObservacao() {
 		
 	}
 
-	public ModalidadePosicao(Integer id, String descricao) {
+	public ListaObservacao(Integer id) {
 		super();
 		this.id = id;
-		this.descricao = descricao;
 	}
 
 	
@@ -55,33 +60,21 @@ public class ModalidadePosicao implements Serializable {
 		this.id = id;
 	}
 
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public List<Modalidade> getModalidades() {
-		return modalidades;
-	}
-
-	public void setModalidades(List<Modalidade> modalidades) {
-		this.modalidades = modalidades;
-	}
-	
 	
 
-	
-	public List<Jogador> getjogadores() {
+	public List<Jogador> getJogadores() {
 		return jogadores;
 	}
 
-	public void setjogadores(List<Jogador> jogadores) {
+	public void setJogadores(List<Jogador> jogadores) {
 		this.jogadores = jogadores;
 	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -90,6 +83,7 @@ public class ModalidadePosicao implements Serializable {
 		return result;
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -98,7 +92,7 @@ public class ModalidadePosicao implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ModalidadePosicao other = (ModalidadePosicao) obj;
+		ListaObservacao other = (ListaObservacao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -2,14 +2,22 @@ package com.lucasloose.appfooturestars.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Jogador implements Serializable {
@@ -26,26 +34,35 @@ public class Jogador implements Serializable {
 	private String nacionalidade;
 	private String estado_nasc;
 	private String municipio_nasc;
+	private Integer sexo;
 	private Double altura;
 	private Double peso;
 	
 	//DADOS JOGADOR
 	private Integer profissionalizacao;
-	private String codigoCbf;
+	private String codigo_cbf;
 	
-	@OneToOne
-	@JoinColumn(name = "id_modalide")
-	private Modalidade modalide;
+	@JsonManagedReference
+	@ManyToMany
+	@JoinTable(name = "JOGADOR_MODALIDADE",
+		joinColumns = @JoinColumn(name = "id_modalidade"),
+		inverseJoinColumns = @JoinColumn(name = "id_jogador")
+	)
+	private List<Modalidade> modalidades = new ArrayList<Modalidade>();
 	
-	@ManyToOne
-	@JoinColumn(name = "id_modalide_posicao")
-	private ModalidadePosicao modalidePosicao;
+	@JsonManagedReference
+	@ManyToMany
+	@JoinTable(name = "JOGADOR_MODALIDADE_POSICAO",
+		joinColumns = @JoinColumn(name = "id_modalidade_posicao"),
+		inverseJoinColumns = @JoinColumn(name = "id_jogador")
+	)
+	private List<ModalidadePosicao> posicoes = new ArrayList<ModalidadePosicao>();
 	
 	private Integer perna_preferida;
 	
 	//DADOS CONTATO
 	private Integer prefixo_fone;
-	private Integer dddFone;
+	private Integer ddd_fone;
 	private Integer fone;
 	private String email;
 	
@@ -59,9 +76,39 @@ public class Jogador implements Serializable {
 //	@JoinColumn(name = "id_empresario")
 //	private Empresario empresario;
 //	
-//	@OneToOne
-//	@JoinColumn(name = "id_usuario")
-//	private Usuario usuario;
+//	@OneToMany
+//	@JoinColumn(name = "lista_jogadores")
+//	private ListaObservacao listaObservacao;
+//	
+//	@OneToMany(mappedBy = "jogador_lances")
+//	private List<JogadorLance> jogador_lances = new ArrayList<JogadorLance>();
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy="jogador")
+	private List<JogadorLance> lances = new ArrayList<JogadorLance>();
+	
+	@JsonManagedReference
+	@ManyToOne
+	@JoinColumn(name = "id_clube_futebol")
+	private ClubeFutebol clubeFutebol;
+	
+	@JsonManagedReference
+	@ManyToOne
+	@JoinColumn(name = "id_empresario")
+	private Empresario empresario;
+	
+	@JsonBackReference
+	@ManyToMany(mappedBy="jogadores")
+	private List<ListaObservacao> listasObservacoes = new ArrayList<ListaObservacao>();
+	
+	@JsonBackReference
+	@OneToMany(mappedBy="jogador")
+	private List<HistoricoContratacao> historicoContratacoes = new ArrayList<HistoricoContratacao>();
+	
+	@JsonManagedReference
+	@OneToOne
+	@JoinColumn(name = "id_usuario")
+	private Usuario usuario;
 	
 	
 	public Jogador() {
@@ -69,10 +116,9 @@ public class Jogador implements Serializable {
 	}
 
 	public Jogador(Integer id, String nome, byte foto, String cpf, LocalDate data_nasc, String nacionalidade,
-			String estado_nasc, String municipio_nasc, Double altura, Double peso, Integer profissionalizacao,
-			String codigoCbf, Modalidade modalide, ModalidadePosicao modalidePosicao, Integer perna_preferida,
-			Integer prefixo_fone, Integer dddFone, Integer fone, String email, String complemento
-//			, Usuario usuario
+			String estado_nasc, String municipio_nasc, Integer sexo, Double altura, Double peso, Integer profissionalizacao,
+			String codigo_cbf, Integer perna_preferida,
+			Integer prefixo_fone, Integer ddd_fone, Integer fone, String email, String complemento, Usuario usuario
 			) {
 		super();
 		this.id = id;
@@ -83,21 +129,25 @@ public class Jogador implements Serializable {
 		this.nacionalidade = nacionalidade;
 		this.estado_nasc = estado_nasc;
 		this.municipio_nasc = municipio_nasc;
+		this.sexo = sexo;
 		this.altura = altura;
 		this.peso = peso;
 		this.profissionalizacao = profissionalizacao;
-		this.codigoCbf = codigoCbf;
-		this.modalide = modalide;
-		this.modalidePosicao = modalidePosicao;
+		this.codigo_cbf = codigo_cbf;
 		this.perna_preferida = perna_preferida;
 		this.prefixo_fone = prefixo_fone;
-		this.dddFone = dddFone;
+		this.ddd_fone = ddd_fone;
 		this.fone = fone;
 		this.email = email;
 		this.complemento = complemento;
-//		this.usuario = usuario;
+		this.usuario = usuario;
 	}
 
+	public Jogador(Integer id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
 	
 	public Integer getId() {
 		return id;
@@ -163,6 +213,14 @@ public class Jogador implements Serializable {
 		this.municipio_nasc = municipio_nasc;
 	}
 
+	public Integer getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Integer sexo) {
+		this.sexo = sexo;
+	}
+
 	public Double getAltura() {
 		return altura;
 	}
@@ -187,28 +245,30 @@ public class Jogador implements Serializable {
 		this.profissionalizacao = profissionalizacao;
 	}
 
-	public String getCodigoCbf() {
-		return codigoCbf;
+	public String getCodigo_cbf() {
+		return codigo_cbf;
 	}
 
-	public void setCodigoCbf(String codigoCbf) {
-		this.codigoCbf = codigoCbf;
+	public void setCodigo_cbf(String codigo_cbf) {
+		this.codigo_cbf = codigo_cbf;
 	}
 
-	public Modalidade getModalide() {
-		return modalide;
+	public List<Modalidade> getModalidades() {
+		return modalidades;
 	}
 
-	public void setModalide(Modalidade modalide) {
-		this.modalide = modalide;
+	public void setModalidades(List<Modalidade> modalidadesJogadores) {
+		this.modalidades = modalidadesJogadores;
+	}
+	
+	
+
+	public List<ModalidadePosicao> getModalidadesPosicoes() {
+		return posicoes;
 	}
 
-	public ModalidadePosicao getModalidePosicao() {
-		return modalidePosicao;
-	}
-
-	public void setModalidePosicao(ModalidadePosicao modalidePosicao) {
-		this.modalidePosicao = modalidePosicao;
+	public void setModalidadesPosicoes(List<ModalidadePosicao> modalidadesPosicoes) {
+		this.posicoes = modalidadesPosicoes;
 	}
 
 	public Integer getPerna_preferida() {
@@ -227,12 +287,12 @@ public class Jogador implements Serializable {
 		this.prefixo_fone = prefixo_fone;
 	}
 
-	public Integer getDddFone() {
-		return dddFone;
+	public Integer getDdd_fone() {
+		return ddd_fone;
 	}
 
-	public void setDddFone(Integer dddFone) {
-		this.dddFone = dddFone;
+	public void setDdd_fone(Integer ddd_fone) {
+		this.ddd_fone = ddd_fone;
 	}
 
 	public Integer getFone() {
@@ -258,6 +318,8 @@ public class Jogador implements Serializable {
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
+	
+	
 
 //	public ClubeFutebol getClubeFutebol() {
 //		return clubeFutebol;
@@ -266,7 +328,7 @@ public class Jogador implements Serializable {
 //	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
 //		this.clubeFutebol = clubeFutebol;
 //	}
-//
+
 //	public Empresario getEmpresario() {
 //		return empresario;
 //	}
@@ -275,13 +337,37 @@ public class Jogador implements Serializable {
 //		this.empresario = empresario;
 //	}
 //
-//	public Usuario getUsuario() {
-//		return usuario;
+//	public ListaObservacao getListaObservacao() {
+//		return listaObservacao;
 //	}
 //
-//	public void setUsuario(Usuario usuario) {
-//		this.usuario = usuario;
+//	public void setListaObservacao(ListaObservacao listaObservacao) {
+//		this.listaObservacao = listaObservacao;
 //	}
+//
+//	public List<JogadorLance> getJogador_lances() {
+//		return jogador_lances;
+//	}
+//
+//	public void setJogador_lances(List<JogadorLance> jogador_lances) {
+//		this.jogador_lances = jogador_lances;
+//	}
+
+//	public List<HistoricoContratacao> getHistoricoContratacoes() {
+//		return historicoContratacoes;
+//	}
+//
+//	public void setHistoricoContratacoes(List<HistoricoContratacao> historicoContratacoes) {
+//		this.historicoContratacoes = historicoContratacoes;
+//	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

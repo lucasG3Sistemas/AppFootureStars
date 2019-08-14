@@ -9,27 +9,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lucasloose.appfooturestars.domain.Modalidade;
-import com.lucasloose.appfooturestars.services.ModalidadeService;
+import com.lucasloose.appfooturestars.domain.HistoricoContratacao;
+import com.lucasloose.appfooturestars.services.HistoricoContratacaoService;
 
 @RestController
-@RequestMapping(value="/modalidades")
-public class ModalidadeResource {
+@RequestMapping(value="/historicos/contratacoes")
+public class HistoricoContratacaoResource {
 	
 	@Autowired
-	private ModalidadeService modalidadeService;
+	private HistoricoContratacaoService historicoContratacaoService;
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> list() {
-		List<Modalidade> listaModalidades = modalidadeService.buscarLista();
-		return ResponseEntity.ok().body(listaModalidades);
+		List<HistoricoContratacao> listaContratacoes = historicoContratacaoService.buscarLista();
+		return ResponseEntity.ok().body(listaContratacoes);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Modalidade modalidade = modalidadeService.buscar(id);
-		return ResponseEntity.ok().body(modalidade);
+		HistoricoContratacao historicoContratacao = historicoContratacaoService.buscar(id);
+		return ResponseEntity.ok().body(historicoContratacao);
 	}
 	
 }

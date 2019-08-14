@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -25,6 +26,13 @@ public class Modalidade implements Serializable {
 	@ManyToMany(mappedBy="modalidades")
 	private List<ModalidadePosicao> modalidadePosicoes = new ArrayList<ModalidadePosicao>();
 	
+	@JsonBackReference
+	@ManyToMany(mappedBy="modalidades")
+	private List<ClubeFutebol> modalidadeClubes = new ArrayList<ClubeFutebol>();
+	
+	@JsonBackReference
+	@ManyToMany(mappedBy="modalidades")
+	private List<Jogador> modalidadeJogadores = new ArrayList<Jogador>();
 	
 	public Modalidade() {
 		
@@ -61,6 +69,38 @@ public class Modalidade implements Serializable {
 		this.modalidadePosicoes = modalidadePosicoes;
 	}
 	
+	
+	
+//	public ClubeFutebol getClubeFutebol() {
+//		return clubeFutebol;
+//	}
+//
+//	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
+//		this.clubeFutebol = clubeFutebol;
+//	}
+
+	public List<ClubeFutebol> getModalidadeClubes() {
+		return modalidadeClubes;
+	}
+
+	public void setModalidadeClubes(List<ClubeFutebol> modalidadeClubes) {
+		this.modalidadeClubes = modalidadeClubes;
+	}
+
+	
+	
+	public List<Jogador> getModalidadeJogadores() {
+		return modalidadeJogadores;
+	}
+
+	public void setModalidadeJogadores(List<Jogador> modalidadeJogadores) {
+		this.modalidadeJogadores = modalidadeJogadores;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	
 	@Override
 	public int hashCode() {
