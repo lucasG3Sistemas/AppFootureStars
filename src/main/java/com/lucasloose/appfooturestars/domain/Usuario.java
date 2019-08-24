@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.lucasloose.appfooturestars.domain.enums.TipoUsuario;
 
 @Entity
 public class Usuario implements Serializable {
@@ -16,7 +17,7 @@ public class Usuario implements Serializable {
 	private String login;
 	private String senha;
 	private String nome;
-	private Integer perfil;
+	private Integer tipoUsuario;
 	
 	@JsonBackReference
 	@OneToOne(mappedBy="usuario")
@@ -35,13 +36,13 @@ public class Usuario implements Serializable {
 		
 	}
 
-	public Usuario(String login, String senha, String nome, Integer perfil, ClubeFutebol clubeFutebol,
+	public Usuario(String login, String senha, String nome, TipoUsuario tipoUsuario, ClubeFutebol clubeFutebol,
 			Empresario empresario, Jogador jogador) {
 		super();
 		this.login = login;
 		this.senha = senha;
 		this.nome = nome;
-		this.perfil = perfil;
+		this.tipoUsuario = tipoUsuario.getId();
 		this.clubeFutebol = clubeFutebol;
 		this.empresario = empresario;
 		this.jogador = jogador;
@@ -72,12 +73,12 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	public Integer getPerfil() {
-		return perfil;
+	public TipoUsuario getTipoUsuario() {
+		return TipoUsuario.toEnum(tipoUsuario);
 	}
 
-	public void setPerfil(Integer perfil) {
-		this.perfil = perfil;
+	public void setTipoUsuario(TipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario.getId();
 	}
 
 	public ClubeFutebol getClubeFutebol() {
@@ -113,9 +114,13 @@ public class Usuario implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((clubeFutebol == null) ? 0 : clubeFutebol.hashCode());
+		result = prime * result + ((empresario == null) ? 0 : empresario.hashCode());
+		result = prime * result + ((jogador == null) ? 0 : jogador.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		result = prime * result + perfil;
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
+		result = prime * result + ((tipoUsuario == null) ? 0 : tipoUsuario.hashCode());
 		return result;
 	}
 
@@ -129,17 +134,37 @@ public class Usuario implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
+		if (clubeFutebol == null) {
+			if (other.clubeFutebol != null)
+				return false;
+		} else if (!clubeFutebol.equals(other.clubeFutebol))
+			return false;
+		if (empresario == null) {
+			if (other.empresario != null)
+				return false;
+		} else if (!empresario.equals(other.empresario))
+			return false;
+		if (jogador == null) {
+			if (other.jogador != null)
+				return false;
+		} else if (!jogador.equals(other.jogador))
+			return false;
 		if (login == null) {
 			if (other.login != null)
 				return false;
 		} else if (!login.equals(other.login))
 			return false;
-		if (perfil != other.perfil)
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
 			return false;
 		if (senha == null) {
 			if (other.senha != null)
 				return false;
 		} else if (!senha.equals(other.senha))
+			return false;
+		if (tipoUsuario != other.tipoUsuario)
 			return false;
 		return true;
 	}
