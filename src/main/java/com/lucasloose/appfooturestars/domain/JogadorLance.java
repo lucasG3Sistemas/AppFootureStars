@@ -1,6 +1,7 @@
 package com.lucasloose.appfooturestars.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class JogadorLance implements Serializable {
@@ -20,6 +22,10 @@ public class JogadorLance implements Serializable {
 	//DADOS PESSOAIS
 	private Integer id;
 	private byte lance;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private Date data_publicacao;
+	
 	private String pais_atual;
 	private String estado_atual;
 	private String municipio_atual;
@@ -35,11 +41,12 @@ public class JogadorLance implements Serializable {
 		
 	}
 
-	public JogadorLance(Integer id, byte lance, String pais_atual, String estado_atual, String municipio_atual,
+	public JogadorLance(Integer id, byte lance, Date data_publicacao, String pais_atual, String estado_atual, String municipio_atual,
 			String complemento, Jogador jogador) {
 		super();
 		this.id = id;
 		this.lance = lance;
+		this.data_publicacao = data_publicacao;
 		this.pais_atual = pais_atual;
 		this.estado_atual = estado_atual;
 		this.municipio_atual = municipio_atual;
@@ -47,9 +54,10 @@ public class JogadorLance implements Serializable {
 		this.jogador = jogador;
 	}
 	
-	public JogadorLance(Integer id, String pais_atual, String estado_atual, String municipio_atual, Jogador jogador) {
+	public JogadorLance(Integer id, Date data_publicacao, String pais_atual, String estado_atual, String municipio_atual, Jogador jogador) {
 		super();
 		this.id = id;
+		this.data_publicacao = data_publicacao;
 		this.pais_atual = pais_atual;
 		this.estado_atual = estado_atual;
 		this.municipio_atual = municipio_atual;
@@ -70,6 +78,14 @@ public class JogadorLance implements Serializable {
 
 	public void setLance(byte lance) {
 		this.lance = lance;
+	}
+
+	public Date getDataPublicacao() {
+		return data_publicacao;
+	}
+
+	public void setDataPublicacao(Date data_publicacao) {
+		this.data_publicacao = data_publicacao;
 	}
 
 	public String getPais_atual() {

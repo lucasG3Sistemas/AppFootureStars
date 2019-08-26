@@ -1,7 +1,7 @@
 package com.lucasloose.appfooturestars.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -31,7 +32,10 @@ public class HistoricoContratacao implements Serializable {
 	private ClubeFutebol clubeFutebol;
 	
 	private byte foto;
-	private LocalDate data_contratacao;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private Date data_contratacao;
+	
 	private String msg_clube;
 	private String msg_jogador;
 	private String complemento;
@@ -44,7 +48,7 @@ public class HistoricoContratacao implements Serializable {
 
 	public HistoricoContratacao(Integer id, 
 //			Jogador jogador, ClubeFutebol clubeFutebol,
-			byte foto, LocalDate data_contratacao, String msg_clube, String msg_jogador,
+			byte foto, Date data_contratacao, String msg_clube, String msg_jogador,
 			String complemento) {
 		super();
 		this.id = id;
@@ -111,11 +115,11 @@ public class HistoricoContratacao implements Serializable {
 		this.foto = foto;
 	}
 
-	public LocalDate getData_contratacao() {
+	public Date getData_contratacao() {
 		return data_contratacao;
 	}
 
-	public void setData_contratacao(LocalDate data_contratacao) {
+	public void setData_contratacao(Date data_contratacao) {
 		this.data_contratacao = data_contratacao;
 	}
 

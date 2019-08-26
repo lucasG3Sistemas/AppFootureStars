@@ -1,6 +1,7 @@
 package com.lucasloose.appfooturestars;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -130,10 +131,11 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 		HistoricoContratacao hisContr2 = new HistoricoContratacao(null, jogador1, clube1, "A DANI É SARNA", "AMO A DANI", "");
 		historicoContratacaoRepository.save(Arrays.asList(hisContr1, hisContr2));
 		
-		JogadorLance lance1 = new JogadorLance(null, "Brasil", "SC", "Palmitos", jogador1);
-		JogadorLance lance2 = new JogadorLance(null, "Brasil", "MG", "Belo Horizonte", jogador1);
-		JogadorLance lance3 = new JogadorLance(null, "Brasil", "RJ", "Rio de Janeiro", jogador2);
-		JogadorLance lance4 = new JogadorLance(null, "Brasil", "SP", "São Paulo", jogador3);
+		Date data = new Date();
+		JogadorLance lance1 = new JogadorLance(null, data, "Brasil", "SC", "Palmitos", jogador1);
+		JogadorLance lance2 = new JogadorLance(null, data, "Brasil", "MG", "Belo Horizonte", jogador1);
+		JogadorLance lance3 = new JogadorLance(null, data, "Brasil", "RJ", "Rio de Janeiro", jogador2);
+		JogadorLance lance4 = new JogadorLance(null, data, "Brasil", "SP", "São Paulo", jogador3);
 		jogadorLanceRepository.save(Arrays.asList(lance1, lance2, lance3, lance4));
 		
 		ListaObservacao lista1 = new ListaObservacao(null);

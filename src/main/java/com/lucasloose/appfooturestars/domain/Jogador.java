@@ -1,7 +1,7 @@
 package com.lucasloose.appfooturestars.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -30,7 +31,9 @@ public class Jogador implements Serializable {
 	private String nome;
 	private byte foto;
 	private String cpf;
-	private LocalDate data_nasc;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private Date data_nasc;
 	private String nacionalidade;
 	private String estado_nasc;
 	private String municipio_nasc;
@@ -68,21 +71,6 @@ public class Jogador implements Serializable {
 	
 	private String complemento;
 	
-//	@OneToMany
-//	@JoinColumn(name = "id_clube_futebol")
-//	private ClubeFutebol clubeFutebol;
-//	
-//	@OneToMany
-//	@JoinColumn(name = "id_empresario")
-//	private Empresario empresario;
-//	
-//	@OneToMany
-//	@JoinColumn(name = "lista_jogadores")
-//	private ListaObservacao listaObservacao;
-//	
-//	@OneToMany(mappedBy = "jogador_lances")
-//	private List<JogadorLance> jogador_lances = new ArrayList<JogadorLance>();
-	
 	@JsonManagedReference
 	@OneToMany(mappedBy="jogador")
 	private List<JogadorLance> lances = new ArrayList<JogadorLance>();
@@ -115,10 +103,10 @@ public class Jogador implements Serializable {
 		
 	}
 
-	public Jogador(Integer id, String nome, byte foto, String cpf, LocalDate data_nasc, String nacionalidade,
+	public Jogador(Integer id, String nome, byte foto, String cpf, Date data_nasc, String nacionalidade,
 			String estado_nasc, String municipio_nasc, Integer sexo, Double altura, Double peso, Integer profissionalizacao,
-			String codigo_cbf, Integer perna_preferida,
-			Integer prefixo_fone, Integer ddd_fone, Integer fone, String email, String complemento, Usuario usuario
+			String codigo_cbf, Integer perna_preferida, Integer prefixo_fone, Integer ddd_fone, Integer fone,
+			String email, String complemento, Usuario usuario
 			) {
 		super();
 		this.id = id;
@@ -181,11 +169,11 @@ public class Jogador implements Serializable {
 		this.cpf = cpf;
 	}
 
-	public LocalDate getData_nasc() {
+	public Date getData_nasc() {
 		return data_nasc;
 	}
 
-	public void setData_nasc(LocalDate data_nasc) {
+	public void setData_nasc(Date data_nasc) {
 		this.data_nasc = data_nasc;
 	}
 
@@ -317,49 +305,7 @@ public class Jogador implements Serializable {
 
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
-	}
-	
-	
-
-//	public ClubeFutebol getClubeFutebol() {
-//		return clubeFutebol;
-//	}
-//
-//	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
-//		this.clubeFutebol = clubeFutebol;
-//	}
-
-//	public Empresario getEmpresario() {
-//		return empresario;
-//	}
-//
-//	public void setEmpresario(Empresario empresario) {
-//		this.empresario = empresario;
-//	}
-//
-//	public ListaObservacao getListaObservacao() {
-//		return listaObservacao;
-//	}
-//
-//	public void setListaObservacao(ListaObservacao listaObservacao) {
-//		this.listaObservacao = listaObservacao;
-//	}
-//
-//	public List<JogadorLance> getJogador_lances() {
-//		return jogador_lances;
-//	}
-//
-//	public void setJogador_lances(List<JogadorLance> jogador_lances) {
-//		this.jogador_lances = jogador_lances;
-//	}
-
-//	public List<HistoricoContratacao> getHistoricoContratacoes() {
-//		return historicoContratacoes;
-//	}
-//
-//	public void setHistoricoContratacoes(List<HistoricoContratacao> historicoContratacoes) {
-//		this.historicoContratacoes = historicoContratacoes;
-//	}
+	}	
 
 	public Usuario getUsuario() {
 		return usuario;

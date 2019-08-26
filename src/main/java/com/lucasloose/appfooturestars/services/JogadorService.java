@@ -33,4 +33,8 @@ public class JogadorService {
 		return jogador;
 	}
 	
+	public Jogador insert(Jogador jogador) {
+		jogador.setId(null);
+		return jogadorRepository.save(jogador);
+	}
 }

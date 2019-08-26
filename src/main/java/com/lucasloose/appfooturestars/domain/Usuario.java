@@ -28,6 +28,7 @@ public class Usuario implements Serializable {
 	private Empresario empresario;
 	
 	@JsonBackReference
+//	@OneToOne(cascade=CascadeType.ALL, mappedBy="usuario")
 	@OneToOne(mappedBy="usuario")
 	private Jogador jogador;
 	

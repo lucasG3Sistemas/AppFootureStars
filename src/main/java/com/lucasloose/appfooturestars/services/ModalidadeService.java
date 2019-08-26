@@ -33,4 +33,8 @@ public class ModalidadeService {
 		return modalidade;
 	}
 	
+	public Modalidade insert(Modalidade jogador) {
+		jogador.setId(null);
+		return modalidadeRepository.save(jogador);
+	}
 }

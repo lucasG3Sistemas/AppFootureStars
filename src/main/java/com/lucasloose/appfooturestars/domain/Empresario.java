@@ -1,8 +1,8 @@
 package com.lucasloose.appfooturestars.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -27,7 +28,10 @@ public class Empresario implements Serializable {
 	private String nome;
 	private byte foto;
 	private String cpf;
-	private LocalDate data_nasc;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private Date data_nasc;
+	
 	private String nacionalidade;
 	private String estado_nasc;
 	private String municipio_nasc;
@@ -59,7 +63,7 @@ public class Empresario implements Serializable {
 		
 	}
 
-	public Empresario(Integer id, String nome, byte foto, String cpf, LocalDate data_nasc, String nacionalidade,
+	public Empresario(Integer id, String nome, byte foto, String cpf, Date data_nasc, String nacionalidade,
 			String estado_nasc, String municipio_nasc, Integer prefixo_fone, Integer ddd_fone, Integer fone, String email,
 			String complemento) {
 		super();
@@ -116,11 +120,11 @@ public class Empresario implements Serializable {
 		this.cpf = cpf;
 	}
 
-	public LocalDate getData_nasc() {
+	public Date getData_nasc() {
 		return data_nasc;
 	}
 
-	public void setData_nasc(LocalDate data_nasc) {
+	public void setData_nasc(Date data_nasc) {
 		this.data_nasc = data_nasc;
 	}
 
