@@ -16,9 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Jogador implements Serializable {
@@ -34,6 +33,7 @@ public class Jogador implements Serializable {
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date data_nasc;
+	
 	private String nacionalidade;
 	private String estado_nasc;
 	private String municipio_nasc;
@@ -45,7 +45,7 @@ public class Jogador implements Serializable {
 	private Integer profissionalizacao;
 	private String codigo_cbf;
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name = "JOGADOR_MODALIDADE",
 		joinColumns = @JoinColumn(name = "id_modalidade"),
@@ -53,7 +53,7 @@ public class Jogador implements Serializable {
 	)
 	private List<Modalidade> modalidades = new ArrayList<Modalidade>();
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name = "JOGADOR_MODALIDADE_POSICAO",
 		joinColumns = @JoinColumn(name = "id_modalidade_posicao"),
@@ -71,29 +71,31 @@ public class Jogador implements Serializable {
 	
 	private String complemento;
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToMany(mappedBy="jogador")
 	private List<JogadorLance> lances = new ArrayList<JogadorLance>();
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_clube_futebol")
 	private ClubeFutebol clubeFutebol;
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_empresario")
 	private Empresario empresario;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@ManyToMany(mappedBy="jogadores")
 	private List<ListaObservacao> listasObservacoes = new ArrayList<ListaObservacao>();
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy="jogador")
 	private List<HistoricoContratacao> historicoContratacoes = new ArrayList<HistoricoContratacao>();
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
@@ -306,6 +308,30 @@ public class Jogador implements Serializable {
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}	
+	
+	public List<JogadorLance> getLances() {
+		return lances;
+	}
+
+	public void setLances(List<JogadorLance> lances) {
+		this.lances = lances;
+	}
+
+	public ClubeFutebol getClubeFutebol() {
+		return clubeFutebol;
+	}
+
+	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
+		this.clubeFutebol = clubeFutebol;
+	}
+
+	public Empresario getEmpresario() {
+		return empresario;
+	}
+
+	public void setEmpresario(Empresario empresario) {
+		this.empresario = empresario;
+	}
 
 	public Usuario getUsuario() {
 		return usuario;

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lucasloose.appfooturestars.domain.enums.TipoUsuario;
 
 @Entity
@@ -19,15 +19,18 @@ public class Usuario implements Serializable {
 	private String nome;
 	private Integer tipoUsuario;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@OneToOne(mappedBy="usuario")
 	private ClubeFutebol clubeFutebol;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@OneToOne(mappedBy="usuario")
 	private Empresario empresario;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 //	@OneToOne(cascade=CascadeType.ALL, mappedBy="usuario")
 	@OneToOne(mappedBy="usuario")
 	private Jogador jogador;
@@ -82,29 +85,29 @@ public class Usuario implements Serializable {
 		this.tipoUsuario = tipoUsuario.getId();
 	}
 
-	public ClubeFutebol getClubeFutebol() {
-		return clubeFutebol;
-	}
+//	public ClubeFutebol getClubeFutebol() {
+//		return clubeFutebol;
+//	}
+//
+//	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
+//		this.clubeFutebol = clubeFutebol;
+//	}
 
-	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
-		this.clubeFutebol = clubeFutebol;
-	}
+//	public Empresario getEmpresario() {
+//		return empresario;
+//	}
+//
+//	public void setEmpresario(Empresario empresario) {
+//		this.empresario = empresario;
+//	}
 
-	public Empresario getEmpresario() {
-		return empresario;
-	}
-
-	public void setEmpresario(Empresario empresario) {
-		this.empresario = empresario;
-	}
-
-	public Jogador getJogador() {
-		return jogador;
-	}
-
-	public void setJogador(Jogador jogador) {
-		this.jogador = jogador;
-	}
+//	public Jogador getJogador() {
+//		return jogador;
+//	}
+//
+//	public void setJogador(Jogador jogador) {
+//		this.jogador = jogador;
+//	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class JogadorLance implements Serializable {
@@ -31,7 +31,8 @@ public class JogadorLance implements Serializable {
 	private String municipio_atual;
 	private String complemento;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_jogador_lance")
 	private Jogador jogador;
@@ -120,13 +121,13 @@ public class JogadorLance implements Serializable {
 		this.complemento = complemento;
 	}
 
-	public Jogador getJogador() {
-		return jogador;
-	}
-
-	public void setJogador(Jogador jogador) {
-		this.jogador = jogador;
-	}
+//	public Jogador getJogador() {
+//		return jogador;
+//	}
+//
+//	public void setJogador(Jogador jogador) {
+//		this.jogador = jogador;
+//	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ModalidadePosicao implements Serializable {
@@ -23,7 +23,8 @@ public class ModalidadePosicao implements Serializable {
 	private Integer id;
 	private String descricao;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "POSICAO_MODALIDADE",
 		joinColumns = @JoinColumn(name = "id_posicao"),
@@ -31,7 +32,8 @@ public class ModalidadePosicao implements Serializable {
 	)
 	private List<Modalidade> modalidades = new ArrayList<Modalidade>();
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@ManyToMany(mappedBy="posicoes")
 	private List<Jogador> jogadores = new ArrayList<Jogador>();
 	
@@ -74,13 +76,13 @@ public class ModalidadePosicao implements Serializable {
 	
 
 	
-	public List<Jogador> getjogadores() {
-		return jogadores;
-	}
-
-	public void setjogadores(List<Jogador> jogadores) {
-		this.jogadores = jogadores;
-	}
+//	public List<Jogador> getjogadores() {
+//		return jogadores;
+//	}
+//
+//	public void setjogadores(List<Jogador> jogadores) {
+//		this.jogadores = jogadores;
+//	}
 
 	@Override
 	public int hashCode() {

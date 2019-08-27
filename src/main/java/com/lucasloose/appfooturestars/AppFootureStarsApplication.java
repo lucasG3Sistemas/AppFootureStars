@@ -95,8 +95,8 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 		ClubeFutebol clube1 = new ClubeFutebol(null, "Gremio", 1, "12312312", "Brasil", "RS", "Rio Grande do Sul", "gremio@gg", "GREMIOOO");
 		ClubeFutebol clube2 = new ClubeFutebol(null, "Inter", 1, "19092018", "Brasil", "RS", "Rio Grande do Sul", "inti@gg", "INTI");
 		
-		mod1.getModalidadeClubes().addAll(Arrays.asList(clube1, clube2));
-		mod2.getModalidadeClubes().addAll(Arrays.asList(clube1));
+//		mod1.getModalidadeClubes().addAll(Arrays.asList(clube1, clube2));
+//		mod2.getModalidadeClubes().addAll(Arrays.asList(clube1));
 		
 		modalidadeRepository.save(Arrays.asList(mod1, mod2));
 		modalidadePosicaoRepository.save(Arrays.asList(modPos1, modPos2, modPos3, modPos4, modPos5, modPos6, modPos7, modPos8, modPos9, modPos10));
@@ -110,11 +110,11 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 		Jogador jogador2 = new Jogador(null, "JOGADOR LUCAS");
 		Jogador jogador3 = new Jogador(null, "JOGADOR XXXXXXX");
 		
-		mod1.getModalidadeJogadores().addAll(Arrays.asList(jogador1, jogador2, jogador3));
-		mod2.getModalidadeJogadores().addAll(Arrays.asList(jogador1));
-		
-		modPos1.getjogadores().addAll(Arrays.asList(jogador1, jogador2, jogador3));
-		modPos2.getjogadores().addAll(Arrays.asList(jogador1));
+//		mod1.getModalidadeJogadores().addAll(Arrays.asList(jogador1, jogador2, jogador3));
+//		mod2.getModalidadeJogadores().addAll(Arrays.asList(jogador1));
+//		
+//		modPos1.getjogadores().addAll(Arrays.asList(jogador1, jogador2, jogador3));
+//		modPos2.getjogadores().addAll(Arrays.asList(jogador1));
 		
 		jogador1.getModalidades().addAll(Arrays.asList(mod1, mod2));
 		jogador2.getModalidades().addAll(Arrays.asList(mod1));
@@ -138,8 +138,8 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 		JogadorLance lance4 = new JogadorLance(null, data, "Brasil", "SP", "São Paulo", jogador3);
 		jogadorLanceRepository.save(Arrays.asList(lance1, lance2, lance3, lance4));
 		
-		ListaObservacao lista1 = new ListaObservacao(null);
-		ListaObservacao lista2 = new ListaObservacao(null);
+		ListaObservacao lista1 = new ListaObservacao(null, clube1, null);
+		ListaObservacao lista2 = new ListaObservacao(null, null, emp1);
 		lista1.getJogadores().addAll(Arrays.asList(jogador1, jogador2));
 		lista2.getJogadores().addAll(Arrays.asList(jogador2, jogador3));
 		listaObservacaoRepository.save(Arrays.asList(lista1, lista2));

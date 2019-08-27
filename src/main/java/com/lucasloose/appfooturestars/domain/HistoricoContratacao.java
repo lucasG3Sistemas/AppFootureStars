@@ -21,7 +21,7 @@ public class HistoricoContratacao implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_jogador")
 	private Jogador jogador;
@@ -90,22 +90,14 @@ public class HistoricoContratacao implements Serializable {
 	public void setJogador(Jogador jogador) {
 		this.jogador = jogador;
 	}
-//
-//	public ClubeFutebol getClubeFutebol() {
-//		return clubeFutebol;
-//	}
-//
-//	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
-//		this.clubeFutebol = clubeFutebol;
-//	}
 
-//	public List<Jogador> getJogadores() {
-//		return jogadores;
-//	}
-//
-//	public void setJogadores(List<Jogador> jogadores) {
-//		this.jogadores = jogadores;
-//	}
+	public ClubeFutebol getClubeFutebol() {
+		return clubeFutebol;
+	}
+
+	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
+		this.clubeFutebol = clubeFutebol;
+	}
 
 	public byte getFoto() {
 		return foto;

@@ -13,9 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Empresario implements Serializable {
@@ -44,16 +43,18 @@ public class Empresario implements Serializable {
 	
 	private String complemento;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy="empresario")
 	private List<Jogador> jogadores = new ArrayList<Jogador>();;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@OneToOne
 	@OneToMany(mappedBy="empresario")
 	private ListaObservacao listaObservacao;
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;

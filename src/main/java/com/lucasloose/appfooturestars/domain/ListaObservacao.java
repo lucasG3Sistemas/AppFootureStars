@@ -13,8 +13,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 @Entity
 public class ListaObservacao implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,7 +21,7 @@ public class ListaObservacao implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name = "LISTA_OBS_JOGADOR",
 		joinColumns = @JoinColumn(name = "id_jogador"),
@@ -31,12 +29,12 @@ public class ListaObservacao implements Serializable {
 	)
 	private List<Jogador> jogadores = new ArrayList<Jogador>();
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToOne
 	@JoinColumn(name = "id_clube_futebol")
 	private ClubeFutebol clubeFutebol;
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToOne
 	@JoinColumn(name = "id_empresario")
 	private Empresario empresario;
@@ -45,13 +43,15 @@ public class ListaObservacao implements Serializable {
 	public ListaObservacao() {
 		
 	}
-
-	public ListaObservacao(Integer id) {
+	
+	public ListaObservacao(Integer id, ClubeFutebol clubeFutebol, Empresario empresario) {
 		super();
 		this.id = id;
+		this.clubeFutebol = clubeFutebol;
+		this.empresario = empresario;
 	}
 
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -59,8 +59,6 @@ public class ListaObservacao implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	
 
 	public List<Jogador> getJogadores() {
 		return jogadores;
@@ -70,6 +68,22 @@ public class ListaObservacao implements Serializable {
 		this.jogadores = jogadores;
 	}
 	
+	public ClubeFutebol getClubeFutebol() {
+		return clubeFutebol;
+	}
+
+	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
+		this.clubeFutebol = clubeFutebol;
+	}
+
+	public Empresario getEmpresario() {
+		return empresario;
+	}
+
+	public void setEmpresario(Empresario empresario) {
+		this.empresario = empresario;
+	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

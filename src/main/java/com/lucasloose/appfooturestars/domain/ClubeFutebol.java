@@ -14,8 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ClubeFutebol implements Serializable {
@@ -27,7 +26,7 @@ public class ClubeFutebol implements Serializable {
 	private String nome;
 	private byte foto;
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name = "CLUBE_MODALIDADE",
 		joinColumns = @JoinColumn(name = "id_modalidade"),
@@ -46,20 +45,23 @@ public class ClubeFutebol implements Serializable {
 	
 	private String complemento;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy="clubeFutebol")
 	private List<Jogador> jogadores = new ArrayList<Jogador>();;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@OneToOne
 	@OneToMany(mappedBy="clubeFutebol")
 	private ListaObservacao listaObservacao;
 	
-	@JsonBackReference
+//	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy="clubeFutebol")
 	private List<HistoricoContratacao> historicoContratacoes = new ArrayList<HistoricoContratacao>();;
 	
-	@JsonManagedReference
+//	@JsonManagedReference
 	@OneToOne
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
@@ -184,13 +186,13 @@ public class ClubeFutebol implements Serializable {
 //		this.jogadores = jogadores;
 //	}
 //
-//	public Usuario getUsuario() {
-//		return usuario;
-//	}
-//
-//	public void setUsuario(Usuario usuario) {
-//		this.usuario = usuario;
-//	}
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
