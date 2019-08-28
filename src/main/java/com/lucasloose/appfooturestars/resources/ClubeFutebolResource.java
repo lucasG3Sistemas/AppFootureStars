@@ -27,13 +27,13 @@ public class ClubeFutebolResource {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> list() {
-		List<ClubeFutebol> listaClubes = clubeFutebolService.buscarLista();
+		List<ClubeFutebol> listaClubes = clubeFutebolService.findAll();
 		return ResponseEntity.ok().body(listaClubes);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		ClubeFutebol clubeFutebol = clubeFutebolService.buscar(id);
+	public ResponseEntity<ClubeFutebol> find(@PathVariable Integer id) {
+		ClubeFutebol clubeFutebol = clubeFutebolService.find(id);
 		return ResponseEntity.ok().body(clubeFutebol);
 	}
 	

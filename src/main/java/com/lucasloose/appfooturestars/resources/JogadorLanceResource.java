@@ -22,13 +22,13 @@ public class JogadorLanceResource {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> list() {
-		List<JogadorLance> listaLancesJogadores = jogadorLanceService.buscarLista();
+		List<JogadorLance> listaLancesJogadores = jogadorLanceService.findAll();
 		return ResponseEntity.ok().body(listaLancesJogadores);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		JogadorLance jogadorLance = jogadorLanceService.buscar(id);
+	public ResponseEntity<JogadorLance> find(@PathVariable Integer id) {
+		JogadorLance jogadorLance = jogadorLanceService.find(id);
 		return ResponseEntity.ok().body(jogadorLance);
 	}
 	

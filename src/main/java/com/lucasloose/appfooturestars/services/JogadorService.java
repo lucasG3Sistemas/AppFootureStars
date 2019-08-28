@@ -15,7 +15,7 @@ public class JogadorService {
 	@Autowired
 	private JogadorRepository jogadorRepository;
 	
-	public List<Jogador> buscarLista() {
+	public List<Jogador> findAll() {
 		List<Jogador> jogador = jogadorRepository.findAll();
 		if (jogador == null) {
 			throw new ObjectNotFoundException("Jogadores não encontrados!"
@@ -24,7 +24,7 @@ public class JogadorService {
 		return jogador;
 	}
 	
-	public Jogador buscar(Integer id) {
+	public Jogador find(Integer id) {
 		Jogador jogador = jogadorRepository.findOne(id);
 		if (jogador == null) {
 			throw new ObjectNotFoundException("Jogador não encontrado! ID: " + id
@@ -35,6 +35,11 @@ public class JogadorService {
 	
 	public Jogador insert(Jogador jogador) {
 		jogador.setId(null);
+		return jogadorRepository.save(jogador);
+	}
+	
+	public Jogador update(Jogador jogador) {
+		this.find(jogador.getId());
 		return jogadorRepository.save(jogador);
 	}
 }

@@ -22,13 +22,13 @@ public class ListaObservacaoResource {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> list() {
-		List<ListaObservacao> listas = listaObservacaoService.buscarLista();
+		List<ListaObservacao> listas = listaObservacaoService.findAll();
 		return ResponseEntity.ok().body(listas);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		ListaObservacao listaObservacao = listaObservacaoService.buscar(id);
+	public ResponseEntity<ListaObservacao> find(@PathVariable Integer id) {
+		ListaObservacao listaObservacao = listaObservacaoService.find(id);
 		return ResponseEntity.ok().body(listaObservacao);
 	}
 	

@@ -15,7 +15,7 @@ public class JogadorLanceService {
 	@Autowired
 	private JogadorLanceRepository jogadorLanceRepository;
 	
-	public List<JogadorLance> buscarLista() {
+	public List<JogadorLance> findAll() {
 		List<JogadorLance> jogadorLance = jogadorLanceRepository.findAll();
 		if (jogadorLance == null) {
 			throw new ObjectNotFoundException("Lances dos Jogadores não encontrados!"
@@ -24,7 +24,7 @@ public class JogadorLanceService {
 		return jogadorLance;
 	}
 	
-	public JogadorLance buscar(Integer id) {
+	public JogadorLance find(Integer id) {
 		JogadorLance jogadorLance = jogadorLanceRepository.findOne(id);
 		if (jogadorLance == null) {
 			throw new ObjectNotFoundException("Lance do Jogador não encontrado! ID: " + id

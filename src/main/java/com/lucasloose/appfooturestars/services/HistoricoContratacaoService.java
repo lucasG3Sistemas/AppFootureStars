@@ -16,7 +16,7 @@ public class HistoricoContratacaoService {
 	private HistoricoContratacaoRepository historicoContratacaoRepository;
 	
 	
-	public List<HistoricoContratacao> buscarLista() {
+	public List<HistoricoContratacao> findAll() {
 		List<HistoricoContratacao> historicoContratacao = historicoContratacaoRepository.findAll();
 		if (historicoContratacao == null) {
 			throw new ObjectNotFoundException("Histórico de Contratação não encontrado!"
@@ -25,7 +25,7 @@ public class HistoricoContratacaoService {
 		return historicoContratacao;
 	}
 	
-	public HistoricoContratacao buscar(Integer id) {
+	public HistoricoContratacao find(Integer id) {
 		HistoricoContratacao historicoContratacao = historicoContratacaoRepository.findOne(id);
 		if (historicoContratacao == null) {
 			throw new ObjectNotFoundException("Histórico de Contratação não encontrado! ID: " + id

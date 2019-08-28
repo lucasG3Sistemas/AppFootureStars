@@ -16,7 +16,7 @@ public class ListaObservacaoService {
 	@Autowired
 	private ListaObservacaoRepository listaObservacaoRepository;
 	
-	public List<ListaObservacao> buscarLista() {
+	public List<ListaObservacao> findAll() {
 		List<ListaObservacao> listaObservacao = listaObservacaoRepository.findAll();
 		if (listaObservacao == null) {
 			throw new ObjectNotFoundException("Listas de Observação não encontradas!"
@@ -25,7 +25,7 @@ public class ListaObservacaoService {
 		return listaObservacao;
 	}
 	
-	public ListaObservacao buscar(Integer id) {
+	public ListaObservacao find(Integer id) {
 		ListaObservacao listaObservacao = listaObservacaoRepository.findOne(id);
 		if (listaObservacao == null) {
 			throw new ObjectNotFoundException("Lista de Observação não encontrada! ID: " + id

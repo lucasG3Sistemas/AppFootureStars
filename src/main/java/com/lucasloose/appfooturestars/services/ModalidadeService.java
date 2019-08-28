@@ -15,7 +15,7 @@ public class ModalidadeService {
 	@Autowired
 	private ModalidadeRepository modalidadeRepository;
 	
-	public List<Modalidade> buscarLista() {
+	public List<Modalidade> findAll() {
 		List<Modalidade> modalidade = modalidadeRepository.findAll();
 		if (modalidade == null) {
 			throw new ObjectNotFoundException("Modalidades não encontradas!"
@@ -24,7 +24,7 @@ public class ModalidadeService {
 		return modalidade;
 	}
 	
-	public Modalidade buscar(Integer id) {
+	public Modalidade find(Integer id) {
 		Modalidade modalidade = modalidadeRepository.findOne(id);
 		if (modalidade == null) {
 			throw new ObjectNotFoundException("Modalidade não encontrada! ID: " + id
@@ -33,8 +33,8 @@ public class ModalidadeService {
 		return modalidade;
 	}
 	
-	public Modalidade insert(Modalidade jogador) {
-		jogador.setId(null);
-		return modalidadeRepository.save(jogador);
-	}
+//	public Modalidade insert(Modalidade jogador) {
+//		jogador.setId(null);
+//		return modalidadeRepository.save(jogador);
+//	}
 }

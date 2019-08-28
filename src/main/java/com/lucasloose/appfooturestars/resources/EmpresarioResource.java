@@ -19,8 +19,8 @@ public class EmpresarioResource {
 	
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Empresario empresario = empresarioService.buscar(id);
+	public ResponseEntity<Empresario> find(@PathVariable Integer id) {
+		Empresario empresario = empresarioService.find(id);
 		return ResponseEntity.ok().body(empresario);
 	}
 	

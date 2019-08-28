@@ -25,13 +25,13 @@ public class JogadorResource {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> list() {
-		List<Jogador> listaJogadores = jogadorService.buscarLista();
+		List<Jogador> listaJogadores = jogadorService.findAll();
 		return ResponseEntity.ok().body(listaJogadores);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Jogador jogador = jogadorService.buscar(id);
+	public ResponseEntity<Jogador> find(@PathVariable Integer id) {
+		Jogador jogador = jogadorService.find(id);
 		return ResponseEntity.ok().body(jogador);
 	}
 	
@@ -40,6 +40,13 @@ public class JogadorResource {
 		jogador = jogadorService.insert(jogador);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(jogador.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Jogador jogador, @PathVariable Integer id) {
+		jogador.setId(id);
+		jogador = jogadorService.update(jogador);
+		return ResponseEntity.noContent().build();
 	}
 	
 }

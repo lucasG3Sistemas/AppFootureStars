@@ -15,7 +15,7 @@ public class ClubeFutebolService {
 	@Autowired
 	private ClubeFutebolRepository clubeFutebolRepository;
 	
-	public List<ClubeFutebol> buscarLista() {
+	public List<ClubeFutebol> findAll() {
 		List<ClubeFutebol> clubeFutebol = clubeFutebolRepository.findAll();
 		if (clubeFutebol == null) {
 			throw new ObjectNotFoundException("Clubes de Futebol não encontrados!"
@@ -24,7 +24,7 @@ public class ClubeFutebolService {
 		return clubeFutebol;
 	}
 	
-	public ClubeFutebol buscar(Integer id) {
+	public ClubeFutebol find(Integer id) {
 		ClubeFutebol clubeFutebol = clubeFutebolRepository.findOne(id);
 		if (clubeFutebol == null) {
 			throw new ObjectNotFoundException("Clube de Futebol não encontrado! ID: " + id

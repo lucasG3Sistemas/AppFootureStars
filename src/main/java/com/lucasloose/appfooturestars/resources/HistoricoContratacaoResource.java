@@ -22,13 +22,13 @@ public class HistoricoContratacaoResource {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<?> list() {
-		List<HistoricoContratacao> listaContratacoes = historicoContratacaoService.buscarLista();
+		List<HistoricoContratacao> listaContratacoes = historicoContratacaoService.findAll();
 		return ResponseEntity.ok().body(listaContratacoes);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		HistoricoContratacao historicoContratacao = historicoContratacaoService.buscar(id);
+	public ResponseEntity<HistoricoContratacao> find(@PathVariable Integer id) {
+		HistoricoContratacao historicoContratacao = historicoContratacaoService.find(id);
 		return ResponseEntity.ok().body(historicoContratacao);
 	}
 	

@@ -14,7 +14,7 @@ public class EmpresarioService {
 	private EmpresarioRepository empresarioRepository;
 	
 	
-	public Empresario buscar(Integer id) {
+	public Empresario find(Integer id) {
 		Empresario empresario = empresarioRepository.findOne(id);
 		if (empresario == null) {
 			throw new ObjectNotFoundException("Empresário não encontrado! ID: " + id
