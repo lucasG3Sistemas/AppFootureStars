@@ -3,10 +3,12 @@ package com.lucasloose.appfooturestars.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.repositories.JogadorRepository;
+import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -42,4 +44,14 @@ public class JogadorService {
 		this.find(jogador.getId());
 		return jogadorRepository.save(jogador);
 	}
+	
+	public void delete(Integer id) {
+		this.find(id);
+		try {
+			jogadorRepository.delete(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir um Jogador que possui tal coisa");
+		}
+	}
+	
 }
