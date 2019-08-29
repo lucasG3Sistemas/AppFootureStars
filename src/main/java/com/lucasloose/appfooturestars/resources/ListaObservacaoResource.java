@@ -21,7 +21,7 @@ public class ListaObservacaoResource {
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<?> list() {
+	public ResponseEntity<List<ListaObservacao>> findAll() {
 		List<ListaObservacao> listas = listaObservacaoService.findAll();
 		return ResponseEntity.ok().body(listas);
 	}

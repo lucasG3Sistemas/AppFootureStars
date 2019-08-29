@@ -1,6 +1,8 @@
 package com.lucasloose.appfooturestars.resources;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lucasloose.appfooturestars.domain.Modalidade;
+import com.lucasloose.appfooturestars.dto.ModalidadeDTO;
 import com.lucasloose.appfooturestars.services.ModalidadeService;
 
 @RestController
@@ -21,9 +24,10 @@ public class ModalidadeResource {
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<?> list() {
+	public ResponseEntity<List<ModalidadeDTO>> findAll() {
 		List<Modalidade> listaModalidades = modalidadeService.findAll();
-		return ResponseEntity.ok().body(listaModalidades);
+		List<ModalidadeDTO> listDTO = listaModalidades.stream().map(obj -> new ModalidadeDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)

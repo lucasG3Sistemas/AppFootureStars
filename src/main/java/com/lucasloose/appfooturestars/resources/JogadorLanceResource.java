@@ -21,7 +21,7 @@ public class JogadorLanceResource {
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<?> list() {
+	public ResponseEntity<List<JogadorLance>> findAll() {
 		List<JogadorLance> listaLancesJogadores = jogadorLanceService.findAll();
 		return ResponseEntity.ok().body(listaLancesJogadores);
 	}

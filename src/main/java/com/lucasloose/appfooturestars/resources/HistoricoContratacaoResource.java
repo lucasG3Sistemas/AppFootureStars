@@ -21,7 +21,7 @@ public class HistoricoContratacaoResource {
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<?> list() {
+	public ResponseEntity<List<HistoricoContratacao>> findAll() {
 		List<HistoricoContratacao> listaContratacoes = historicoContratacaoService.findAll();
 		return ResponseEntity.ok().body(listaContratacoes);
 	}

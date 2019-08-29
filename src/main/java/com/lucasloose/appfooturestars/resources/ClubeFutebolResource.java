@@ -26,7 +26,7 @@ public class ClubeFutebolResource {
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<?> list() {
+	public ResponseEntity<List<ClubeFutebol>> findAll() {
 		List<ClubeFutebol> listaClubes = clubeFutebolService.findAll();
 		return ResponseEntity.ok().body(listaClubes);
 	}
