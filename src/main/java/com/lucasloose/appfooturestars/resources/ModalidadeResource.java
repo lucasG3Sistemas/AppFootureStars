@@ -1,16 +1,21 @@
 package com.lucasloose.appfooturestars.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucasloose.appfooturestars.domain.Modalidade;
 import com.lucasloose.appfooturestars.dto.ModalidadeDTO;
@@ -48,10 +53,19 @@ public class ModalidadeResource {
 		return ResponseEntity.ok().body(modalidade);
 	}
 	
-//	@RequestMapping(value="/insert", method=RequestMethod.POST)
-//	public ResponseEntity<Void> insert(@RequestBody Modalidade jogador) {
-//		jogador = modalidadeService.insert(jogador);
-//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(jogador.getId()).toUri();
-//		return ResponseEntity.created(uri).build();
-//	}
+	@RequestMapping(value="/insert", method=RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody ModalidadeDTO modalidadeDTO) {
+		Modalidade mod = modalidadeService.fromDTO(modalidadeDTO);
+		mod = modalidadeService.insert(mod);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mod.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@Valid @RequestBody ModalidadeDTO modDTO, @PathVariable Integer id) {
+		Modalidade jogador = modalidadeService.fromDTO(modDTO);
+		jogador.setId(id);
+		jogador = modalidadeService.update(jogador);
+		return ResponseEntity.noContent().build();
+	}
 }

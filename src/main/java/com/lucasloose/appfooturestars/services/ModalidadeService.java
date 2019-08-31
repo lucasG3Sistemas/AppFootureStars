@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lucasloose.appfooturestars.domain.Modalidade;
+import com.lucasloose.appfooturestars.dto.ModalidadeDTO;
 import com.lucasloose.appfooturestars.repositories.ModalidadeRepository;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
@@ -36,14 +37,23 @@ public class ModalidadeService {
 		return modalidade;
 	}
 	
-//	public Modalidade insert(Modalidade jogador) {
-//		jogador.setId(null);
-//		return modalidadeRepository.save(jogador);
-//	}
+	public Modalidade insert(Modalidade jogador) {
+		jogador.setId(null);
+		return modalidadeRepository.save(jogador);
+	}
+	
+	public Modalidade update(Modalidade jogador) {
+		this.find(jogador.getId());
+		return modalidadeRepository.save(jogador);
+	}
 	
 	public Page<Modalidade> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return modalidadeRepository.findAll(pageRequest);
+	}
+	
+	public Modalidade fromDTO(ModalidadeDTO modalidadeDTO) {
+		return new Modalidade(modalidadeDTO.getId(), modalidadeDTO.getDescricao());
 	}
 	
 }
