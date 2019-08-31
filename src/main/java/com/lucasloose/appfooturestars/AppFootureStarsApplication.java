@@ -66,6 +66,14 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 		
 		Modalidade mod1 = new Modalidade(1, "Futebol de Campo");
 		Modalidade mod2 = new Modalidade(2, "Futebol de Salão/Futsal");
+		Modalidade mod3 = new Modalidade(3, "Futebol");
+		Modalidade mod4 = new Modalidade(4, "Futebol XXXX");
+		Modalidade mod5 = new Modalidade(5, "Futebol AAAA");
+		Modalidade mod6 = new Modalidade(6, "Futebol ZZZZ");
+		Modalidade mod7 = new Modalidade(7, "Futebol PPPP");
+		Modalidade mod8 = new Modalidade(8, "Futebol LKLLKL");
+		Modalidade mod9 = new Modalidade(9, "Futebol SSSSS");
+		Modalidade mod10 = new Modalidade(10, "Futebol LLLLLL");
 		
 		ModalidadePosicao modPos1 = new ModalidadePosicao(null, "Goleiro");
 		ModalidadePosicao modPos2 = new ModalidadePosicao(null, "Zagueiro");
@@ -98,7 +106,7 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 //		mod1.getModalidadeClubes().addAll(Arrays.asList(clube1, clube2));
 //		mod2.getModalidadeClubes().addAll(Arrays.asList(clube1));
 		
-		modalidadeRepository.save(Arrays.asList(mod1, mod2));
+		modalidadeRepository.save(Arrays.asList(mod1, mod2, mod3, mod4, mod5, mod6, mod7, mod8, mod9, mod10));
 		modalidadePosicaoRepository.save(Arrays.asList(modPos1, modPos2, modPos3, modPos4, modPos5, modPos6, modPos7, modPos8, modPos9, modPos10));
 		
 		clube1.getModalidades().addAll(Arrays.asList(mod1, mod2));
