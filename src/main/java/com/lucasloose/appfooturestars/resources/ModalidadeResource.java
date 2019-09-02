@@ -36,6 +36,12 @@ public class ModalidadeResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	public ResponseEntity<Modalidade> find(@PathVariable Integer id) {
+		Modalidade modalidade = modalidadeService.find(id);
+		return ResponseEntity.ok().body(modalidade);
+	}
+	
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<ModalidadeDTO>> findPage(
 			@RequestParam(value = "page", defaultValue = "0") Integer page, 
@@ -45,12 +51,6 @@ public class ModalidadeResource {
 		Page<Modalidade> listaModalidades = modalidadeService.findPage(page, linesPerPage, orderBy, direction);
 		Page<ModalidadeDTO> listDTO = listaModalidades.map(obj -> new ModalidadeDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
-	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Modalidade> find(@PathVariable Integer id) {
-		Modalidade modalidade = modalidadeService.find(id);
-		return ResponseEntity.ok().body(modalidade);
 	}
 	
 	@RequestMapping(value="/insert", method=RequestMethod.POST)

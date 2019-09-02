@@ -139,6 +139,21 @@ public class Jogador implements Serializable {
 		this.nome = nome;
 	}
 	
+	public Jogador(Integer id, String nome, String cpf, String email) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.email = email;
+	}
+	
+	public Jogador(Integer id, String nome, String email) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+	}
+	
 	public Integer getId() {
 		return id;
 	}

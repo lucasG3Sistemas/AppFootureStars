@@ -37,6 +37,15 @@ public class ModalidadeService {
 		return modalidade;
 	}
 	
+	public Page<Modalidade> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return modalidadeRepository.findAll(pageRequest);
+	}
+	
+	public Modalidade fromDTO(ModalidadeDTO modalidadeDTO) {
+		return new Modalidade(modalidadeDTO.getId(), modalidadeDTO.getDescricao());
+	}
+	
 	public Modalidade insert(Modalidade jogador) {
 		jogador.setId(null);
 		return modalidadeRepository.save(jogador);
@@ -45,15 +54,6 @@ public class ModalidadeService {
 	public Modalidade update(Modalidade jogador) {
 		this.find(jogador.getId());
 		return modalidadeRepository.save(jogador);
-	}
-	
-	public Page<Modalidade> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return modalidadeRepository.findAll(pageRequest);
-	}
-	
-	public Modalidade fromDTO(ModalidadeDTO modalidadeDTO) {
-		return new Modalidade(modalidadeDTO.getId(), modalidadeDTO.getDescricao());
 	}
 	
 }

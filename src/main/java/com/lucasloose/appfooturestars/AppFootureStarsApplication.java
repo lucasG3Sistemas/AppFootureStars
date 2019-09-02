@@ -114,8 +114,8 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 		clubeFutebolRepository.save(Arrays.asList(clube1));
 		clubeFutebolRepository.save(Arrays.asList(clube2));
 		
-		Jogador jogador1 = new Jogador(null, "JOGADOR DANI");
-		Jogador jogador2 = new Jogador(null, "JOGADOR LUCAS");
+		Jogador jogador1 = new Jogador(null, "JOGADOR DANI", "1232131232", "333@tttt");
+		Jogador jogador2 = new Jogador(null, "JOGADOR LUCAS", "329238999", "2312@fff");
 		Jogador jogador3 = new Jogador(null, "JOGADOR XXXXXXX");
 		
 //		mod1.getModalidadeJogadores().addAll(Arrays.asList(jogador1, jogador2, jogador3));
