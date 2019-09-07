@@ -45,7 +45,7 @@ public class ClubeFutebol implements Serializable {
 	
 	private String complemento;
 	
-//	@JsonBackReference
+////	@JsonBackReference
 	@JsonIgnore
 	@OneToMany(mappedBy="clubeFutebol")
 	private List<Jogador> jogadores = new ArrayList<Jogador>();;
@@ -87,6 +87,10 @@ public class ClubeFutebol implements Serializable {
 		this.municipio = municipio;
 		this.email = email;
 		this.complemento = complemento;
+	}
+	
+	public ClubeFutebol(Integer id) {
+		this.id = id;
 	}
 
 

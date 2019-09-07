@@ -81,8 +81,6 @@ public class HistoricoContratacao implements Serializable {
 		this.id = id;
 	}
 	
-	
-
 	public Jogador getJogador() {
 		return jogador;
 	}

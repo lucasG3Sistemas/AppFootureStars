@@ -29,9 +29,9 @@ public class Usuario implements Serializable {
 	@OneToOne(mappedBy="usuario")
 	private Empresario empresario;
 	
-//	@JsonBackReference
+////	@JsonBackReference
 	@JsonIgnore
-//	@OneToOne(cascade=CascadeType.ALL, mappedBy="usuario")
+////	@OneToOne(cascade=CascadeType.ALL, mappedBy="usuario")
 	@OneToOne(mappedBy="usuario")
 	private Jogador jogador;
 	
@@ -39,17 +39,32 @@ public class Usuario implements Serializable {
 	public Usuario() {
 		
 	}
-
+	
+	public Usuario(String login, String senha, String nome, TipoUsuario tipoUsuario) {
+		super();
+		this.login = login;
+		this.senha = senha;
+		this.nome = nome;
+		this.tipoUsuario = (tipoUsuario==null) ? null : tipoUsuario.getId();
+//		this.clubeFutebol = clubeFutebol;
+//		this.empresario = empresario;
+//		this.jogador = jogador;
+	}
+	
 	public Usuario(String login, String senha, String nome, TipoUsuario tipoUsuario, ClubeFutebol clubeFutebol,
 			Empresario empresario, Jogador jogador) {
 		super();
 		this.login = login;
 		this.senha = senha;
 		this.nome = nome;
-		this.tipoUsuario = tipoUsuario.getId();
+		this.tipoUsuario = (tipoUsuario==null) ? null : tipoUsuario.getId();
 		this.clubeFutebol = clubeFutebol;
 		this.empresario = empresario;
 		this.jogador = jogador;
+	}
+	
+	public Usuario (String login) {
+		this.login = login;
 	}
 
 	
@@ -85,29 +100,29 @@ public class Usuario implements Serializable {
 		this.tipoUsuario = tipoUsuario.getId();
 	}
 
-//	public ClubeFutebol getClubeFutebol() {
-//		return clubeFutebol;
-//	}
-//
-//	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
-//		this.clubeFutebol = clubeFutebol;
-//	}
+	public ClubeFutebol getClubeFutebol() {
+		return clubeFutebol;
+	}
 
-//	public Empresario getEmpresario() {
-//		return empresario;
-//	}
-//
-//	public void setEmpresario(Empresario empresario) {
-//		this.empresario = empresario;
-//	}
+	public void setClubeFutebol(ClubeFutebol clubeFutebol) {
+		this.clubeFutebol = clubeFutebol;
+	}
 
-//	public Jogador getJogador() {
-//		return jogador;
-//	}
-//
-//	public void setJogador(Jogador jogador) {
-//		this.jogador = jogador;
-//	}
+	public Empresario getEmpresario() {
+		return empresario;
+	}
+
+	public void setEmpresario(Empresario empresario) {
+		this.empresario = empresario;
+	}
+
+	public Jogador getJogador() {
+		return jogador;
+	}
+
+	public void setJogador(Jogador jogador) {
+		this.jogador = jogador;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -120,7 +135,7 @@ public class Usuario implements Serializable {
 		int result = 1;
 		result = prime * result + ((clubeFutebol == null) ? 0 : clubeFutebol.hashCode());
 		result = prime * result + ((empresario == null) ? 0 : empresario.hashCode());
-		result = prime * result + ((jogador == null) ? 0 : jogador.hashCode());
+//		result = prime * result + ((jogador == null) ? 0 : jogador.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
@@ -148,11 +163,11 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!empresario.equals(other.empresario))
 			return false;
-		if (jogador == null) {
-			if (other.jogador != null)
-				return false;
-		} else if (!jogador.equals(other.jogador))
-			return false;
+//		if (jogador == null) {
+//			if (other.jogador != null)
+//				return false;
+//		} else if (!jogador.equals(other.jogador))
+//			return false;
 		if (login == null) {
 			if (other.login != null)
 				return false;

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,6 +32,12 @@ public class ModalidadePosicao implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "id_modalidade")
 	)
 	private List<Modalidade> modalidades = new ArrayList<Modalidade>();
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "id_modalidade")
+	private Modalidade modalidade;
+	
 	
 //	@JsonBackReference
 	@JsonIgnore

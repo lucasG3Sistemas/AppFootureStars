@@ -23,7 +23,7 @@ public class Modalidade implements Serializable {
 	
 //	@JsonManagedReference
 	@ManyToMany(mappedBy="modalidades")
-	private List<ModalidadePosicao> modalidadePosicoes = new ArrayList<ModalidadePosicao>();
+	private List<ModalidadePosicao> posicoes = new ArrayList<ModalidadePosicao>();
 	
 //	@JsonBackReference
 	@JsonIgnore
@@ -62,12 +62,12 @@ public class Modalidade implements Serializable {
 		this.descricao = descricao;
 	}
 	
-	public List<ModalidadePosicao> getModalidadePosicoes() {
-		return modalidadePosicoes;
+	public List<ModalidadePosicao> getPosicoes() {
+		return posicoes;
 	}
 
-	public void setModalidadePosicoes(List<ModalidadePosicao> modalidadePosicoes) {
-		this.modalidadePosicoes = modalidadePosicoes;
+	public void setPosicoes(List<ModalidadePosicao> posicoes) {
+		this.posicoes = posicoes;
 	}
 	
 	

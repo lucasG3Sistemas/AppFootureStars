@@ -2,6 +2,8 @@ package com.lucasloose.appfooturestars.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -9,8 +11,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.lucasloose.appfooturestars.domain.ClubeFutebol;
+import com.lucasloose.appfooturestars.domain.Empresario;
 import com.lucasloose.appfooturestars.domain.Jogador;
+import com.lucasloose.appfooturestars.domain.Modalidade;
+import com.lucasloose.appfooturestars.domain.ModalidadePosicao;
+import com.lucasloose.appfooturestars.domain.Usuario;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
+import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
 import com.lucasloose.appfooturestars.repositories.JogadorRepository;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
@@ -45,11 +53,61 @@ public class JogadorService {
 	}
 	
 	public Jogador fromDTO(JogadorDTO jogadorDTO) {
-		return new Jogador(jogadorDTO.getId(), jogadorDTO.getNome(), jogadorDTO.getEmail());
+		ClubeFutebol clube = new ClubeFutebol(jogadorDTO.getIdClubeFutebol());
+		Empresario empresario = new Empresario(jogadorDTO.getIdEmpresario());
+		Usuario usuario = new Usuario(jogadorDTO.getIdUsuario());
+		Jogador jogador = new Jogador(jogadorDTO.getId(), jogadorDTO.getNome(), jogadorDTO.getFoto(), jogadorDTO.getCpf(), null,
+				jogadorDTO.getNacionalidade(), jogadorDTO.getEstado_nasc(), jogadorDTO.getMunicipio_nasc(), jogadorDTO.getSexo(), jogadorDTO.getAltura(), jogadorDTO.getPeso(), jogadorDTO.getProfissionalizacao(),
+				jogadorDTO.getCodigo_cbf(), jogadorDTO.getPerna_preferida(), jogadorDTO.getPrefixo_fone(), jogadorDTO.getDdd_fone(), jogadorDTO.getFone(),
+				jogadorDTO.getEmail(), jogadorDTO.getComplemento(), clube, empresario, usuario);
+		Modalidade mod = new Modalidade(jogadorDTO.getIdModalidade(), "");
+		jogador.getModalidades().add(mod);
+		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorDTO.getIdPosicao1(), "");
+		jogador.getPosicoes().add(pos1);
+		
+		if (jogadorDTO.getIdPosicao2() != null) {
+			ModalidadePosicao pos2 = new ModalidadePosicao(jogadorDTO.getIdPosicao2(), "");
+			jogador.getPosicoes().add(pos2);
+		}
+		if (jogadorDTO.getIdPosicao3() != null) {
+			ModalidadePosicao pos3 = new ModalidadePosicao(jogadorDTO.getIdPosicao3(), "");
+			jogador.getPosicoes().add(pos3);
+		}
+		
+		return jogador;
 	}
 	
+	public Jogador fromDTO(JogadorNewDTO jogadorNewDTO) {
+		//passei a data como null
+		ClubeFutebol clube = new ClubeFutebol(jogadorNewDTO.getIdClubeFutebol());
+		Empresario empresario = new Empresario(jogadorNewDTO.getIdEmpresario());
+		Usuario usuario = new Usuario(jogadorNewDTO.getIdUsuario());
+		Jogador jogador = new Jogador(null, jogadorNewDTO.getNome(), jogadorNewDTO.getFoto(), jogadorNewDTO.getCpf(), null,
+				jogadorNewDTO.getNacionalidade(), jogadorNewDTO.getEstado_nasc(), jogadorNewDTO.getMunicipio_nasc(), jogadorNewDTO.getSexo(), jogadorNewDTO.getAltura(), jogadorNewDTO.getPeso(), jogadorNewDTO.getProfissionalizacao(),
+				jogadorNewDTO.getCodigo_cbf(), jogadorNewDTO.getPerna_preferida(), jogadorNewDTO.getPrefixo_fone(), jogadorNewDTO.getDdd_fone(), jogadorNewDTO.getFone(),
+				jogadorNewDTO.getEmail(), jogadorNewDTO.getComplemento(), clube, empresario, usuario);
+		Modalidade mod = new Modalidade(jogadorNewDTO.getIdModalidade(), "");
+		jogador.getModalidades().add(mod);
+		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorNewDTO.getIdPosicao1(), "");
+		jogador.getPosicoes().add(pos1);
+		if (jogadorNewDTO.getIdPosicao2() != null) {
+			ModalidadePosicao pos2 = new ModalidadePosicao(jogadorNewDTO.getIdPosicao2(), "");
+			jogador.getPosicoes().add(pos2);
+		}
+		if (jogadorNewDTO.getIdPosicao3() != null) {
+			ModalidadePosicao pos3 = new ModalidadePosicao(jogadorNewDTO.getIdPosicao3(), "");
+			jogador.getPosicoes().add(pos3);
+		}
+		
+		return jogador;
+	}
+	
+	@Transactional
 	public Jogador insert(Jogador jogador) {
 		jogador.setId(null);
+//		jogador = jogadorRepository.save(jogador);
+//		outroRepository.save(obj.getOUTRO());
+//		return obj;
 		return jogadorRepository.save(jogador);
 	}
 	
@@ -72,29 +130,39 @@ public class JogadorService {
 		newJogador.setNome(jogador.getNome());
 		newJogador.setFoto(jogador.getFoto());
 		newJogador.setCpf(jogador.getCpf() != null ? jogador.getCpf() : newJogador.getCpf());
-//		newJogador.setData_nasc(jogador.getData_nasc());
-//		newJogador.setNacionalidade(jogador.getNacionalidade());
-//		newJogador.setEstado_nasc(jogador.getEstado_nasc());
-//		newJogador.setMunicipio_nasc(jogador.getMunicipio_nasc());
-//		newJogador.setSexo(jogador.getSexo());
-//		newJogador.setAltura(jogador.getAltura());
-//		newJogador.setPeso(jogador.getPeso());
-//		newJogador.setProfissionalizacao(jogador.getProfissionalizacao());
-//		newJogador.setCodigo_cbf(jogador.getCodigo_cbf());
-//		//modalidade
-//		//posições
-//		newJogador.setPerna_preferida(jogador.getPerna_preferida());
-//		newJogador.setPrefixo_fone(jogador.getPrefixo_fone());
-//		newJogador.setDdd_fone(jogador.getDdd_fone());
-//		newJogador.setFone(jogador.getFone());
-//		newJogador.setEmail(jogador.getEmail());
+		newJogador.setData_nasc(jogador.getData_nasc());
+		newJogador.setNacionalidade(jogador.getNacionalidade());
+		newJogador.setEstado_nasc(jogador.getEstado_nasc());
+		newJogador.setMunicipio_nasc(jogador.getMunicipio_nasc());
+		newJogador.setSexo(jogador.getSexo());
+		newJogador.setAltura(jogador.getAltura());
+		newJogador.setPeso(jogador.getPeso());
+		newJogador.setProfissionalizacao(jogador.getProfissionalizacao());
+		newJogador.setCodigo_cbf(jogador.getCodigo_cbf());
+		if (jogador.getModalidades() != null) {
+			newJogador.getModalidades().removeAll(newJogador.getModalidades());
+			for (int i=0; i<jogador.getModalidades().size(); i++) {
+				newJogador.getModalidades().add(jogador.getModalidades().get(i));
+			}
+		}
+		if (jogador.getPosicoes() != null) {
+			newJogador.getPosicoes().removeAll(newJogador.getPosicoes());
+			for (int i=0; i<jogador.getPosicoes().size(); i++) {
+				newJogador.getPosicoes().add(jogador.getPosicoes().get(i));
+			}
+		}
+		newJogador.setPerna_preferida(jogador.getPerna_preferida());
+		newJogador.setPrefixo_fone(jogador.getPrefixo_fone());
+		newJogador.setDdd_fone(jogador.getDdd_fone());
+		newJogador.setFone(jogador.getFone());
+		newJogador.setEmail(jogador.getEmail());
 		//lances
-//		newJogador.setComplemento(jogador.getComplemento());
-//		newJogador.setClubeFutebol(jogador.getClubeFutebol());
-//		newJogador.setEmpresario(jogador.getEmpresario());
+		newJogador.setComplemento(jogador.getComplemento());
+		newJogador.setClubeFutebol(jogador.getClubeFutebol());
+		newJogador.setEmpresario(jogador.getEmpresario());
 		//lista observacao
 		//lista historico
-//		newJogador.setUsuario(jogador.getUsuario());
+		newJogador.setUsuario(jogador.getUsuario());
 	}
 	
 }

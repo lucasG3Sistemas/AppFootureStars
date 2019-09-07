@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
+import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
 import com.lucasloose.appfooturestars.services.JogadorService;
 
 @RestController
@@ -52,10 +53,10 @@ public class JogadorResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody JogadorDTO modalidadeDTO) {
-		Jogador mod = jogadorService.fromDTO(modalidadeDTO);
-		mod = jogadorService.insert(mod);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(mod.getId()).toUri();
+	public ResponseEntity<Void> insert(@Valid @RequestBody JogadorNewDTO jogadorNewDTO) {
+		Jogador jogador = jogadorService.fromDTO(jogadorNewDTO);
+		jogador = jogadorService.insert(jogador);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(jogador.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	

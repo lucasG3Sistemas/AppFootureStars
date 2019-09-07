@@ -7,12 +7,9 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.lucasloose.appfooturestars.domain.Jogador;
 
-public class JogadorDTO  implements Serializable {
+public class JogadorNewDTO  implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	private Integer id;
 	
 	@NotEmpty(message = "Campo obrigatório")
 	private String nome;
@@ -21,36 +18,37 @@ public class JogadorDTO  implements Serializable {
 	
 //	@NotEmpty(message = "Campo obrigatório")
 	private String cpf;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date data_nasc;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	private String nacionalidade;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	private String estado_nasc;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	private String municipio_nasc;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	private Integer sexo;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	private Double altura;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	private Double peso;
-//	
-//	//DADOS JOGADOR
+	
+	//DADOS JOGADOR
 //	@NotEmpty(message = "Campo obrigatório")
 	private Integer profissionalizacao;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	private String codigo_cbf;
 	
+//	@NotEmpty(message = "Campo obrigatório")
 	private Integer idModalidade;
 	
 	private Integer idPosicao1;
@@ -59,18 +57,18 @@ public class JogadorDTO  implements Serializable {
 	
 //	@NotEmpty(message = "Campo obrigatório")
 	private Integer perna_preferida;
-//	
-//	//DADOS CONTATO
+	
+	//DADOS CONTATO
 //	@NotEmpty(message = "Campo obrigatório")
 	private Integer prefixo_fone;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	private Integer ddd_fone;
-//	
+	
 //	@NotEmpty(message = "Campo obrigatório")
 	private Integer fone;
-//	
-	@NotEmpty(message = "Campo obrigatório")
+	
+//	@NotEmpty(message = "Campo obrigatório")
 	@Email(message = "E-mail inválido")
 	private String email;
 	
@@ -83,41 +81,34 @@ public class JogadorDTO  implements Serializable {
 	private String idUsuario;
 	
 	
-	public JogadorDTO() {
+	public JogadorNewDTO() {
 		
 	}
 
-	public JogadorDTO(Jogador jogador) {
-//		this.id = jogador.getId();
+//	public JogadorNewDTO(Jogador jogador) {
 //		this.nome = jogador.getNome();
 //		this.foto = jogador.getFoto();
-//		this.cpf = jogador.getCpf();
-//		this.data_nasc = jogador.getData_nasc();
-//		this.nacionalidade = jogador.getNacionalidade();
-//		this.estado_nasc = jogador.getEstado_nasc();
-//		this.municipio_nasc = jogador.getMunicipio_nasc();
-//		this.sexo = jogador.getSexo();
-//		this.altura = jogador.getAltura();
-//		this.peso = jogador.getPeso();
-//		this.profissionalizacao = jogador.getProfissionalizacao();
-//		this.codigo_cbf = jogador.getCodigo_cbf();
-//		this.perna_preferida = jogador.getPerna_preferida();
-//		this.prefixo_fone = jogador.getPrefixo_fone();
-//		this.ddd_fone = jogador.getDdd_fone();
-//		this.fone = jogador.getFone();
+////		this.cpf = jogador.getCpf();
+////		this.data_nasc = jogador.getData_nasc();
+////		this.nacionalidade = jogador.getNacionalidade();
+////		this.estado_nasc = jogador.getEstado_nasc();
+////		this.municipio_nasc = jogador.getMunicipio_nasc();
+////		this.sexo = jogador.getSexo();
+////		this.altura = jogador.getAltura();
+////		this.peso = jogador.getPeso();
+////		this.profissionalizacao = jogador.getProfissionalizacao();
+////		this.codigo_cbf = jogador.getCodigo_cbf();
+////		this.perna_preferida = jogador.getPerna_preferida();
+////		this.prefixo_fone = jogador.getPrefixo_fone();
+////		this.ddd_fone = jogador.getDdd_fone();
+////		this.fone = jogador.getFone();
 //		this.email = jogador.getEmail();
 //		this.complemento = jogador.getComplemento();
 //		this.idClubeFutebol = jogador.getClubeFutebol().getId();
-	}
+//		this.idEmpresario = jogador.getEmpresario().getId();
+//		this.idUsuario = jogador.getUsuario().getLogin();
+//	}
 
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;
@@ -214,39 +205,7 @@ public class JogadorDTO  implements Serializable {
 	public void setCodigo_cbf(String codigo_cbf) {
 		this.codigo_cbf = codigo_cbf;
 	}
-
-	public Integer getIdModalidade() {
-		return idModalidade;
-	}
-
-	public void setIdModalidade(Integer idModalidade) {
-		this.idModalidade = idModalidade;
-	}
-
-	public Integer getIdPosicao1() {
-		return idPosicao1;
-	}
-
-	public void setIdPosicao1(Integer idPosicao1) {
-		this.idPosicao1 = idPosicao1;
-	}
-
-	public Integer getIdPosicao2() {
-		return idPosicao2;
-	}
-
-	public void setIdPosicao2(Integer idPosicao2) {
-		this.idPosicao2 = idPosicao2;
-	}
-
-	public Integer getIdPosicao3() {
-		return idPosicao3;
-	}
-
-	public void setIdPosicao3(Integer idPosicao3) {
-		this.idPosicao3 = idPosicao3;
-	}
-
+	
 	public Integer getPerna_preferida() {
 		return perna_preferida;
 	}
@@ -281,6 +240,38 @@ public class JogadorDTO  implements Serializable {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public Integer getIdModalidade() {
+		return idModalidade;
+	}
+
+	public void setIdModalidade(Integer idModalidade) {
+		this.idModalidade = idModalidade;
+	}
+
+	public Integer getIdPosicao1() {
+		return idPosicao1;
+	}
+
+	public void setIdPosicao1(Integer idPosicao1) {
+		this.idPosicao1 = idPosicao1;
+	}
+
+	public Integer getIdPosicao2() {
+		return idPosicao2;
+	}
+
+	public void setIdPosicao2(Integer idPosicao2) {
+		this.idPosicao2 = idPosicao2;
+	}
+
+	public Integer getIdPosicao3() {
+		return idPosicao3;
+	}
+
+	public void setIdPosicao3(Integer idPosicao3) {
+		this.idPosicao3 = idPosicao3;
 	}
 
 	public void setEmail(String email) {
@@ -318,5 +309,5 @@ public class JogadorDTO  implements Serializable {
 	public void setIdUsuario(String idUsuario) {
 		this.idUsuario = idUsuario;
 	}
-
+	
 }

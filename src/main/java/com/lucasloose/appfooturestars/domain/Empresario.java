@@ -89,6 +89,11 @@ public class Empresario implements Serializable {
 		this.nome = nome;
 	}
 	
+	public Empresario(Integer id) {
+		super();
+		this.id = id;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
