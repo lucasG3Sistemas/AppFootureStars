@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -16,59 +17,50 @@ public class JogadorNewDTO  implements Serializable {
 	
 	private byte foto;
 	
-//	@NotEmpty(message = "Campo obrigatório")
+	@NotEmpty(message = "Campo obrigatório")
+	@CPF
 	private String cpf;
 	
 //	@NotEmpty(message = "Campo obrigatório")
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date data_nasc;
 	
-//	@NotEmpty(message = "Campo obrigatório")
+	@NotEmpty(message = "Campo obrigatório")
 	private String nacionalidade;
 	
-//	@NotEmpty(message = "Campo obrigatório")
+	@NotEmpty(message = "Campo obrigatório")
 	private String estado_nasc;
 	
-//	@NotEmpty(message = "Campo obrigatório")
+	@NotEmpty(message = "Campo obrigatório")
 	private String municipio_nasc;
 	
-//	@NotEmpty(message = "Campo obrigatório")
 	private Integer sexo;
 	
-//	@NotEmpty(message = "Campo obrigatório")
 	private Double altura;
 	
-//	@NotEmpty(message = "Campo obrigatório")
 	private Double peso;
 	
 	//DADOS JOGADOR
-//	@NotEmpty(message = "Campo obrigatório")
 	private Integer profissionalizacao;
 	
-//	@NotEmpty(message = "Campo obrigatório")
 	private String codigo_cbf;
 	
-//	@NotEmpty(message = "Campo obrigatório")
 	private Integer idModalidade;
 	
 	private Integer idPosicao1;
 	private Integer idPosicao2;
 	private Integer idPosicao3;
 	
-//	@NotEmpty(message = "Campo obrigatório")
 	private Integer perna_preferida;
 	
 	//DADOS CONTATO
-//	@NotEmpty(message = "Campo obrigatório")
 	private Integer prefixo_fone;
 	
-//	@NotEmpty(message = "Campo obrigatório")
 	private Integer ddd_fone;
 	
-//	@NotEmpty(message = "Campo obrigatório")
 	private Integer fone;
 	
-//	@NotEmpty(message = "Campo obrigatório")
+	@NotEmpty(message = "Campo obrigatório")
 	@Email(message = "E-mail inválido")
 	private String email;
 	

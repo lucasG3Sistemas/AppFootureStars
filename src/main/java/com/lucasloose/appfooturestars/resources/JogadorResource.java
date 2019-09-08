@@ -42,6 +42,7 @@ public class JogadorResource {
 	}
 	
 	@RequestMapping(value="/page", method=RequestMethod.GET)
+	//falta mostrar modalidade, posicao
 	public ResponseEntity<Page<JogadorDTO>> findPage(
 			@RequestParam(value = "page", defaultValue = "0") Integer page, 
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage, 

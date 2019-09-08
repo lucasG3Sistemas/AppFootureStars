@@ -3,8 +3,8 @@ package com.lucasloose.appfooturestars.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lucasloose.appfooturestars.domain.Jogador;
@@ -19,7 +19,8 @@ public class JogadorDTO  implements Serializable {
 	
 	private byte foto;
 	
-//	@NotEmpty(message = "Campo obrigatório")
+	@NotEmpty(message = "Campo obrigatório")
+	@CPF
 	private String cpf;
 //	
 //	@NotEmpty(message = "Campo obrigatório")
@@ -70,8 +71,8 @@ public class JogadorDTO  implements Serializable {
 //	@NotEmpty(message = "Campo obrigatório")
 	private Integer fone;
 //	
-	@NotEmpty(message = "Campo obrigatório")
-	@Email(message = "E-mail inválido")
+//	@NotEmpty(message = "Campo obrigatório")
+//	@Email(message = "E-mail inválido")
 	private String email;
 	
 	private String complemento;
@@ -88,26 +89,25 @@ public class JogadorDTO  implements Serializable {
 	}
 
 	public JogadorDTO(Jogador jogador) {
-//		this.id = jogador.getId();
-//		this.nome = jogador.getNome();
-//		this.foto = jogador.getFoto();
-//		this.cpf = jogador.getCpf();
-//		this.data_nasc = jogador.getData_nasc();
-//		this.nacionalidade = jogador.getNacionalidade();
-//		this.estado_nasc = jogador.getEstado_nasc();
-//		this.municipio_nasc = jogador.getMunicipio_nasc();
-//		this.sexo = jogador.getSexo();
-//		this.altura = jogador.getAltura();
-//		this.peso = jogador.getPeso();
-//		this.profissionalizacao = jogador.getProfissionalizacao();
-//		this.codigo_cbf = jogador.getCodigo_cbf();
-//		this.perna_preferida = jogador.getPerna_preferida();
-//		this.prefixo_fone = jogador.getPrefixo_fone();
-//		this.ddd_fone = jogador.getDdd_fone();
-//		this.fone = jogador.getFone();
-//		this.email = jogador.getEmail();
-//		this.complemento = jogador.getComplemento();
-//		this.idClubeFutebol = jogador.getClubeFutebol().getId();
+		this.id = jogador.getId();
+		this.nome = jogador.getNome();
+		this.foto = jogador.getFoto();
+		this.cpf = jogador.getCpf();
+		this.data_nasc = jogador.getData_nasc();
+		this.nacionalidade = jogador.getNacionalidade();
+		this.estado_nasc = jogador.getEstado_nasc();
+		this.municipio_nasc = jogador.getMunicipio_nasc();
+		this.sexo = jogador.getSexo();
+		this.altura = jogador.getAltura();
+		this.peso = jogador.getPeso();
+		this.profissionalizacao = jogador.getProfissionalizacao();
+		this.codigo_cbf = jogador.getCodigo_cbf();
+		this.perna_preferida = jogador.getPerna_preferida();
+		this.prefixo_fone = jogador.getPrefixo_fone();
+		this.ddd_fone = jogador.getDdd_fone();
+		this.fone = jogador.getFone();
+		this.email = jogador.getEmail();
+		this.complemento = jogador.getComplemento();
 	}
 
 
