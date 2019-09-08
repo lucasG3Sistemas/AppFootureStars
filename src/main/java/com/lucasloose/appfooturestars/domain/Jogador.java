@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -73,7 +74,7 @@ public class Jogador implements Serializable {
 	private String complemento;
 	
 //	@JsonManagedReference
-	@OneToMany(mappedBy="jogador")
+	@OneToMany(mappedBy="jogador", cascade = CascadeType.ALL)
 	private List<JogadorLance> lances = new ArrayList<JogadorLance>();
 	
 ////	@JsonManagedReference
