@@ -8,7 +8,9 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lucasloose.appfooturestars.domain.Jogador;
+import com.lucasloose.appfooturestars.services.validation.JogadorUpdate;
 
+@JogadorUpdate
 public class JogadorDTO  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
