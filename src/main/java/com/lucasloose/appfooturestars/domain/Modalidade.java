@@ -31,9 +31,9 @@ public class Modalidade implements Serializable {
 	private List<ClubeFutebol> modalidadeClubes = new ArrayList<ClubeFutebol>();
 	
 //	@JsonBackReference
-	@JsonIgnore
-	@ManyToMany(mappedBy="modalidades")
-	private List<Jogador> modalidadeJogadores = new ArrayList<Jogador>();
+//	@JsonIgnore
+//	@ManyToMany(mappedBy="modalidades")
+//	private List<Jogador> modalidadeJogadores = new ArrayList<Jogador>();
 	
 	public Modalidade() {
 		

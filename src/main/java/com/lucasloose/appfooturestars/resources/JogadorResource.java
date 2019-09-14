@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
+import com.lucasloose.appfooturestars.resources.utils.URL;
 import com.lucasloose.appfooturestars.services.JogadorService;
 
 @RestController
@@ -29,7 +30,7 @@ public class JogadorResource {
 	private JogadorService jogadorService;
 	
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(value="/lista", method=RequestMethod.GET)
 	public ResponseEntity<List<Jogador>> findAll() {
 		List<Jogador> listaJogadores = jogadorService.findAll();
 		return ResponseEntity.ok().body(listaJogadores);
@@ -49,6 +50,22 @@ public class JogadorResource {
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy, 
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		Page<Jogador> listaJogadores = jogadorService.findPage(page, linesPerPage, orderBy, direction);
+		Page<JogadorDTO> listDTO = listaJogadores.map(obj -> new JogadorDTO(obj));
+		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	//falta mostrar modalidade, posicao
+	public ResponseEntity<Page<JogadorDTO>> findPage(
+			@RequestParam(value = "nome", defaultValue = "") String nome,
+			@RequestParam(value = "posicoes", defaultValue = "") String posicoes,
+			@RequestParam(value = "page", defaultValue = "0") Integer page, 
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy, 
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		String nomeDecoded = URL.decodeParam(nome);
+		List<Integer> idsPosicoes = URL.decodeInList(posicoes);
+		Page<Jogador> listaJogadores = jogadorService.search(nomeDecoded, idsPosicoes, page, linesPerPage, orderBy, direction);
 		Page<JogadorDTO> listDTO = listaJogadores.map(obj -> new JogadorDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
 	}
@@ -74,4 +91,5 @@ public class JogadorResource {
 		jogadorService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
 }

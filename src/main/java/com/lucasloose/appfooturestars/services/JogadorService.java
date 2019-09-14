@@ -20,6 +20,7 @@ import com.lucasloose.appfooturestars.domain.Usuario;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
 import com.lucasloose.appfooturestars.repositories.JogadorRepository;
+import com.lucasloose.appfooturestars.repositories.ModalidadePosicaoRepository;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
@@ -28,6 +29,18 @@ public class JogadorService {
 
 	@Autowired
 	private JogadorRepository jogadorRepository;
+	
+	
+	@Autowired
+	private ModalidadePosicaoRepository posicaoRepository;
+	
+	
+	public Page<Jogador> search(String nome, List<Integer> idsPosicoes, Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		//busca jogadores a partir de uma posição
+		List<ModalidadePosicao> posicoes = posicaoRepository.findAll(idsPosicoes);
+		return jogadorRepository.findDistinctByNomeContainingAndPosicoesIn(nome, posicoes, pageRequest);
+	}
 	
 	public List<Jogador> findAll() {
 		List<Jogador> jogador = jogadorRepository.findAll();
@@ -44,6 +57,7 @@ public class JogadorService {
 			throw new ObjectNotFoundException("Jogador não encontrado! ID: " + id
 					+ ", Tipo: " + Jogador.class.getName());
 		}
+	
 		return jogador;
 	}
 	
@@ -53,15 +67,16 @@ public class JogadorService {
 	}
 	
 	public Jogador fromDTO(JogadorDTO jogadorDTO) {
+		Modalidade modalidade = new Modalidade(jogadorDTO.getIdModalidade(), "");
 		ClubeFutebol clube = new ClubeFutebol(jogadorDTO.getIdClubeFutebol());
 		Empresario empresario = new Empresario(jogadorDTO.getIdEmpresario());
 		Usuario usuario = new Usuario(jogadorDTO.getIdUsuario());
 		Jogador jogador = new Jogador(jogadorDTO.getId(), jogadorDTO.getNome(), jogadorDTO.getFoto(), jogadorDTO.getCpf(), null,
 				jogadorDTO.getNacionalidade(), jogadorDTO.getEstado_nasc(), jogadorDTO.getMunicipio_nasc(), jogadorDTO.getSexo(), jogadorDTO.getAltura(), jogadorDTO.getPeso(), jogadorDTO.getProfissionalizacao(),
-				jogadorDTO.getCodigo_cbf(), jogadorDTO.getPerna_preferida(), jogadorDTO.getPrefixo_fone(), jogadorDTO.getDdd_fone(), jogadorDTO.getFone(),
+				jogadorDTO.getCodigo_cbf(), modalidade, jogadorDTO.getPerna_preferida(), jogadorDTO.getPrefixo_fone(), jogadorDTO.getDdd_fone(), jogadorDTO.getFone(),
 				jogadorDTO.getEmail(), jogadorDTO.getComplemento(), clube, empresario, usuario);
-		Modalidade mod = new Modalidade(jogadorDTO.getIdModalidade(), "");
-		jogador.getModalidades().add(mod);
+//		Modalidade mod = new Modalidade(jogadorDTO.getIdModalidade(), "");
+//		jogador.getModalidades().add(mod);
 		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorDTO.getIdPosicao1(), "");
 		jogador.getPosicoes().add(pos1);
 		
@@ -79,15 +94,16 @@ public class JogadorService {
 	
 	public Jogador fromDTO(JogadorNewDTO jogadorNewDTO) {
 		//passei a data como null
+		Modalidade modalidade = new Modalidade(jogadorNewDTO.getIdModalidade(), "");
 		ClubeFutebol clube = new ClubeFutebol(jogadorNewDTO.getIdClubeFutebol());
 		Empresario empresario = new Empresario(jogadorNewDTO.getIdEmpresario());
 		Usuario usuario = new Usuario(jogadorNewDTO.getIdUsuario());
 		Jogador jogador = new Jogador(null, jogadorNewDTO.getNome(), jogadorNewDTO.getFoto(), jogadorNewDTO.getCpf(), null,
 				jogadorNewDTO.getNacionalidade(), jogadorNewDTO.getEstado_nasc(), jogadorNewDTO.getMunicipio_nasc(), jogadorNewDTO.getSexo(), jogadorNewDTO.getAltura(), jogadorNewDTO.getPeso(), jogadorNewDTO.getProfissionalizacao(),
-				jogadorNewDTO.getCodigo_cbf(), jogadorNewDTO.getPerna_preferida(), jogadorNewDTO.getPrefixo_fone(), jogadorNewDTO.getDdd_fone(), jogadorNewDTO.getFone(),
+				jogadorNewDTO.getCodigo_cbf(), modalidade, jogadorNewDTO.getPerna_preferida(), jogadorNewDTO.getPrefixo_fone(), jogadorNewDTO.getDdd_fone(), jogadorNewDTO.getFone(),
 				jogadorNewDTO.getEmail(), jogadorNewDTO.getComplemento(), clube, empresario, usuario);
-		Modalidade mod = new Modalidade(jogadorNewDTO.getIdModalidade(), "");
-		jogador.getModalidades().add(mod);
+//		Modalidade mod = new Modalidade(jogadorNewDTO.getIdModalidade(), "");
+//		jogador.getModalidades().add(mod);
 		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorNewDTO.getIdPosicao1(), "");
 		jogador.getPosicoes().add(pos1);
 		if (jogadorNewDTO.getIdPosicao2() != null) {
@@ -139,12 +155,13 @@ public class JogadorService {
 		newJogador.setPeso(jogador.getPeso());
 		newJogador.setProfissionalizacao(jogador.getProfissionalizacao());
 		newJogador.setCodigo_cbf(jogador.getCodigo_cbf());
-		if (jogador.getModalidades() != null) {
-			newJogador.getModalidades().removeAll(newJogador.getModalidades());
-			for (int i=0; i<jogador.getModalidades().size(); i++) {
-				newJogador.getModalidades().add(jogador.getModalidades().get(i));
-			}
-		}
+		newJogador.setModalidade(jogador.getModalidade());
+//		if (jogador.getModalidades() != null) {
+//			newJogador.getModalidades().removeAll(newJogador.getModalidades());
+//			for (int i=0; i<jogador.getModalidades().size(); i++) {
+//				newJogador.getModalidades().add(jogador.getModalidades().get(i));
+//			}
+//		}
 		if (jogador.getPosicoes() != null) {
 			newJogador.getPosicoes().removeAll(newJogador.getPosicoes());
 			for (int i=0; i<jogador.getPosicoes().size(); i++) {

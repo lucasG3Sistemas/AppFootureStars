@@ -127,9 +127,12 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 //		modPos2.getjogadores().addAll(Arrays.asList(jogador1));
 		
 //		jogador1.getModalidades().add(mod1);
-		jogador1.getModalidades().addAll(Arrays.asList(mod1, mod2));
+//		jogador1.getModalidades().addAll(Arrays.asList(mod1, mod2));
 //		jogador2.getModalidades().addAll(Arrays.asList(mod1));
 //		jogador3.getModalidades().addAll(Arrays.asList(mod1));
+		jogador1.setModalidade(mod1);
+		jogador2.setModalidade(mod1);
+		jogador3.setModalidade(mod3);
 		jogador1.getPosicoes().addAll(Arrays.asList(modPos1, modPos2));
 		jogador2.getPosicoes().addAll(Arrays.asList(modPos1));
 		jogador3.getPosicoes().addAll(Arrays.asList(modPos7));

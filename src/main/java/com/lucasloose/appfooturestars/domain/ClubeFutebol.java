@@ -72,6 +72,27 @@ public class ClubeFutebol implements Serializable {
 	}
 
 	public ClubeFutebol(Integer id, String nome, 
+			byte foto,
+//			Modalidade modalidade,
+			Integer profissionalizacao,
+		String registro_cbf, String pais, String estado, String municipio, String email, String complemento, Usuario usuario) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.foto = foto;
+//		this.modalidade = modalidade;
+		this.profissionalizacao = profissionalizacao;
+		this.registro_cbf = registro_cbf;
+		this.pais = pais;
+		this.estado = estado;
+		this.municipio = municipio;
+		this.email = email;
+		this.complemento = complemento;
+		this.usuario = usuario;
+	}
+	
+	public ClubeFutebol(Integer id, String nome, 
+//			byte foto,
 //			Modalidade modalidade,
 			Integer profissionalizacao,
 		String registro_cbf, String pais, String estado, String municipio, String email, String complemento) {

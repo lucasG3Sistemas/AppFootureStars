@@ -49,12 +49,16 @@ public class Jogador implements Serializable {
 	private String codigo_cbf;
 	
 //	@JsonManagedReference
-	@ManyToMany
-	@JoinTable(name = "JOGADOR_MODALIDADE",
-		joinColumns = @JoinColumn(name = "id_modalidade"),
-		inverseJoinColumns = @JoinColumn(name = "id_jogador")
-	)
-	private List<Modalidade> modalidades = new ArrayList<Modalidade>();
+//	@ManyToMany
+//	@JoinTable(name = "JOGADOR_MODALIDADE",
+//		joinColumns = @JoinColumn(name = "id_modalidade"),
+//		inverseJoinColumns = @JoinColumn(name = "id_jogador")
+//	)
+//	private List<Modalidade> modalidades = new ArrayList<Modalidade>();
+	
+	@ManyToOne
+	@JoinColumn(name = "id_modalidade")
+	private Modalidade modalidade;
 	
 //	@JsonManagedReference
 	@ManyToMany
@@ -112,7 +116,7 @@ public class Jogador implements Serializable {
 	 
 	public Jogador(Integer id, String nome, byte foto, String cpf, Date data_nasc, String nacionalidade,
 			String estado_nasc, String municipio_nasc, Integer sexo, Double altura, Double peso, Integer profissionalizacao,
-			String codigo_cbf, Integer perna_preferida, Integer prefixo_fone, Integer ddd_fone, Integer fone,
+			String codigo_cbf, Modalidade modalidade, Integer perna_preferida, Integer prefixo_fone, Integer ddd_fone, Integer fone,
 			String email, String complemento, ClubeFutebol clubeFutebol, Empresario empresario, Usuario usuario
 			) {
 		super();
@@ -129,6 +133,7 @@ public class Jogador implements Serializable {
 		this.peso = peso;
 		this.profissionalizacao = profissionalizacao;
 		this.codigo_cbf = codigo_cbf;
+		this.modalidade = modalidade;
 		this.perna_preferida = perna_preferida;
 		this.prefixo_fone = prefixo_fone;
 		this.ddd_fone = ddd_fone;
@@ -291,16 +296,24 @@ public class Jogador implements Serializable {
 		this.codigo_cbf = codigo_cbf;
 	}
 
-	public List<Modalidade> getModalidades() {
-		return modalidades;
-	}
-
-	public void setModalidades(List<Modalidade> modalidadesJogadores) {
-		this.modalidades = modalidadesJogadores;
-	}	
-
+//	public List<Modalidade> getModalidades() {
+//		return modalidades;
+//	}
+//
+//	public void setModalidades(List<Modalidade> modalidadesJogadores) {
+//		this.modalidades = modalidadesJogadores;
+//	}
+	
 	public List<ModalidadePosicao> getPosicoes() {
 		return posicoes;
+	}
+
+	public Modalidade getModalidade() {
+		return modalidade;
+	}
+
+	public void setModalidade(Modalidade modalidade) {
+		this.modalidade = modalidade;
 	}
 
 	public void setPosicoes(List<ModalidadePosicao> posicoes) {

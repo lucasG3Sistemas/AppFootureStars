@@ -2,11 +2,22 @@ package com.lucasloose.appfooturestars.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.lucasloose.appfooturestars.domain.ClubeFutebol;
+import com.lucasloose.appfooturestars.domain.Modalidade;
+import com.lucasloose.appfooturestars.domain.Usuario;
+import com.lucasloose.appfooturestars.dto.ClubeFutebolDTO;
+import com.lucasloose.appfooturestars.dto.ClubeFutebolNewDTO;
 import com.lucasloose.appfooturestars.repositories.ClubeFutebolRepository;
+import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -14,6 +25,7 @@ public class ClubeFutebolService {
 
 	@Autowired
 	private ClubeFutebolRepository clubeFutebolRepository;
+	
 	
 	public List<ClubeFutebol> findAll() {
 		List<ClubeFutebol> clubeFutebol = clubeFutebolRepository.findAll();
@@ -33,27 +45,80 @@ public class ClubeFutebolService {
 		return clubeFutebol;
 	}
 	
-	public ClubeFutebol insert(ClubeFutebol obj) {
-		obj.setId(null);
-//		obj.setInstante(new Date());
-//		obj.setCliente(clubeFutebolRepository.findOne(obj.getId()));
-//		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
-//		obj.getPagamento().setPedido(obj);
-//		if (obj.getPagamento() instanceof PagamentoComBoleto) {
-//			PagamentoComBoleto pagto = (PagamentoComBoleto) obj.getPagamento();
-//			boletoService.preencherPagamentoComBoleto(pagto, obj.getInstante());
-//		}
-		obj = clubeFutebolRepository.save(obj);
-//		pagamentoRepository.save(obj.getPagamento());
-//		for (ItemPedido ip : obj.getItens()) {
-//			ip.setDesconto(0.0);
-//			ip.setProduto(produtoRepository.findOne(ip.getProduto().getId()));
-//			ip.setPreco(ip.getProduto().getPreco());
-//			ip.setPedido(obj);
-//		}
-//		itemPedidoRepository.save(obj.getItens());
-//		emailService.sendOrderConfirmationEmail(obj);
-		return obj;
+	public Page<ClubeFutebol> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return clubeFutebolRepository.findAll(pageRequest);
+	}
+	
+	public ClubeFutebol fromDTO(ClubeFutebolDTO clubeFutebolDTO) {
+		Usuario usuario = new Usuario(clubeFutebolDTO.getIdUsuario());
+		ClubeFutebol clubeFutebol = new ClubeFutebol(clubeFutebolDTO.getId(), clubeFutebolDTO.getNome(), clubeFutebolDTO.getFoto(), clubeFutebolDTO.getProfissionalizacao(), clubeFutebolDTO.getRegistro_cbf(), clubeFutebolDTO.getPais(), clubeFutebolDTO.getEstado(), clubeFutebolDTO.getMunicipio(), clubeFutebolDTO.getEmail(), clubeFutebolDTO.getComplemento(), usuario);
+		Modalidade mod1 = new Modalidade(clubeFutebolDTO.getIdModalidade1(), "");
+		clubeFutebol.getModalidades().add(mod1);
+		if (clubeFutebolDTO.getIdModalidade2() != null) {
+			Modalidade mod2 = new Modalidade(clubeFutebolDTO.getIdModalidade2(), "");
+			clubeFutebol.getModalidades().add(mod2);
+		}
+		
+		return clubeFutebol;
+	}
+	
+	public ClubeFutebol fromDTO(ClubeFutebolNewDTO clubeFutebolNewDTO) {
+		Usuario usuario = new Usuario(clubeFutebolNewDTO.getIdUsuario());
+		ClubeFutebol clubeFutebol = new ClubeFutebol(null, clubeFutebolNewDTO.getNome(), clubeFutebolNewDTO.getFoto(),
+				clubeFutebolNewDTO.getProfissionalizacao(), clubeFutebolNewDTO.getRegistro_cbf(), clubeFutebolNewDTO.getPais(),
+				clubeFutebolNewDTO.getEstado(), clubeFutebolNewDTO.getMunicipio(), clubeFutebolNewDTO.getEmail(), clubeFutebolNewDTO.getComplemento(), usuario);
+		Modalidade mod1 = new Modalidade(clubeFutebolNewDTO.getIdModalidade1(), "");
+		clubeFutebol.getModalidades().add(mod1);
+		if (clubeFutebolNewDTO.getIdModalidade2() != null) {
+			Modalidade mod2 = new Modalidade(clubeFutebolNewDTO.getIdModalidade2(), "");
+			clubeFutebol.getModalidades().add(mod2);
+		}
+		return clubeFutebol;
+	}
+	
+	@Transactional
+	public ClubeFutebol insert(ClubeFutebol clubeFutebol) {
+		clubeFutebol.setId(null);
+//		jogador = jogadorRepository.save(jogador);
+//		outroRepository.save(obj.getOUTRO());
+//		return obj;
+		return clubeFutebolRepository.save(clubeFutebol);
+	}
+	
+	public ClubeFutebol update(ClubeFutebol clubeFutebol) {
+		ClubeFutebol newClubeFutebol = this.find(clubeFutebol.getId());
+		this.updateData(newClubeFutebol, clubeFutebol);
+		return clubeFutebolRepository.save(newClubeFutebol);
+	}
+	
+	public void delete(Integer id) {
+		this.find(id);
+		try {
+			clubeFutebolRepository.delete(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir o Clube pq há entidades relacionadas");
+		}
+	}
+	
+	private void updateData(ClubeFutebol newClubeFutebol, ClubeFutebol clubeFutebol) {
+				
+		newClubeFutebol.setNome(clubeFutebol.getNome() != null ? clubeFutebol.getNome() : newClubeFutebol.getNome());
+		newClubeFutebol.setFoto(clubeFutebol.getFoto());
+		newClubeFutebol.setProfissionalizacao(clubeFutebol.getProfissionalizacao() != null ? clubeFutebol.getProfissionalizacao() : newClubeFutebol.getProfissionalizacao());
+		newClubeFutebol.setRegistro_cbf(clubeFutebol.getRegistro_cbf() != null ? clubeFutebol.getRegistro_cbf() : newClubeFutebol.getRegistro_cbf());
+		newClubeFutebol.setPais(clubeFutebol.getPais() != null ? clubeFutebol.getPais() : newClubeFutebol.getPais());
+		newClubeFutebol.setEstado(clubeFutebol.getEstado() != null ? clubeFutebol.getEstado() : newClubeFutebol.getEstado());
+		newClubeFutebol.setMunicipio(clubeFutebol.getMunicipio() != null ? clubeFutebol.getMunicipio() : newClubeFutebol.getMunicipio());
+		newClubeFutebol.setEmail(clubeFutebol.getEmail() != null ? clubeFutebol.getEmail() : newClubeFutebol.getEmail());
+		newClubeFutebol.setComplemento(clubeFutebol.getComplemento() != null ? clubeFutebol.getComplemento() : newClubeFutebol.getComplemento());
+		if (clubeFutebol.getModalidades() != null) {
+			newClubeFutebol.getModalidades().removeAll(newClubeFutebol.getModalidades());
+			for (int i=0; i<clubeFutebol.getModalidades().size(); i++) {
+				newClubeFutebol.getModalidades().add(clubeFutebol.getModalidades().get(i));
+			}
+		}
+		newClubeFutebol.setUsuario(clubeFutebol.getUsuario());
 	}
 	
 }
