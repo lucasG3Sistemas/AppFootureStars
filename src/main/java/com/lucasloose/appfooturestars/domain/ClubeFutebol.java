@@ -51,10 +51,10 @@ public class ClubeFutebol implements Serializable {
 	private List<Jogador> jogadores = new ArrayList<Jogador>();;
 	
 //	@JsonBackReference
-	@JsonIgnore
-	@OneToOne
-	@OneToMany(mappedBy="clubeFutebol")
-	private ListaObservacao listaObservacao;
+//	@JsonIgnore
+//	@OneToOne
+//	@OneToMany(mappedBy="clubeFutebol")
+//	private ListaObservacao listaObservacao;
 	
 //	@JsonBackReference
 	@JsonIgnore

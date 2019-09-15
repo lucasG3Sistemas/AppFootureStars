@@ -102,6 +102,9 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 		modPos9.getModalidades().addAll(Arrays.asList(mod2));
 		modPos10.getModalidades().addAll(Arrays.asList(mod2));
 		
+		Usuario usu1 = new Usuario("lucas", "123", "LUCAS", TipoUsuario.JOGADORFUTEBOL);
+		usuarioRepository.save(Arrays.asList(usu1));
+		
 		ClubeFutebol clube1 = new ClubeFutebol(null, "Gremio", 1, "12312312", "Brasil", "RS", "Rio Grande do Sul", "gremio@gg", "GREMIOOO");
 		ClubeFutebol clube2 = new ClubeFutebol(null, "Inter", 1, "19092018", "Brasil", "RS", "Rio Grande do Sul", "inti@gg", "INTI");
 		
@@ -110,6 +113,8 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 		
 		modalidadeRepository.save(Arrays.asList(mod1, mod2, mod3, mod4, mod5, mod6, mod7, mod8, mod9, mod10));
 		modalidadePosicaoRepository.save(Arrays.asList(modPos1, modPos2, modPos3, modPos4, modPos5, modPos6, modPos7, modPos8, modPos9, modPos10));
+		
+		clube1.setUsuario(usu1);
 		
 		clube1.getModalidades().addAll(Arrays.asList(mod1, mod2));
 		clube2.getModalidades().addAll(Arrays.asList(mod1));
@@ -158,8 +163,6 @@ public class AppFootureStarsApplication implements CommandLineRunner {
 		lista2.getJogadores().addAll(Arrays.asList(jogador2, jogador3));
 		listaObservacaoRepository.save(Arrays.asList(lista1, lista2));
 		
-		Usuario usu1 = new Usuario("lucas", "123", "LUCAS", TipoUsuario.JOGADORFUTEBOL);
-		usuarioRepository.save(Arrays.asList(usu1));
 	}
 
 }

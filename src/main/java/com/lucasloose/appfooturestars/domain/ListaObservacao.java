@@ -50,6 +50,11 @@ public class ListaObservacao implements Serializable {
 		this.clubeFutebol = clubeFutebol;
 		this.empresario = empresario;
 	}
+	
+	public ListaObservacao(Integer id) {
+		super();
+		this.id = id;
+	}
 
 
 	public Integer getId() {
