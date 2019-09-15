@@ -1,7 +1,7 @@
 package com.lucasloose.appfooturestars.domain;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,13 +47,12 @@ public class HistoricoContratacao implements Serializable {
 
 
 	public HistoricoContratacao(Integer id, 
-//			Jogador jogador, ClubeFutebol clubeFutebol,
-			byte foto, Date data_contratacao, String msg_clube, String msg_jogador,
+			Jogador jogador, ClubeFutebol clubeFutebol, byte foto, Date data_contratacao, String msg_clube, String msg_jogador,
 			String complemento) {
 		super();
 		this.id = id;
-//		this.jogador = jogador;
-//		this.clubeFutebol = clubeFutebol;
+		this.jogador = jogador;
+		this.clubeFutebol = clubeFutebol;
 		this.foto = foto;
 		this.data_contratacao = data_contratacao;
 		this.msg_clube = msg_clube;

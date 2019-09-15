@@ -1,11 +1,17 @@
 package com.lucasloose.appfooturestars.services;
 
+import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lucasloose.appfooturestars.domain.ClubeFutebol;
 import com.lucasloose.appfooturestars.domain.HistoricoContratacao;
+import com.lucasloose.appfooturestars.domain.Jogador;
+import com.lucasloose.appfooturestars.dto.HistoricoContratacaoNewDTO;
 import com.lucasloose.appfooturestars.repositories.HistoricoContratacaoRepository;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
@@ -32,6 +38,20 @@ public class HistoricoContratacaoService {
 					+ ", Tipo: " + HistoricoContratacao.class.getName());
 		}
 		return historicoContratacao;
+	}
+	
+	public HistoricoContratacao fromDTO(HistoricoContratacaoNewDTO historicoContratacaoNewDTO) {
+		Jogador jogador = new Jogador(historicoContratacaoNewDTO.getIdJogador(), "");
+		ClubeFutebol clubeFutebol = new ClubeFutebol(historicoContratacaoNewDTO.getIdClubeFutebol());
+		HistoricoContratacao historicoContratacao = new HistoricoContratacao(null, jogador, clubeFutebol, historicoContratacaoNewDTO.getFoto(), new Date(), historicoContratacaoNewDTO.getMsg_clube(), historicoContratacaoNewDTO.getMsg_jogador(), historicoContratacaoNewDTO.getComplemento());
+		return historicoContratacao;
+	}
+	
+	@Transactional
+	public HistoricoContratacao insert(HistoricoContratacao historicoContratacao) {
+		historicoContratacao.setId(null);
+		historicoContratacao.setData_contratacao(new Date());
+		return historicoContratacaoRepository.save(historicoContratacao);
 	}
 	
 }
