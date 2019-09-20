@@ -21,7 +21,9 @@ public class JogadorLance implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	//DADOS PESSOAIS
 	private Integer id;
-	private byte lance;
+	private byte video;
+	private String urlVideo;
+	private String descricao;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
 	private Date data_publicacao;
@@ -42,11 +44,13 @@ public class JogadorLance implements Serializable {
 		
 	}
 
-	public JogadorLance(Integer id, byte lance, Date data_publicacao, String pais_atual, String estado_atual, String municipio_atual,
+	public JogadorLance(Integer id, byte video, String urlVideo, String descricao, Date data_publicacao, String pais_atual, String estado_atual, String municipio_atual,
 			String complemento, Jogador jogador) {
 		super();
 		this.id = id;
-		this.lance = lance;
+		this.video = video;
+		this.urlVideo = urlVideo;
+		this.descricao = descricao;
 		this.data_publicacao = data_publicacao;
 		this.pais_atual = pais_atual;
 		this.estado_atual = estado_atual;
@@ -73,12 +77,36 @@ public class JogadorLance implements Serializable {
 		this.id = id;
 	}
 
-	public byte getLance() {
-		return lance;
+	public byte getVideo() {
+		return video;
 	}
 
-	public void setLance(byte lance) {
-		this.lance = lance;
+	public void setVideo(byte video) {
+		this.video = video;
+	}
+
+	public String getUrlVideo() {
+		return urlVideo;
+	}
+
+	public void setUrlVideo(String urlVideo) {
+		this.urlVideo = urlVideo;
+	}
+	
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Date getData_publicacao() {
+		return data_publicacao;
+	}
+
+	public void setData_publicacao(Date data_publicacao) {
+		this.data_publicacao = data_publicacao;
 	}
 
 	public Date getDataPublicacao() {
@@ -121,13 +149,13 @@ public class JogadorLance implements Serializable {
 		this.complemento = complemento;
 	}
 
-//	public Jogador getJogador() {
-//		return jogador;
-//	}
-//
-//	public void setJogador(Jogador jogador) {
-//		this.jogador = jogador;
-//	}
+	public Jogador getJogador() {
+		return jogador;
+	}
+
+	public void setJogador(Jogador jogador) {
+		this.jogador = jogador;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

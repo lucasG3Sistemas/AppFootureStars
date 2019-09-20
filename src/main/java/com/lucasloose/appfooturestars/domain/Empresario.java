@@ -35,6 +35,8 @@ public class Empresario implements Serializable {
 	private String estado_nasc;
 	private String municipio_nasc;
 	
+	private Integer sexo;
+	
 	//DADOS CONTATO
 	private Integer prefixo_fone;
 	private Integer ddd_fone;
@@ -65,8 +67,8 @@ public class Empresario implements Serializable {
 	}
 
 	public Empresario(Integer id, String nome, byte foto, String cpf, Date data_nasc, String nacionalidade,
-			String estado_nasc, String municipio_nasc, Integer prefixo_fone, Integer ddd_fone, Integer fone, String email,
-			String complemento) {
+			String estado_nasc, String municipio_nasc, Integer sexo, Integer prefixo_fone, Integer ddd_fone, Integer fone, String email,
+			String complemento, Usuario usuario) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -76,11 +78,13 @@ public class Empresario implements Serializable {
 		this.nacionalidade = nacionalidade;
 		this.estado_nasc = estado_nasc;
 		this.municipio_nasc = municipio_nasc;
+		this.sexo = sexo;
 		this.prefixo_fone = prefixo_fone;
 		this.ddd_fone = ddd_fone;
 		this.fone = fone;
 		this.email = email;
 		this.complemento = complemento;
+		this.usuario = usuario;
 	}
 	
 	public Empresario(Integer id, String nome) {
@@ -156,6 +160,14 @@ public class Empresario implements Serializable {
 
 	public void setMunicipio_nasc(String municipio_nasc) {
 		this.municipio_nasc = municipio_nasc;
+	}
+
+	public Integer getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Integer sexo) {
+		this.sexo = sexo;
 	}
 
 	public Integer getPrefixo_fone() {
