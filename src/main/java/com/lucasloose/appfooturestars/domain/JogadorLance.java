@@ -109,14 +109,6 @@ public class JogadorLance implements Serializable {
 		this.data_publicacao = data_publicacao;
 	}
 
-	public Date getDataPublicacao() {
-		return data_publicacao;
-	}
-
-	public void setDataPublicacao(Date data_publicacao) {
-		this.data_publicacao = data_publicacao;
-	}
-
 	public String getPais_atual() {
 		return pais_atual;
 	}
