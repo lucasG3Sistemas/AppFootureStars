@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.lucasloose.appfooturestars.domain.ClubeFutebol;
@@ -13,7 +14,9 @@ import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.domain.ListaObservacao;
 import com.lucasloose.appfooturestars.dto.ListaObservacaoDTO;
 import com.lucasloose.appfooturestars.dto.ListaObservacaoNewDTO;
+import com.lucasloose.appfooturestars.repositories.JogadorRepository;
 import com.lucasloose.appfooturestars.repositories.ListaObservacaoRepository;
+import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -21,6 +24,10 @@ public class ListaObservacaoService {
 
 	@Autowired
 	private ListaObservacaoRepository listaObservacaoRepository;
+	
+	@Autowired
+	private JogadorRepository jogadorRepository;
+	
 	
 	public List<ListaObservacao> findAll() {
 		List<ListaObservacao> listaObservacao = listaObservacaoRepository.findAll();
@@ -86,6 +93,27 @@ public class ListaObservacaoService {
 			for (int i=0; i<listaObservacao.getJogadores().size(); i++) {
 				newListaObservacao.getJogadores().add(listaObservacao.getJogadores().get(i));
 			}
+		}
+	}
+	
+	//Excluir jogador da lista
+	public void deleteJogadorLista(Integer id, List<Integer> idsJogadores) {
+		try {
+			List<Jogador> jogadores = jogadorRepository.findAll(idsJogadores);
+			List<ListaObservacao> lista = listaObservacaoRepository.findByIdAndJogadoresIn(id, jogadores);
+			String a = "";
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Erro ao excluir Jogador da Lista de Observação!");
+		}	
+	}
+	
+	//Exclui a lista inteira
+	public void delete(Integer id) {
+		this.find(id);
+		try {
+			listaObservacaoRepository.delete(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Erro ao excluir a Lista de Observação!");
 		}
 	}
 	

@@ -59,7 +59,7 @@ public class JogadorLanceResource {
 			@RequestParam(value = "page", defaultValue = "0") Integer page, 
 			@RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage, 
 			@RequestParam(value = "orderBy", defaultValue = "id") String orderBy, 
-			@RequestParam(value = "direction", defaultValue = "DESC") String direction) {
+			@RequestParam(value = "direction", defaultValue = "D ") String direction) {
 		List<Integer> idsJogadores = URL.decodeInList(jogador);
 		Page<JogadorLance> listaJogadoresLances = jogadorLanceService.search(idsJogadores, page, linesPerPage, orderBy, direction);
 		Page<JogadorLanceDTO> listDTO = listaJogadoresLances.map(obj -> new JogadorLanceDTO(obj));

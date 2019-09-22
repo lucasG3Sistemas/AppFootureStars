@@ -1,4 +1,4 @@
-package com.lucasloose.appfooturestars.resources;
+ package com.lucasloose.appfooturestars.resources;
 
 import java.net.URI;
 import java.util.List;
@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucasloose.appfooturestars.domain.ListaObservacao;
 import com.lucasloose.appfooturestars.dto.ListaObservacaoDTO;
 import com.lucasloose.appfooturestars.dto.ListaObservacaoNewDTO;
+import com.lucasloose.appfooturestars.resources.utils.URL;
 import com.lucasloose.appfooturestars.services.ListaObservacaoService;
 
 @RestController
@@ -55,4 +57,19 @@ public class ListaObservacaoResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	//Exclui jogador da lista 
+	@RequestMapping(method=RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteJogadorLista(@RequestParam(value = "id", defaultValue = "") String id,
+			@RequestParam(value = "jogadores", defaultValue = "") String jogadores) {
+		List<Integer> idsJogadores = URL.decodeInList(jogadores);
+		listaObservacaoService.deleteJogadorLista(Integer.parseInt(id), idsJogadores);
+		return ResponseEntity.noContent().build();
+	}
+	
+	//Exclui a lista inteira
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+		listaObservacaoService.delete(id);
+		return ResponseEntity.noContent().build();
+	}
 }
