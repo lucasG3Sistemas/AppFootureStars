@@ -114,9 +114,9 @@ public class DBService {
 		clubeFutebolRepository.save(Arrays.asList(clube1));
 		clubeFutebolRepository.save(Arrays.asList(clube2));
 		
-		Jogador jogador1 = new Jogador(null, "JOGADOR DANI", "1232131232");
-		Jogador jogador2 = new Jogador(null, "JOGADOR LUCAS", "329238999");
-		Jogador jogador3 = new Jogador(null, "JOGADOR XXXXXXX");
+		Jogador jogador1 = new Jogador(null, "JOGADOR DANI", "teste@gmailc.ccc");
+		Jogador jogador2 = new Jogador(null, "JOGADOR LUCAS", "lucas@gmailc.com");
+		Jogador jogador3 = new Jogador(null, "JOGADOR XXXXXXX", "aaa@teste.com");
 		
 //		mod1.getModalidadeJogadores().addAll(Arrays.asList(jogador1, jogador2, jogador3));
 //		mod2.getModalidadeJogadores().addAll(Arrays.asList(jogador1));

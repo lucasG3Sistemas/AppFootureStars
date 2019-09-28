@@ -32,6 +32,9 @@ public class ListaObservacaoService {
 	@Autowired
 	private JogadorRepository jogadorRepository;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	
 	public List<ListaObservacao> findAll() {
 		List<ListaObservacao> listaObservacao = listaObservacaoRepository.findAll();
@@ -91,6 +94,7 @@ public class ListaObservacaoService {
 		this.updateData(newListaObservacao, listaObservacao);
 //		newListaObservacao.setClubeFutebol(clubeFutebolRepository.findOne(listaObservacao.getClubeFutebol().getId()));
 		System.out.println(newListaObservacao);
+		this.emailService.sendOrderConfirmationEmail(newListaObservacao);
 		return listaObservacaoRepository.save(newListaObservacao);
 	}
 

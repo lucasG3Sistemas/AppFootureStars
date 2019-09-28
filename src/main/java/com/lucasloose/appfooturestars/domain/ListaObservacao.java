@@ -123,21 +123,13 @@ public class ListaObservacao implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Clube Futebol: ");
-		builder.append(getClubeFutebol().getNome());
-		builder.append(", Modalidade: ");
-		builder.append(getClubeFutebol().getModalidades().get(0).getDescricao());
-		builder.append(", Profissionalização: ");
-		builder.append(getClubeFutebol().getProfissionalizacao()==1 ? "Clube Profissional" : "Clube Amador");
-		builder.append(", País: ");
+		builder.append("Olá " + getJogadores().get(getJogadores().size()-1).getNome());
+		builder.append("!!!\nÉ com muito prazer que lhe informamos que você está na lista de observação do clube " + (getClubeFutebol().getProfissionalizacao()==1 ? "Profissional" : "Amador") + " " + getClubeFutebol().getNome() + "!");
+		builder.append("\nO clube está Localizado no país: ");
 		builder.append(getClubeFutebol().getPais());
-		builder.append(", Estado: ");
-		builder.append(getClubeFutebol().getEstado());
-		builder.append(", Município: ");
-		builder.append(getClubeFutebol().getMunicipio());
-		builder.append(", E-mail=");
-		builder.append(getClubeFutebol().getEmail());
-		
+		builder.append(" e município de: ");
+		builder.append(getClubeFutebol().getMunicipio()  + "-" + getClubeFutebol().getEstado() + ".");
+		builder.append("\n\nContinue buscando seu sonho, mostrando seu talento e evoluindo cada vez mais!");
 		return builder.toString();
 	}
 	
