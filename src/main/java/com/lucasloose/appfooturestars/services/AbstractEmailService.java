@@ -22,7 +22,7 @@ public abstract class AbstractEmailService implements EmailService {
 		SimpleMailMessage sm = new SimpleMailMessage();
 		sm.setTo(listaObservacao.getJogadores().get(listaObservacao.getJogadores().size()-1).getEmail());
 		sm.setFrom(sender);
-		sm.setSubject("Parabéns! Você Está na Lista de Observação do Clube " + listaObservacao.getClubeFutebol().getNome());
+		sm.setSubject("App FootureStars - Parabéns! Você Está na Lista de Observação do Clube " + listaObservacao.getClubeFutebol().getNome());
 		sm.setSentDate(new Date(System.currentTimeMillis()));
 		sm.setText(listaObservacao.toString());
 		return sm;

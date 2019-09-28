@@ -84,8 +84,10 @@ public class ListaObservacaoService {
 	@Transactional
 	public ListaObservacao insert(ListaObservacao listaObservacao) {
 		listaObservacao.setId(null);
-		listaObservacao.setClubeFutebol(clubeFutebolRepository.findOne(listaObservacao.getClubeFutebol().getId()));		
-		System.out.println(listaObservacao);
+		if (listaObservacao.getClubeFutebol() != null) {
+			listaObservacao.setClubeFutebol(clubeFutebolRepository.findOne(listaObservacao.getClubeFutebol().getId()));		
+			this.emailService.sendOrderConfirmationEmail(listaObservacao);
+		}
 		return listaObservacaoRepository.save(listaObservacao);
 	}
 	
@@ -93,8 +95,10 @@ public class ListaObservacaoService {
 		ListaObservacao newListaObservacao = this.find(listaObservacao.getId());
 		this.updateData(newListaObservacao, listaObservacao);
 //		newListaObservacao.setClubeFutebol(clubeFutebolRepository.findOne(listaObservacao.getClubeFutebol().getId()));
-		System.out.println(newListaObservacao);
-		this.emailService.sendOrderConfirmationEmail(newListaObservacao);
+//		System.out.println(newListaObservacao);
+		if (newListaObservacao.getClubeFutebol() != null) {
+			this.emailService.sendOrderConfirmationEmail(newListaObservacao);
+		}
 		return listaObservacaoRepository.save(newListaObservacao);
 	}
 

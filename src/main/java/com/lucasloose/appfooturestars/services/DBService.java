@@ -116,7 +116,7 @@ public class DBService {
 		
 		Jogador jogador1 = new Jogador(null, "JOGADOR DANI", "teste@gmailc.ccc");
 		Jogador jogador2 = new Jogador(null, "JOGADOR LUCAS", "lucas@gmailc.com");
-		Jogador jogador3 = new Jogador(null, "JOGADOR XXXXXXX", "aaa@teste.com");
+		Jogador jogador3 = new Jogador(null, "DANI", "footure.stars@gmail.com");
 		
 //		mod1.getModalidadeJogadores().addAll(Arrays.asList(jogador1, jogador2, jogador3));
 //		mod2.getModalidadeJogadores().addAll(Arrays.asList(jogador1));
