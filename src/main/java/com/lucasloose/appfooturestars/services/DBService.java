@@ -151,10 +151,10 @@ public class DBService {
 		jogadorLanceRepository.save(Arrays.asList(lance1, lance2, lance3, lance4));
 		
 		ListaObservacao lista1 = new ListaObservacao(null, clube1, null);
-		ListaObservacao lista2 = new ListaObservacao(null, null, emp1);
+//		ListaObservacao lista2 = new ListaObservacao(null, null, emp1);
 		lista1.getJogadores().addAll(Arrays.asList(jogador1, jogador2));
-		lista2.getJogadores().addAll(Arrays.asList(jogador2, jogador3));
-		listaObservacaoRepository.save(Arrays.asList(lista1, lista2));
+//		lista2.getJogadores().addAll(Arrays.asList(jogador2, jogador3));
+		listaObservacaoRepository.save(Arrays.asList(lista1));
 	}
 	
 }

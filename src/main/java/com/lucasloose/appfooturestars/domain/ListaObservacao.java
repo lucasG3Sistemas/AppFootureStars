@@ -120,4 +120,25 @@ public class ListaObservacao implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Clube Futebol: ");
+		builder.append(getClubeFutebol().getNome());
+		builder.append(", Modalidade: ");
+		builder.append(getClubeFutebol().getModalidades().get(0).getDescricao());
+		builder.append(", Profissionalização: ");
+		builder.append(getClubeFutebol().getProfissionalizacao()==1 ? "Clube Profissional" : "Clube Amador");
+		builder.append(", País: ");
+		builder.append(getClubeFutebol().getPais());
+		builder.append(", Estado: ");
+		builder.append(getClubeFutebol().getEstado());
+		builder.append(", Município: ");
+		builder.append(getClubeFutebol().getMunicipio());
+		builder.append(", E-mail=");
+		builder.append(getClubeFutebol().getEmail());
+		
+		return builder.toString();
+	}
+	
 }

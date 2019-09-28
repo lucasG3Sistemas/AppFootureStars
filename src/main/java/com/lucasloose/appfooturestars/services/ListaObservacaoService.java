@@ -14,6 +14,7 @@ import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.domain.ListaObservacao;
 import com.lucasloose.appfooturestars.dto.ListaObservacaoDTO;
 import com.lucasloose.appfooturestars.dto.ListaObservacaoNewDTO;
+import com.lucasloose.appfooturestars.repositories.ClubeFutebolRepository;
 import com.lucasloose.appfooturestars.repositories.JogadorRepository;
 import com.lucasloose.appfooturestars.repositories.ListaObservacaoRepository;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
@@ -24,6 +25,9 @@ public class ListaObservacaoService {
 
 	@Autowired
 	private ListaObservacaoRepository listaObservacaoRepository;
+	
+	@Autowired
+	private ClubeFutebolRepository clubeFutebolRepository;
 	
 	@Autowired
 	private JogadorRepository jogadorRepository;
@@ -50,10 +54,10 @@ public class ListaObservacaoService {
 	public ListaObservacao fromDTO(ListaObservacaoDTO listaObservacaoDTO) {
 //		ClubeFutebol clubeFutebol = new ClubeFutebol(listaObservacaoDTO.getIdClubeFutebol());
 //		Empresario empresario = new Empresario(listaObservacaoDTO.getIdEmpresario());
-		Jogador jogador = new Jogador(listaObservacaoDTO.getIdJogador(), "");
+		Jogador jogador = jogadorRepository.findOne(listaObservacaoDTO.getIdJogador());
 		ListaObservacao listaObservacao = new ListaObservacao(listaObservacaoDTO.getId());
 		listaObservacao.getJogadores().add(jogador);
-	
+
 		return listaObservacao;
 	}
 	
@@ -67,7 +71,7 @@ public class ListaObservacaoService {
 		if (listaObservacaoNewDTO.getIdEmpresario() != null) {
 			empresario = new Empresario(listaObservacaoNewDTO.getIdEmpresario());
 		}
-		Jogador jogador = new Jogador(listaObservacaoNewDTO.getIdJogador(), "");
+		Jogador jogador = jogadorRepository.findOne(listaObservacaoNewDTO.getIdJogador());
 		ListaObservacao listaObservacao = new ListaObservacao(null, clubeFutebol, empresario);
 		listaObservacao.getJogadores().add(jogador);
 		
@@ -77,15 +81,19 @@ public class ListaObservacaoService {
 	@Transactional
 	public ListaObservacao insert(ListaObservacao listaObservacao) {
 		listaObservacao.setId(null);
+		listaObservacao.setClubeFutebol(clubeFutebolRepository.findOne(listaObservacao.getClubeFutebol().getId()));		
+		System.out.println(listaObservacao);
 		return listaObservacaoRepository.save(listaObservacao);
 	}
 	
 	public ListaObservacao update(ListaObservacao listaObservacao) {
 		ListaObservacao newListaObservacao = this.find(listaObservacao.getId());
 		this.updateData(newListaObservacao, listaObservacao);
+//		newListaObservacao.setClubeFutebol(clubeFutebolRepository.findOne(listaObservacao.getClubeFutebol().getId()));
+		System.out.println(newListaObservacao);
 		return listaObservacaoRepository.save(newListaObservacao);
 	}
-	
+
 	private void updateData(ListaObservacao newListaObservacao, ListaObservacao listaObservacao) {
 		newListaObservacao.setClubeFutebol(newListaObservacao.getClubeFutebol());
 		newListaObservacao.setEmpresario(newListaObservacao.getEmpresario());

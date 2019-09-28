@@ -430,4 +430,44 @@ public class Jogador implements Serializable {
 		return true;
 	}
 
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("Nome Jogador: ");
+//		builder.append(nome);
+//		builder.append(", CPF: ");
+//		builder.append(cpf);
+//		builder.append(", Data Nascimento: ");
+//		builder.append(data_nasc);
+//		builder.append(", Nacionalidade: ");
+//		builder.append(nacionalidade);
+//		builder.append(", Estado Nascimento: ");
+//		builder.append(estado_nasc);
+//		builder.append(", Município Nascimento: ");
+//		builder.append(municipio_nasc);
+//		builder.append(", Sexo: ");
+//		builder.append(sexo);
+//		builder.append(", Altura: ");
+//		builder.append(altura);
+//		builder.append(", Peso: ");
+//		builder.append(peso);
+//		builder.append(", Profissionalização: ");
+//		builder.append(profissionalizacao);
+//		builder.append(", Modalidade: ");
+//		builder.append(getModalidade().getDescricao());
+//		builder.append(", Posição Principal: ");
+//		builder.append(getPosicoes().get(0).getDescricao());
+//		builder.append(", Perna Preferida: ");
+//		builder.append(perna_preferida);
+//		builder.append(", Fone: ");
+//		builder.append(prefixo_fone);
+//		builder.append(" (");
+//		builder.append(ddd_fone);
+//		builder.append(") ");
+//		builder.append(fone);
+//		builder.append(", E-mail: ");
+//		builder.append(email);
+//		return builder.toString();
+//	}
+
 }

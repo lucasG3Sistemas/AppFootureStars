@@ -83,6 +83,7 @@ public class ClubeFutebolService {
 //		jogador = jogadorRepository.save(jogador);
 //		outroRepository.save(obj.getOUTRO());
 //		return obj;
+		System.out.println(clubeFutebol);
 		return clubeFutebolRepository.save(clubeFutebol);
 	}
 	
