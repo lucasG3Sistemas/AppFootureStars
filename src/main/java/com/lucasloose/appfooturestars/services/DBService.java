@@ -16,6 +16,7 @@ import com.lucasloose.appfooturestars.domain.ListaObservacao;
 import com.lucasloose.appfooturestars.domain.Modalidade;
 import com.lucasloose.appfooturestars.domain.ModalidadePosicao;
 import com.lucasloose.appfooturestars.domain.Usuario;
+import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.domain.enums.TipoUsuario;
 import com.lucasloose.appfooturestars.repositories.ClubeFutebolRepository;
 import com.lucasloose.appfooturestars.repositories.EmpresarioRepository;
@@ -99,6 +100,7 @@ public class DBService {
 		modPos10.getModalidades().addAll(Arrays.asList(mod2));
 		
 		Usuario usu1 = new Usuario("lucas", bCryptPasswordEncoder.encode("123"), "LUCAS", TipoUsuario.JOGADORFUTEBOL);
+		usu1.addPerfil(Perfil.ADMIN);
 		usuarioRepository.save(Arrays.asList(usu1));
 		
 		ClubeFutebol clube1 = new ClubeFutebol(null, "Gremio", 1, "12312312", "Brasil", "RS", "Rio Grande do Sul", "gremio@gg", "GREMIOOO");

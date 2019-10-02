@@ -1,12 +1,19 @@
 package com.lucasloose.appfooturestars.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.domain.enums.TipoUsuario;
 
 @Entity
@@ -38,9 +45,13 @@ public class Usuario implements Serializable {
 	@OneToOne(mappedBy="usuario")
 	private Jogador jogador;
 	
+	@ElementCollection(fetch=FetchType.EAGER)
+	@CollectionTable(name="PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
+	
 	
 	public Usuario() {
-		
+		addPerfil(Perfil.ADMIN);
 	}
 	
 	public Usuario(String login, String senha, String nome, TipoUsuario tipoUsuario) {
@@ -52,6 +63,7 @@ public class Usuario implements Serializable {
 //		this.clubeFutebol = clubeFutebol;
 //		this.empresario = empresario;
 //		this.jogador = jogador;
+		addPerfil(Perfil.ADMIN);
 	}
 	
 	public Usuario(String login, String senha, String nome, TipoUsuario tipoUsuario, ClubeFutebol clubeFutebol,
@@ -64,6 +76,7 @@ public class Usuario implements Serializable {
 		this.clubeFutebol = clubeFutebol;
 		this.empresario = empresario;
 		this.jogador = jogador;
+		addPerfil(Perfil.ADMIN);
 	}
 	
 	public Usuario (String login) {
@@ -127,6 +140,14 @@ public class Usuario implements Serializable {
 		this.jogador = jogador;
 	}
 
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
+	}
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
