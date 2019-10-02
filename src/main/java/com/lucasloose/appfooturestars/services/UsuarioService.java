@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lucasloose.appfooturestars.domain.Usuario;
@@ -16,6 +17,9 @@ import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundExceptio
 @Service
 public class UsuarioService {
 
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
@@ -31,7 +35,7 @@ public class UsuarioService {
 	}
 	
 	public Usuario fromDTO(UsuarioNewDTO usuarioNewDTO) {
-		Usuario usuario = new Usuario(usuarioNewDTO.getLogin(), usuarioNewDTO.getSenha(), usuarioNewDTO.getNome(), TipoUsuario.toEnum(usuarioNewDTO.getTipoUsuario()));		
+		Usuario usuario = new Usuario(usuarioNewDTO.getLogin(), bCryptPasswordEncoder.encode(usuarioNewDTO.getSenha()), usuarioNewDTO.getNome(), TipoUsuario.toEnum(usuarioNewDTO.getTipoUsuario()));		
 		return usuario;
 	}
 	

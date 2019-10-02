@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lucasloose.appfooturestars.domain.ClubeFutebol;
@@ -29,7 +30,9 @@ import com.lucasloose.appfooturestars.repositories.UsuarioRepository;
 @Service
 public class DBService {
 
-
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@Autowired
 	private ModalidadeRepository modalidadeRepository;
 
@@ -95,7 +98,7 @@ public class DBService {
 		modPos9.getModalidades().addAll(Arrays.asList(mod2));
 		modPos10.getModalidades().addAll(Arrays.asList(mod2));
 		
-		Usuario usu1 = new Usuario("lucas", "123", "LUCAS", TipoUsuario.JOGADORFUTEBOL);
+		Usuario usu1 = new Usuario("lucas", bCryptPasswordEncoder.encode("123"), "LUCAS", TipoUsuario.JOGADORFUTEBOL);
 		usuarioRepository.save(Arrays.asList(usu1));
 		
 		ClubeFutebol clube1 = new ClubeFutebol(null, "Gremio", 1, "12312312", "Brasil", "RS", "Rio Grande do Sul", "gremio@gg", "GREMIOOO");
