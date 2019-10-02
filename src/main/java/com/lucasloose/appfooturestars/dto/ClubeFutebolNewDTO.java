@@ -36,7 +36,7 @@ public class ClubeFutebolNewDTO  implements Serializable {
 	private String municipio;
 	
 	@NotEmpty(message = "Campo obrigatório")
-	@Email
+	@Email(message = "E-mail inválido")
 	private String email;
 	
 	private String complemento;

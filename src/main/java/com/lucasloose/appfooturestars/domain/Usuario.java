@@ -3,8 +3,6 @@ package com.lucasloose.appfooturestars.domain;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -18,7 +16,9 @@ public class Usuario implements Serializable {
 	@Id
 	private String login;
 	
+	@JsonIgnore
 	private String senha;
+	
 	private String nome;
 	private Integer tipoUsuario;
 	

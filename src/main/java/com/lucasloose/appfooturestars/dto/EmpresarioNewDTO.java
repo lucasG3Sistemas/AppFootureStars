@@ -42,7 +42,7 @@ public class EmpresarioNewDTO  implements Serializable {
 	private Integer fone;
 	
 	@NotEmpty(message = "Campo obrigatório")
-	@Email
+	@Email(message = "E-mail inválido")
 	private String email;
 	
 	private String complemento;
