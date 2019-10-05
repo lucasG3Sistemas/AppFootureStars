@@ -25,7 +25,7 @@ public class ClubeFutebol implements Serializable {
 	private Integer id;
 	
 	private String nome;
-	private byte foto;
+	private String imageUrl;
 	
 //	@JsonManagedReference
 	@ManyToMany
@@ -73,14 +73,12 @@ public class ClubeFutebol implements Serializable {
 	}
 
 	public ClubeFutebol(Integer id, String nome, 
-			byte foto,
 //			Modalidade modalidade,
 			Integer profissionalizacao,
 		String registro_cbf, String pais, String estado, String municipio, String email, String complemento, Usuario usuario) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.foto = foto;
 //		this.modalidade = modalidade;
 		this.profissionalizacao = profissionalizacao;
 		this.registro_cbf = registro_cbf;
@@ -132,12 +130,12 @@ public class ClubeFutebol implements Serializable {
 		this.nome = nome;
 	}
 
-	public byte getFoto() {
-		return foto;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setFoto(byte foto) {
-		this.foto = foto;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public List<Modalidade> getModalidades() {

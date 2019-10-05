@@ -19,8 +19,6 @@ public class JogadorDTO  implements Serializable {
 	@NotEmpty(message = "Campo obrigatório")
 	private String nome;
 	
-	private byte foto;
-	
 	@NotEmpty(message = "Campo obrigatório")
 	@CPF
 	private String cpf;
@@ -93,7 +91,6 @@ public class JogadorDTO  implements Serializable {
 	public JogadorDTO(Jogador jogador) {
 		this.id = jogador.getId();
 		this.nome = jogador.getNome();
-		this.foto = jogador.getFoto();
 		this.cpf = jogador.getCpf();
 		this.data_nasc = jogador.getData_nasc();
 		this.nacionalidade = jogador.getNacionalidade();
@@ -127,14 +124,6 @@ public class JogadorDTO  implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public byte getFoto() {
-		return foto;
-	}
-
-	public void setFoto(byte foto) {
-		this.foto = foto;
 	}
 
 	public String getCpf() {

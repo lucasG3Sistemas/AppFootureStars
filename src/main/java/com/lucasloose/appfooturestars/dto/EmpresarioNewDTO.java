@@ -17,8 +17,6 @@ public class EmpresarioNewDTO  implements Serializable {
 	@NotEmpty(message = "Campo obrigatório")
 	private String nome;
 	
-	private byte foto;
-	
 	@NotEmpty(message = "Campo obrigatório")
 	@CPF
 	private String cpf;
@@ -61,14 +59,6 @@ public class EmpresarioNewDTO  implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public byte getFoto() {
-		return foto;
-	}
-
-	public void setFoto(byte foto) {
-		this.foto = foto;
 	}
 
 	public String getCpf() {

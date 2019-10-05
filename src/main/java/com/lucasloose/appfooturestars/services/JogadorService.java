@@ -23,6 +23,8 @@ import com.lucasloose.appfooturestars.dto.JogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
 import com.lucasloose.appfooturestars.repositories.JogadorRepository;
 import com.lucasloose.appfooturestars.repositories.ModalidadePosicaoRepository;
+import com.lucasloose.appfooturestars.security.UserSS;
+import com.lucasloose.appfooturestars.services.exceptions.AuthorizationException;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
@@ -80,7 +82,7 @@ public class JogadorService {
 		ClubeFutebol clube = new ClubeFutebol(jogadorDTO.getIdClubeFutebol());
 		Empresario empresario = new Empresario(jogadorDTO.getIdEmpresario());
 		Usuario usuario = new Usuario(jogadorDTO.getIdUsuario());
-		Jogador jogador = new Jogador(jogadorDTO.getId(), jogadorDTO.getNome(), jogadorDTO.getFoto(), jogadorDTO.getCpf(), null,
+		Jogador jogador = new Jogador(jogadorDTO.getId(), jogadorDTO.getNome(), jogadorDTO.getCpf(), null,
 				jogadorDTO.getNacionalidade(), jogadorDTO.getEstado_nasc(), jogadorDTO.getMunicipio_nasc(), jogadorDTO.getSexo(), jogadorDTO.getAltura(), jogadorDTO.getPeso(), jogadorDTO.getProfissionalizacao(),
 				jogadorDTO.getCodigo_cbf(), modalidade, jogadorDTO.getPerna_preferida(), jogadorDTO.getPrefixo_fone(), jogadorDTO.getDdd_fone(), jogadorDTO.getFone(),
 				jogadorDTO.getEmail(), jogadorDTO.getComplemento(), clube, empresario, usuario);
@@ -107,7 +109,7 @@ public class JogadorService {
 		ClubeFutebol clube = new ClubeFutebol(jogadorNewDTO.getIdClubeFutebol());
 		Empresario empresario = new Empresario(jogadorNewDTO.getIdEmpresario());
 		Usuario usuario = new Usuario(jogadorNewDTO.getIdUsuario());
-		Jogador jogador = new Jogador(null, jogadorNewDTO.getNome(), jogadorNewDTO.getFoto(), jogadorNewDTO.getCpf(), null,
+		Jogador jogador = new Jogador(null, jogadorNewDTO.getNome(), jogadorNewDTO.getCpf(), null,
 				jogadorNewDTO.getNacionalidade(), jogadorNewDTO.getEstado_nasc(), jogadorNewDTO.getMunicipio_nasc(), jogadorNewDTO.getSexo(), jogadorNewDTO.getAltura(), jogadorNewDTO.getPeso(), jogadorNewDTO.getProfissionalizacao(),
 				jogadorNewDTO.getCodigo_cbf(), modalidade, jogadorNewDTO.getPerna_preferida(), jogadorNewDTO.getPrefixo_fone(), jogadorNewDTO.getDdd_fone(), jogadorNewDTO.getFone(),
 				jogadorNewDTO.getEmail(), jogadorNewDTO.getComplemento(), clube, empresario, usuario);
@@ -153,7 +155,6 @@ public class JogadorService {
 	
 	private void updateData(Jogador newJogador, Jogador jogador) {
 		newJogador.setNome(jogador.getNome());
-		newJogador.setFoto(jogador.getFoto());
 		newJogador.setCpf(jogador.getCpf() != null ? jogador.getCpf() : newJogador.getCpf());
 		newJogador.setData_nasc(jogador.getData_nasc());
 		newJogador.setNacionalidade(jogador.getNacionalidade());
@@ -192,7 +193,19 @@ public class JogadorService {
 	}
 
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+		
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		URI uri = s3Service.uploadFile(multipartFile);
+
+		Jogador jogador = jogadorRepository.findOne(user.getId());
+		jogador.setImageUrl(uri.toString());
+		jogadorRepository.save(jogador);
+
+		return uri;
 	}
 	
 }

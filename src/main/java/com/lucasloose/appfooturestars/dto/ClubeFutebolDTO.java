@@ -17,8 +17,6 @@ public class ClubeFutebolDTO  implements Serializable {
 	@NotEmpty(message = "Campo obrigatório")
 	private String nome;
 	
-	private byte foto;
-	
 	@NotEmpty(message = "Campo obrigatório")
 	private Integer idModalidade1;
 	
@@ -54,7 +52,6 @@ public class ClubeFutebolDTO  implements Serializable {
 	public ClubeFutebolDTO(ClubeFutebol clubeFutebol) {
 		this.id = clubeFutebol.getId();
 		this.nome = clubeFutebol.getNome();
-		this.foto = clubeFutebol.getFoto();
 		this.profissionalizacao = clubeFutebol.getProfissionalizacao();
 		this.registro_cbf = clubeFutebol.getRegistro_cbf();
 		this.pais = clubeFutebol.getPais();
@@ -79,14 +76,6 @@ public class ClubeFutebolDTO  implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public byte getFoto() {
-		return foto;
-	}
-
-	public void setFoto(byte foto) {
-		this.foto = foto;
 	}
 
 	public Integer getIdModalidade1() {

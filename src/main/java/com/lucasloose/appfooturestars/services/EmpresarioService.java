@@ -14,6 +14,8 @@ import com.lucasloose.appfooturestars.domain.Usuario;
 import com.lucasloose.appfooturestars.dto.EmpresarioDTO;
 import com.lucasloose.appfooturestars.dto.EmpresarioNewDTO;
 import com.lucasloose.appfooturestars.repositories.EmpresarioRepository;
+import com.lucasloose.appfooturestars.security.UserSS;
+import com.lucasloose.appfooturestars.services.exceptions.AuthorizationException;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
@@ -39,7 +41,7 @@ public class EmpresarioService {
 	public Empresario fromDTO(EmpresarioDTO empresarioDTO) {
 		//passei a data como null
 		Usuario usuario = new Usuario(empresarioDTO.getIdUsuario());
-		Empresario empresario = new Empresario(null, empresarioDTO.getNome(), empresarioDTO.getFoto(), empresarioDTO.getCpf(), null,
+		Empresario empresario = new Empresario(null, empresarioDTO.getNome(), empresarioDTO.getCpf(), null,
 				empresarioDTO.getNacionalidade(), empresarioDTO.getEstado_nasc(), empresarioDTO.getMunicipio_nasc(), empresarioDTO.getSexo(),
 				empresarioDTO.getPrefixo_fone(), empresarioDTO.getDdd_fone(), empresarioDTO.getFone(),
 				empresarioDTO.getEmail(), empresarioDTO.getComplemento(), usuario);
@@ -50,7 +52,7 @@ public class EmpresarioService {
 	public Empresario fromDTO(EmpresarioNewDTO empresarioNewDTO) {
 		//passei a data como null
 		Usuario usuario = new Usuario(empresarioNewDTO.getIdUsuario());
-		Empresario empresario = new Empresario(null, empresarioNewDTO.getNome(), empresarioNewDTO.getFoto(), empresarioNewDTO.getCpf(), null,
+		Empresario empresario = new Empresario(null, empresarioNewDTO.getNome(), empresarioNewDTO.getCpf(), null,
 				empresarioNewDTO.getNacionalidade(), empresarioNewDTO.getEstado_nasc(), empresarioNewDTO.getMunicipio_nasc(), empresarioNewDTO.getSexo(),
 				empresarioNewDTO.getPrefixo_fone(), empresarioNewDTO.getDdd_fone(), empresarioNewDTO.getFone(),
 				empresarioNewDTO.getEmail(), empresarioNewDTO.getComplemento(), usuario);
@@ -81,7 +83,6 @@ public class EmpresarioService {
 	
 	private void updateData(Empresario newEmpresario, Empresario empresario) {
 		newEmpresario.setNome(empresario.getNome());
-		newEmpresario.setFoto(empresario.getFoto());
 		newEmpresario.setCpf(empresario.getCpf() != null ? empresario.getCpf() : newEmpresario.getCpf());
 		newEmpresario.setData_nasc(empresario.getData_nasc());
 		newEmpresario.setNacionalidade(empresario.getNacionalidade());
@@ -97,7 +98,19 @@ public class EmpresarioService {
 	}
 	
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+		
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		URI uri = s3Service.uploadFile(multipartFile);
+
+		Empresario empresario = empresarioRepository.findOne(user.getId());
+		empresario.setImageUrl(uri.toString());
+		empresarioRepository.save(empresario);
+
+		return uri;
 	}
 	
 }

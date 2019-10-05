@@ -48,7 +48,7 @@ public class HistoricoContratacaoService {
 	public HistoricoContratacao fromDTO(HistoricoContratacaoNewDTO historicoContratacaoNewDTO) {
 		Jogador jogador = new Jogador(historicoContratacaoNewDTO.getIdJogador(), "");
 		ClubeFutebol clubeFutebol = new ClubeFutebol(historicoContratacaoNewDTO.getIdClubeFutebol());
-		HistoricoContratacao historicoContratacao = new HistoricoContratacao(null, jogador, clubeFutebol, historicoContratacaoNewDTO.getFoto(), new Date(), historicoContratacaoNewDTO.getMsg_clube(), historicoContratacaoNewDTO.getMsg_jogador(), historicoContratacaoNewDTO.getComplemento());
+		HistoricoContratacao historicoContratacao = new HistoricoContratacao(null, jogador, clubeFutebol, new Date(), historicoContratacaoNewDTO.getMsg_clube(), historicoContratacaoNewDTO.getMsg_jogador(), historicoContratacaoNewDTO.getComplemento());
 		return historicoContratacao;
 	}
 	
@@ -60,8 +60,15 @@ public class HistoricoContratacaoService {
 	}
 	
 	
-	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+public URI uploadProfilePicture(MultipartFile multipartFile) {
+		
+		URI uri = s3Service.uploadFile(multipartFile);
+
+//		HistoricoContratacao hist = historicoContratacaoRepository.findOne(id);
+//		hist.setImageUrl(uri.toString());
+//		historicoContratacaoRepository.save(hist);
+
+		return uri;
 	}
 	
 }

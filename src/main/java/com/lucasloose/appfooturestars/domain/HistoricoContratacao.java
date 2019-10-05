@@ -31,7 +31,7 @@ public class HistoricoContratacao implements Serializable {
 	@JoinColumn(name = "id_clube_futebol")
 	private ClubeFutebol clubeFutebol;
 	
-	private byte foto;
+	private String imageUrl;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date data_contratacao;
@@ -47,13 +47,12 @@ public class HistoricoContratacao implements Serializable {
 
 
 	public HistoricoContratacao(Integer id, 
-			Jogador jogador, ClubeFutebol clubeFutebol, byte foto, Date data_contratacao, String msg_clube, String msg_jogador,
+			Jogador jogador, ClubeFutebol clubeFutebol, Date data_contratacao, String msg_clube, String msg_jogador,
 			String complemento) {
 		super();
 		this.id = id;
 		this.jogador = jogador;
 		this.clubeFutebol = clubeFutebol;
-		this.foto = foto;
 		this.data_contratacao = data_contratacao;
 		this.msg_clube = msg_clube;
 		this.msg_jogador = msg_jogador;
@@ -96,12 +95,12 @@ public class HistoricoContratacao implements Serializable {
 		this.clubeFutebol = clubeFutebol;
 	}
 
-	public byte getFoto() {
-		return foto;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setFoto(byte foto) {
-		this.foto = foto;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public Date getData_contratacao() {

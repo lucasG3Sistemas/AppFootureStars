@@ -31,7 +31,7 @@ public class Jogador implements Serializable {
 	//DADOS PESSOAIS
 	private Integer id;
 	private String nome;
-	private byte foto;
+	private String imageUrl;
 	private String cpf;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
@@ -114,7 +114,7 @@ public class Jogador implements Serializable {
 		
 	}
 	 
-	public Jogador(Integer id, String nome, byte foto, String cpf, Date data_nasc, String nacionalidade,
+	public Jogador(Integer id, String nome, String cpf, Date data_nasc, String nacionalidade,
 			String estado_nasc, String municipio_nasc, Integer sexo, Double altura, Double peso, Integer profissionalizacao,
 			String codigo_cbf, Modalidade modalidade, Integer perna_preferida, Integer prefixo_fone, Integer ddd_fone, Integer fone,
 			String email, String complemento, ClubeFutebol clubeFutebol, Empresario empresario, Usuario usuario
@@ -122,7 +122,6 @@ public class Jogador implements Serializable {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.foto = foto;
 		this.cpf = cpf;
 		this.data_nasc = data_nasc;
 		this.nacionalidade = nacionalidade;
@@ -208,12 +207,12 @@ public class Jogador implements Serializable {
 		this.nome = nome;
 	}
 
-	public byte getFoto() {
-		return foto;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setFoto(byte foto) {
-		this.foto = foto;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	public String getCpf() {

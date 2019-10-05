@@ -14,8 +14,6 @@ public class ClubeFutebolNewDTO  implements Serializable {
 	@NotEmpty(message = "Campo obrigatório")
 	private String nome;
 	
-	private byte foto;
-	
 	@NotEmpty(message = "Campo obrigatório")
 	private Integer idModalidade1;
 	
@@ -55,14 +53,6 @@ public class ClubeFutebolNewDTO  implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public byte getFoto() {
-		return foto;
-	}
-
-	public void setFoto(byte foto) {
-		this.foto = foto;
 	}
 
 	public Integer getIdModalidade1() {

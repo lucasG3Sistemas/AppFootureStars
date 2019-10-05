@@ -19,6 +19,8 @@ import com.lucasloose.appfooturestars.domain.Usuario;
 import com.lucasloose.appfooturestars.dto.ClubeFutebolDTO;
 import com.lucasloose.appfooturestars.dto.ClubeFutebolNewDTO;
 import com.lucasloose.appfooturestars.repositories.ClubeFutebolRepository;
+import com.lucasloose.appfooturestars.security.UserSS;
+import com.lucasloose.appfooturestars.services.exceptions.AuthorizationException;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
@@ -57,7 +59,7 @@ public class ClubeFutebolService {
 	
 	public ClubeFutebol fromDTO(ClubeFutebolDTO clubeFutebolDTO) {
 		Usuario usuario = new Usuario(clubeFutebolDTO.getIdUsuario());
-		ClubeFutebol clubeFutebol = new ClubeFutebol(clubeFutebolDTO.getId(), clubeFutebolDTO.getNome(), clubeFutebolDTO.getFoto(), clubeFutebolDTO.getProfissionalizacao(), clubeFutebolDTO.getRegistro_cbf(), clubeFutebolDTO.getPais(), clubeFutebolDTO.getEstado(), clubeFutebolDTO.getMunicipio(), clubeFutebolDTO.getEmail(), clubeFutebolDTO.getComplemento(), usuario);
+		ClubeFutebol clubeFutebol = new ClubeFutebol(clubeFutebolDTO.getId(), clubeFutebolDTO.getNome(), clubeFutebolDTO.getProfissionalizacao(), clubeFutebolDTO.getRegistro_cbf(), clubeFutebolDTO.getPais(), clubeFutebolDTO.getEstado(), clubeFutebolDTO.getMunicipio(), clubeFutebolDTO.getEmail(), clubeFutebolDTO.getComplemento(), usuario);
 		Modalidade mod1 = new Modalidade(clubeFutebolDTO.getIdModalidade1(), "");
 		clubeFutebol.getModalidades().add(mod1);
 		if (clubeFutebolDTO.getIdModalidade2() != null) {
@@ -70,7 +72,7 @@ public class ClubeFutebolService {
 	
 	public ClubeFutebol fromDTO(ClubeFutebolNewDTO clubeFutebolNewDTO) {
 		Usuario usuario = new Usuario(clubeFutebolNewDTO.getIdUsuario());
-		ClubeFutebol clubeFutebol = new ClubeFutebol(null, clubeFutebolNewDTO.getNome(), clubeFutebolNewDTO.getFoto(),
+		ClubeFutebol clubeFutebol = new ClubeFutebol(null, clubeFutebolNewDTO.getNome(),
 				clubeFutebolNewDTO.getProfissionalizacao(), clubeFutebolNewDTO.getRegistro_cbf(), clubeFutebolNewDTO.getPais(),
 				clubeFutebolNewDTO.getEstado(), clubeFutebolNewDTO.getMunicipio(), clubeFutebolNewDTO.getEmail(), clubeFutebolNewDTO.getComplemento(), usuario);
 		Modalidade mod1 = new Modalidade(clubeFutebolNewDTO.getIdModalidade1(), "");
@@ -110,7 +112,6 @@ public class ClubeFutebolService {
 	private void updateData(ClubeFutebol newClubeFutebol, ClubeFutebol clubeFutebol) {
 				
 		newClubeFutebol.setNome(clubeFutebol.getNome() != null ? clubeFutebol.getNome() : newClubeFutebol.getNome());
-		newClubeFutebol.setFoto(clubeFutebol.getFoto());
 		newClubeFutebol.setProfissionalizacao(clubeFutebol.getProfissionalizacao() != null ? clubeFutebol.getProfissionalizacao() : newClubeFutebol.getProfissionalizacao());
 		newClubeFutebol.setRegistro_cbf(clubeFutebol.getRegistro_cbf() != null ? clubeFutebol.getRegistro_cbf() : newClubeFutebol.getRegistro_cbf());
 		newClubeFutebol.setPais(clubeFutebol.getPais() != null ? clubeFutebol.getPais() : newClubeFutebol.getPais());
@@ -128,7 +129,19 @@ public class ClubeFutebolService {
 	}
 
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		return s3Service.uploadFile(multipartFile);
+		
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		URI uri = s3Service.uploadFile(multipartFile);
+
+		ClubeFutebol clube = clubeFutebolRepository.findOne(user.getId());
+		clube.setImageUrl(uri.toString());
+		clubeFutebolRepository.save(clube);
+
+		return uri;
 	}
 	
 }

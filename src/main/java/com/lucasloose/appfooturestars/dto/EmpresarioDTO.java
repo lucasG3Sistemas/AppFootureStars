@@ -20,8 +20,6 @@ public class EmpresarioDTO  implements Serializable {
 	@NotEmpty(message = "Campo obrigatório")
 	private String nome;
 	
-	private byte foto;
-	
 	@NotEmpty(message = "Campo obrigatório")
 	@CPF
 	private String cpf;
@@ -60,7 +58,6 @@ public class EmpresarioDTO  implements Serializable {
 	public EmpresarioDTO(Empresario empresario) {
 		this.id = empresario.getId();
 		this.nome = empresario.getNome();
-		this.foto = empresario.getFoto();
 		this.cpf = empresario.getCpf();
 		this.data_nasc = empresario.getData_nasc();
 		this.nacionalidade = empresario.getNacionalidade();
@@ -90,14 +87,6 @@ public class EmpresarioDTO  implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public byte getFoto() {
-		return foto;
-	}
-
-	public void setFoto(byte foto) {
-		this.foto = foto;
 	}
 
 	public String getCpf() {
