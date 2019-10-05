@@ -25,7 +25,6 @@ public class ClubeFutebol implements Serializable {
 	private Integer id;
 	
 	private String nome;
-	private String imageUrl;
 	
 //	@JsonManagedReference
 	@ManyToMany
@@ -128,14 +127,6 @@ public class ClubeFutebol implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
 	}
 
 	public List<Modalidade> getModalidades() {

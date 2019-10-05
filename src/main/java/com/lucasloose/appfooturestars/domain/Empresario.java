@@ -25,7 +25,6 @@ public class Empresario implements Serializable {
 	//DADOS PESSOAIS
 	private Integer id;
 	private String nome;
-	private String imageUrl;
 	private String cpf;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
@@ -111,14 +110,6 @@ public class Empresario implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
 	}
 
 	public String getCpf() {

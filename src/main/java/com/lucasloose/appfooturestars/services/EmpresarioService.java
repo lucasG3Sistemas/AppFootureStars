@@ -1,10 +1,12 @@
 package com.lucasloose.appfooturestars.services;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,54 +26,60 @@ public class EmpresarioService {
 
 	@Autowired
 	private EmpresarioRepository empresarioRepository;
-	
+
 	@Autowired
 	private S3Service s3Service;
-	
-	
+
+	@Autowired
+	private ImageService imageService;
+
+	@Value("${img.prefix.empresario.profile}")
+	private String prefix;
+
 	public Empresario find(Integer id) {
 		Empresario empresario = empresarioRepository.findOne(id);
 		if (empresario == null) {
-			throw new ObjectNotFoundException("Empresário não encontrado! ID: " + id
-					+ ", Tipo: " + Empresario.class.getName());
+			throw new ObjectNotFoundException(
+					"Empresário não encontrado! ID: " + id + ", Tipo: " + Empresario.class.getName());
 		}
 		return empresario;
 	}
-	
+
 	public Empresario fromDTO(EmpresarioDTO empresarioDTO) {
-		//passei a data como null
+		// passei a data como null
 		Usuario usuario = new Usuario(empresarioDTO.getIdUsuario());
 		Empresario empresario = new Empresario(null, empresarioDTO.getNome(), empresarioDTO.getCpf(), null,
-				empresarioDTO.getNacionalidade(), empresarioDTO.getEstado_nasc(), empresarioDTO.getMunicipio_nasc(), empresarioDTO.getSexo(),
-				empresarioDTO.getPrefixo_fone(), empresarioDTO.getDdd_fone(), empresarioDTO.getFone(),
-				empresarioDTO.getEmail(), empresarioDTO.getComplemento(), usuario);
-		
+				empresarioDTO.getNacionalidade(), empresarioDTO.getEstado_nasc(), empresarioDTO.getMunicipio_nasc(),
+				empresarioDTO.getSexo(), empresarioDTO.getPrefixo_fone(), empresarioDTO.getDdd_fone(),
+				empresarioDTO.getFone(), empresarioDTO.getEmail(), empresarioDTO.getComplemento(), usuario);
+
 		return empresario;
 	}
-	
+
 	public Empresario fromDTO(EmpresarioNewDTO empresarioNewDTO) {
-		//passei a data como null
+		// passei a data como null
 		Usuario usuario = new Usuario(empresarioNewDTO.getIdUsuario());
 		Empresario empresario = new Empresario(null, empresarioNewDTO.getNome(), empresarioNewDTO.getCpf(), null,
-				empresarioNewDTO.getNacionalidade(), empresarioNewDTO.getEstado_nasc(), empresarioNewDTO.getMunicipio_nasc(), empresarioNewDTO.getSexo(),
-				empresarioNewDTO.getPrefixo_fone(), empresarioNewDTO.getDdd_fone(), empresarioNewDTO.getFone(),
-				empresarioNewDTO.getEmail(), empresarioNewDTO.getComplemento(), usuario);
-		
+				empresarioNewDTO.getNacionalidade(), empresarioNewDTO.getEstado_nasc(),
+				empresarioNewDTO.getMunicipio_nasc(), empresarioNewDTO.getSexo(), empresarioNewDTO.getPrefixo_fone(),
+				empresarioNewDTO.getDdd_fone(), empresarioNewDTO.getFone(), empresarioNewDTO.getEmail(),
+				empresarioNewDTO.getComplemento(), usuario);
+
 		return empresario;
 	}
-	
+
 	@Transactional
 	public Empresario insert(Empresario empresario) {
 		empresario.setId(null);
 		return empresarioRepository.save(empresario);
 	}
-	
+
 	public Empresario update(Empresario empresario) {
 		Empresario newEmpresario = this.find(empresario.getId());
 		this.updateData(newEmpresario, empresario);
 		return empresarioRepository.save(newEmpresario);
 	}
-	
+
 	public void delete(Integer id) {
 		this.find(id);
 		try {
@@ -80,7 +88,7 @@ public class EmpresarioService {
 			throw new DataIntegrityException("Não é possível excluir um EMPRESARIO pq há entidades relacionadas");
 		}
 	}
-	
+
 	private void updateData(Empresario newEmpresario, Empresario empresario) {
 		newEmpresario.setNome(empresario.getNome());
 		newEmpresario.setCpf(empresario.getCpf() != null ? empresario.getCpf() : newEmpresario.getCpf());
@@ -96,21 +104,18 @@ public class EmpresarioService {
 		newEmpresario.setComplemento(empresario.getComplemento());
 		newEmpresario.setUsuario(empresario.getUsuario());
 	}
-	
+
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		
+
 		UserSS user = UserService.authenticated();
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado");
 		}
 
-		URI uri = s3Service.uploadFile(multipartFile);
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		String fileName = prefix + user.getId() + ".jpg";
 
-		Empresario empresario = empresarioRepository.findOne(user.getId());
-		empresario.setImageUrl(uri.toString());
-		empresarioRepository.save(empresario);
-
-		return uri;
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
-	
+
 }

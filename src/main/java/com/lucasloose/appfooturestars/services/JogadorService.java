@@ -1,11 +1,13 @@
 package com.lucasloose.appfooturestars.services;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,64 +35,71 @@ public class JogadorService {
 
 	@Autowired
 	private JogadorRepository jogadorRepository;
-	
+
 	@Autowired
 	private ModalidadePosicaoRepository posicaoRepository;
-	
+
 	@Autowired
 	private S3Service s3Service;
-	
-	
-	public Page<Jogador> search(String nome, List<Integer> idsPosicoes, Integer page, Integer linesPerPage, String orderBy, String direction) {
+
+	@Autowired
+	private ImageService imageService;
+
+	@Value("${img.prefix.jogador.profile}")
+	private String prefix;
+
+	public Page<Jogador> search(String nome, List<Integer> idsPosicoes, Integer page, Integer linesPerPage,
+			String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		//busca jogadores a partir de uma posição
+		// busca jogadores a partir de uma posição
 		List<ModalidadePosicao> posicoes = posicaoRepository.findAll(idsPosicoes);
 		return jogadorRepository.findDistinctByNomeContainingAndPosicoesIn(nome, posicoes, pageRequest);
 	}
-	
+
 	public List<Jogador> findAll() {
 		List<Jogador> jogador = jogadorRepository.findAll();
 		if (jogador == null) {
-			throw new ObjectNotFoundException("Jogadores não encontrados!"
-					+ ", Tipo: " + Jogador.class.getName());
+			throw new ObjectNotFoundException("Jogadores não encontrados!" + ", Tipo: " + Jogador.class.getName());
 		}
 		return jogador;
 	}
-	
+
 	public Jogador find(Integer id) {
 //		UserSS user = UserService.authenticated();
 //		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 //			throw new AuthorizationException("Acesso negado");
 //		}
-		
+
 		Jogador jogador = jogadorRepository.findOne(id);
 		if (jogador == null) {
-			throw new ObjectNotFoundException("Jogador não encontrado! ID: " + id
-					+ ", Tipo: " + Jogador.class.getName());
+			throw new ObjectNotFoundException(
+					"Jogador não encontrado! ID: " + id + ", Tipo: " + Jogador.class.getName());
 		}
-	
+
 		return jogador;
 	}
-	
+
 	public Page<Jogador> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return jogadorRepository.findAll(pageRequest);
 	}
-	
+
 	public Jogador fromDTO(JogadorDTO jogadorDTO) {
 		Modalidade modalidade = new Modalidade(jogadorDTO.getIdModalidade(), "");
 		ClubeFutebol clube = new ClubeFutebol(jogadorDTO.getIdClubeFutebol());
 		Empresario empresario = new Empresario(jogadorDTO.getIdEmpresario());
 		Usuario usuario = new Usuario(jogadorDTO.getIdUsuario());
 		Jogador jogador = new Jogador(jogadorDTO.getId(), jogadorDTO.getNome(), jogadorDTO.getCpf(), null,
-				jogadorDTO.getNacionalidade(), jogadorDTO.getEstado_nasc(), jogadorDTO.getMunicipio_nasc(), jogadorDTO.getSexo(), jogadorDTO.getAltura(), jogadorDTO.getPeso(), jogadorDTO.getProfissionalizacao(),
-				jogadorDTO.getCodigo_cbf(), modalidade, jogadorDTO.getPerna_preferida(), jogadorDTO.getPrefixo_fone(), jogadorDTO.getDdd_fone(), jogadorDTO.getFone(),
-				jogadorDTO.getEmail(), jogadorDTO.getComplemento(), clube, empresario, usuario);
+				jogadorDTO.getNacionalidade(), jogadorDTO.getEstado_nasc(), jogadorDTO.getMunicipio_nasc(),
+				jogadorDTO.getSexo(), jogadorDTO.getAltura(), jogadorDTO.getPeso(), jogadorDTO.getProfissionalizacao(),
+				jogadorDTO.getCodigo_cbf(), modalidade, jogadorDTO.getPerna_preferida(), jogadorDTO.getPrefixo_fone(),
+				jogadorDTO.getDdd_fone(), jogadorDTO.getFone(), jogadorDTO.getEmail(), jogadorDTO.getComplemento(),
+				clube, empresario, usuario);
 //		Modalidade mod = new Modalidade(jogadorDTO.getIdModalidade(), "");
 //		jogador.getModalidades().add(mod);
 		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorDTO.getIdPosicao1(), "");
 		jogador.getPosicoes().add(pos1);
-		
+
 		if (jogadorDTO.getIdPosicao2() != null) {
 			ModalidadePosicao pos2 = new ModalidadePosicao(jogadorDTO.getIdPosicao2(), "");
 			jogador.getPosicoes().add(pos2);
@@ -99,20 +108,23 @@ public class JogadorService {
 			ModalidadePosicao pos3 = new ModalidadePosicao(jogadorDTO.getIdPosicao3(), "");
 			jogador.getPosicoes().add(pos3);
 		}
-		
+
 		return jogador;
 	}
-	
+
 	public Jogador fromDTO(JogadorNewDTO jogadorNewDTO) {
-		//passei a data como null
+		// passei a data como null
 		Modalidade modalidade = new Modalidade(jogadorNewDTO.getIdModalidade(), "");
 		ClubeFutebol clube = new ClubeFutebol(jogadorNewDTO.getIdClubeFutebol());
 		Empresario empresario = new Empresario(jogadorNewDTO.getIdEmpresario());
 		Usuario usuario = new Usuario(jogadorNewDTO.getIdUsuario());
 		Jogador jogador = new Jogador(null, jogadorNewDTO.getNome(), jogadorNewDTO.getCpf(), null,
-				jogadorNewDTO.getNacionalidade(), jogadorNewDTO.getEstado_nasc(), jogadorNewDTO.getMunicipio_nasc(), jogadorNewDTO.getSexo(), jogadorNewDTO.getAltura(), jogadorNewDTO.getPeso(), jogadorNewDTO.getProfissionalizacao(),
-				jogadorNewDTO.getCodigo_cbf(), modalidade, jogadorNewDTO.getPerna_preferida(), jogadorNewDTO.getPrefixo_fone(), jogadorNewDTO.getDdd_fone(), jogadorNewDTO.getFone(),
-				jogadorNewDTO.getEmail(), jogadorNewDTO.getComplemento(), clube, empresario, usuario);
+				jogadorNewDTO.getNacionalidade(), jogadorNewDTO.getEstado_nasc(), jogadorNewDTO.getMunicipio_nasc(),
+				jogadorNewDTO.getSexo(), jogadorNewDTO.getAltura(), jogadorNewDTO.getPeso(),
+				jogadorNewDTO.getProfissionalizacao(), jogadorNewDTO.getCodigo_cbf(), modalidade,
+				jogadorNewDTO.getPerna_preferida(), jogadorNewDTO.getPrefixo_fone(), jogadorNewDTO.getDdd_fone(),
+				jogadorNewDTO.getFone(), jogadorNewDTO.getEmail(), jogadorNewDTO.getComplemento(), clube, empresario,
+				usuario);
 //		Modalidade mod = new Modalidade(jogadorNewDTO.getIdModalidade(), "");
 //		jogador.getModalidades().add(mod);
 		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorNewDTO.getIdPosicao1(), "");
@@ -125,10 +137,10 @@ public class JogadorService {
 			ModalidadePosicao pos3 = new ModalidadePosicao(jogadorNewDTO.getIdPosicao3(), "");
 			jogador.getPosicoes().add(pos3);
 		}
-		
+
 		return jogador;
 	}
-	
+
 	@Transactional
 	public Jogador insert(Jogador jogador) {
 		jogador.setId(null);
@@ -137,13 +149,13 @@ public class JogadorService {
 //		return obj;
 		return jogadorRepository.save(jogador);
 	}
-	
+
 	public Jogador update(Jogador jogador) {
 		Jogador newJogador = this.find(jogador.getId());
 		this.updateData(newJogador, jogador);
 		return jogadorRepository.save(newJogador);
 	}
-	
+
 	public void delete(Integer id) {
 		this.find(id);
 		try {
@@ -152,7 +164,7 @@ public class JogadorService {
 			throw new DataIntegrityException("Não é possível excluir um Jogador pq há entidades relacionadas");
 		}
 	}
-	
+
 	private void updateData(Jogador newJogador, Jogador jogador) {
 		newJogador.setNome(jogador.getNome());
 		newJogador.setCpf(jogador.getCpf() != null ? jogador.getCpf() : newJogador.getCpf());
@@ -174,7 +186,7 @@ public class JogadorService {
 //		}
 		if (jogador.getPosicoes() != null) {
 			newJogador.getPosicoes().removeAll(newJogador.getPosicoes());
-			for (int i=0; i<jogador.getPosicoes().size(); i++) {
+			for (int i = 0; i < jogador.getPosicoes().size(); i++) {
 				newJogador.getPosicoes().add(jogador.getPosicoes().get(i));
 			}
 		}
@@ -183,29 +195,26 @@ public class JogadorService {
 		newJogador.setDdd_fone(jogador.getDdd_fone());
 		newJogador.setFone(jogador.getFone());
 		newJogador.setEmail(jogador.getEmail());
-		//lances
+		// lances
 		newJogador.setComplemento(jogador.getComplemento());
 		newJogador.setClubeFutebol(jogador.getClubeFutebol());
 		newJogador.setEmpresario(jogador.getEmpresario());
-		//lista observacao
-		//lista historico
+		// lista observacao
+		// lista historico
 		newJogador.setUsuario(jogador.getUsuario());
 	}
 
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
-		
+
 		UserSS user = UserService.authenticated();
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado");
 		}
 
-		URI uri = s3Service.uploadFile(multipartFile);
+		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		String fileName = prefix + user.getId() + ".jpg";
 
-		Jogador jogador = jogadorRepository.findOne(user.getId());
-		jogador.setImageUrl(uri.toString());
-		jogadorRepository.save(jogador);
-
-		return uri;
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
-	
+
 }
