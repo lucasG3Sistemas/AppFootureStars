@@ -34,6 +34,10 @@ public class HistoricoContratacaoService {
 	@Value("${img.prefix.empresario.profile}")
 	private String prefix;
 
+	@Value("${img.profile.size}")
+	private Integer size;
+	
+	
 	public List<HistoricoContratacao> findAll() {
 		List<HistoricoContratacao> historicoContratacao = historicoContratacaoRepository.findAll();
 		if (historicoContratacao == null) {
@@ -71,6 +75,8 @@ public class HistoricoContratacaoService {
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
 //		String fileName = prefix + user.getId() + ".jpg";
 		String fileName = prefix + ".jpg";
 

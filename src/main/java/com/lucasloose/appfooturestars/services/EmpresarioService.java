@@ -35,6 +35,10 @@ public class EmpresarioService {
 
 	@Value("${img.prefix.empresario.profile}")
 	private String prefix;
+	
+	@Value("${img.profile.size}")
+	private Integer size;
+	
 
 	public Empresario find(Integer id) {
 		Empresario empresario = empresarioRepository.findOne(id);
@@ -113,6 +117,8 @@ public class EmpresarioService {
 		}
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
 		String fileName = prefix + user.getId() + ".jpg";
 
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");

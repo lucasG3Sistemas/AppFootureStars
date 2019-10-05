@@ -44,6 +44,10 @@ public class JogadorService {
 
 	@Autowired
 	private ImageService imageService;
+	
+	@Value("${img.profile.size}")
+	private Integer size;
+	
 
 	@Value("${img.prefix.jogador.profile}")
 	private String prefix;
@@ -212,6 +216,8 @@ public class JogadorService {
 		}
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
 		String fileName = prefix + user.getId() + ".jpg";
 
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
