@@ -1,10 +1,13 @@
 package com.lucasloose.appfooturestars.services;
 
+import java.net.URI;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lucasloose.appfooturestars.domain.Empresario;
 import com.lucasloose.appfooturestars.domain.Usuario;
@@ -19,6 +22,9 @@ public class EmpresarioService {
 
 	@Autowired
 	private EmpresarioRepository empresarioRepository;
+	
+	@Autowired
+	private S3Service s3Service;
 	
 	
 	public Empresario find(Integer id) {
@@ -88,6 +94,10 @@ public class EmpresarioService {
 		newEmpresario.setEmail(empresario.getEmail());
 		newEmpresario.setComplemento(empresario.getComplemento());
 		newEmpresario.setUsuario(empresario.getUsuario());
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 	
 }

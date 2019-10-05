@@ -1,5 +1,6 @@
 package com.lucasloose.appfooturestars.services;
 
+import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lucasloose.appfooturestars.domain.ClubeFutebol;
 import com.lucasloose.appfooturestars.domain.HistoricoContratacao;
@@ -20,6 +22,9 @@ public class HistoricoContratacaoService {
 
 	@Autowired
 	private HistoricoContratacaoRepository historicoContratacaoRepository;
+	
+	@Autowired
+	private S3Service s3Service;
 	
 	
 	public List<HistoricoContratacao> findAll() {
@@ -52,6 +57,11 @@ public class HistoricoContratacaoService {
 		historicoContratacao.setId(null);
 		historicoContratacao.setData_contratacao(new Date());
 		return historicoContratacaoRepository.save(historicoContratacao);
+	}
+	
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 	
 }

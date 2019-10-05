@@ -1,5 +1,6 @@
 package com.lucasloose.appfooturestars.services;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.lucasloose.appfooturestars.domain.ClubeFutebol;
 import com.lucasloose.appfooturestars.domain.Empresario;
@@ -30,9 +32,11 @@ public class JogadorService {
 	@Autowired
 	private JogadorRepository jogadorRepository;
 	
-	
 	@Autowired
 	private ModalidadePosicaoRepository posicaoRepository;
+	
+	@Autowired
+	private S3Service s3Service;
 	
 	
 	public Page<Jogador> search(String nome, List<Integer> idsPosicoes, Integer page, Integer linesPerPage, String orderBy, String direction) {
@@ -185,6 +189,10 @@ public class JogadorService {
 		//lista observacao
 		//lista historico
 		newJogador.setUsuario(jogador.getUsuario());
+	}
+
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 	
 }
