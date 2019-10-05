@@ -17,16 +17,18 @@ public class UserSS implements UserDetails {
 	private Integer id;
 	private String login;
 	private String senha;
+	private Integer tipoUsuario;
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public UserSS() {
 	}
 
-	public UserSS(Integer id, String login, String senha, Set<Perfil> perfis) {
+	public UserSS(Integer id, String login, String senha, Integer tipoUsuario, Set<Perfil> perfis) {
 		super();
 		this.id = id;
 		this.login = login;
 		this.senha = senha;
+		this.tipoUsuario = tipoUsuario;
 		this.authorities = perfis.stream().map(x -> new SimpleGrantedAuthority(x.getDescricao())).collect(Collectors.toList());
 	}
 
@@ -69,6 +71,14 @@ public class UserSS implements UserDetails {
 		return true;
 	}
 	
+	public Integer getTipoUsuario() {
+		return tipoUsuario;
+	}
+
+	public void setTipoUsuario(Integer tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
+
 	public boolean hasRole(Perfil perfil) {
 		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
 	}

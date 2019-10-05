@@ -20,6 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 		Integer id = 0;
+		Integer tipoUsuario = 0;
 		Usuario usu = usuarioRepository.findByLogin(login);
 		if (usu == null) {
 			throw new UsernameNotFoundException(login);
@@ -27,12 +28,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		if (usu.getJogador() != null) {
 			id = usu.getJogador().getId();
+			tipoUsuario = 1;
 		} else if (usu.getEmpresario() != null) {
 			id = usu.getEmpresario().getId();
+			tipoUsuario = 3;
 		} else if (usu.getClubeFutebol() != null) {
 			id = usu.getClubeFutebol().getId();
+			tipoUsuario = 2;
 		} 
-		return new UserSS(id, usu.getLogin(), usu.getSenha(), usu.getPerfis());
+		return new UserSS(id, usu.getLogin(), usu.getSenha(), tipoUsuario, usu.getPerfis());
 	}
 
 }
