@@ -8,9 +8,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.lucasloose.appfooturestars.domain.Usuario;
+import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.domain.enums.TipoUsuario;
 import com.lucasloose.appfooturestars.dto.UsuarioNewDTO;
 import com.lucasloose.appfooturestars.repositories.UsuarioRepository;
+import com.lucasloose.appfooturestars.security.UserSS;
+import com.lucasloose.appfooturestars.services.exceptions.AuthorizationException;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 

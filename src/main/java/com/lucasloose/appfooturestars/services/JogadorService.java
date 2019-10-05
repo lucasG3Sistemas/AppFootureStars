@@ -17,10 +17,13 @@ import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.domain.Modalidade;
 import com.lucasloose.appfooturestars.domain.ModalidadePosicao;
 import com.lucasloose.appfooturestars.domain.Usuario;
+import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
 import com.lucasloose.appfooturestars.repositories.JogadorRepository;
 import com.lucasloose.appfooturestars.repositories.ModalidadePosicaoRepository;
+import com.lucasloose.appfooturestars.security.UserSS;
+import com.lucasloose.appfooturestars.services.exceptions.AuthorizationException;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
@@ -52,6 +55,11 @@ public class JogadorService {
 	}
 	
 	public Jogador find(Integer id) {
+//		UserSS user = UserService.authenticated();
+//		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+//			throw new AuthorizationException("Acesso negado");
+//		}
+		
 		Jogador jogador = jogadorRepository.findOne(id);
 		if (jogador == null) {
 			throw new ObjectNotFoundException("Jogador não encontrado! ID: " + id
