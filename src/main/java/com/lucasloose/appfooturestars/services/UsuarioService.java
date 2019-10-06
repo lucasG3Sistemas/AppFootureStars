@@ -24,8 +24,8 @@ public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
 	
 	
-	public Usuario find(String login) {
-		Usuario usuario = usuarioRepository.findByLogin(login);
+	public Usuario find(String email) {
+		Usuario usuario = usuarioRepository.findByEmail(email);
 		if (usuario == null) {
 			throw new ObjectNotFoundException("Usuário não encontrado! Login: " + usuario
 					+ ", Tipo: " + Usuario.class.getName());
@@ -35,7 +35,7 @@ public class UsuarioService {
 	}
 	
 	public Usuario fromDTO(UsuarioNewDTO usuarioNewDTO) {
-		Usuario usuario = new Usuario(usuarioNewDTO.getLogin(), bCryptPasswordEncoder.encode(usuarioNewDTO.getSenha()), usuarioNewDTO.getNome(), TipoUsuario.toEnum(usuarioNewDTO.getTipoUsuario()));		
+		Usuario usuario = new Usuario(usuarioNewDTO.getEmail(), bCryptPasswordEncoder.encode(usuarioNewDTO.getSenha()), usuarioNewDTO.getNome(), TipoUsuario.toEnum(usuarioNewDTO.getTipoUsuario()));		
 		return usuario;
 	}
 	
@@ -44,10 +44,10 @@ public class UsuarioService {
 		return usuarioRepository.save(usuario);
 	}
 	
-	public void delete(String login) {
-		usuarioRepository.findByLogin(login);
+	public void delete(String email) {
+		usuarioRepository.findByEmail(email);
 		try {
-			usuarioRepository.delete(login);
+			usuarioRepository.delete(email);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível excluir o Usuário");
 		}

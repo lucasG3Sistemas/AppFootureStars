@@ -69,7 +69,7 @@ public class EmpresarioDTO  implements Serializable {
 		this.fone = empresario.getFone();
 		this.email = empresario.getEmail();
 		this.complemento = empresario.getComplemento();
-		this.idUsuario = empresario.getUsuario().getLogin();
+		this.idUsuario = empresario.getUsuario().getEmail();
 	}
 	
 

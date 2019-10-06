@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lucasloose.appfooturestars.domain.ClubeFutebol;
 import com.lucasloose.appfooturestars.domain.Modalidade;
 import com.lucasloose.appfooturestars.domain.Usuario;
+import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.dto.ClubeFutebolDTO;
 import com.lucasloose.appfooturestars.dto.ClubeFutebolNewDTO;
 import com.lucasloose.appfooturestars.repositories.ClubeFutebolRepository;
@@ -66,6 +67,21 @@ public class ClubeFutebolService {
 	public Page<ClubeFutebol> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return clubeFutebolRepository.findAll(pageRequest);
+	}
+	
+	public ClubeFutebol findByEmail(String email) {
+
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		ClubeFutebol obj = clubeFutebolRepository.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + ClubeFutebol.class.getName());
+		}
+		return obj;
 	}
 
 	public ClubeFutebol fromDTO(ClubeFutebolDTO clubeFutebolDTO) {

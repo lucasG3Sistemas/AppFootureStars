@@ -35,7 +35,7 @@ public class UsuarioResource {
 	public ResponseEntity<Void> insert(@Valid @RequestBody UsuarioNewDTO usuarioNewDTO) {
 		Usuario usuario = usuarioService.fromDTO(usuarioNewDTO);
 		usuario = usuarioService.insert(usuario);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{login}").buildAndExpand(usuario.getLogin()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{email}").buildAndExpand(usuario.getEmail()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	

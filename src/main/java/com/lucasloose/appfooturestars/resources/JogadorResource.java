@@ -71,6 +71,12 @@ public class JogadorResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@RequestMapping(value="/email", method=RequestMethod.GET)
+	public ResponseEntity<Jogador> find(@RequestParam(value="value") String email) {
+		Jogador obj = jogadorService.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody JogadorNewDTO jogadorNewDTO) {
 		Jogador jogador = jogadorService.fromDTO(jogadorNewDTO);

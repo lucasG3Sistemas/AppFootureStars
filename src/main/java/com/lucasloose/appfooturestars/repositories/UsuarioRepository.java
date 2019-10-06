@@ -10,6 +10,6 @@ import com.lucasloose.appfooturestars.domain.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, String> {
 
 	@Transactional(readOnly = true)
-	Usuario findByLogin(String login);
+	Usuario findByEmail(String email);
 	
 }

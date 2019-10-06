@@ -99,7 +99,7 @@ public class DBService {
 		modPos9.getModalidades().addAll(Arrays.asList(mod2));
 		modPos10.getModalidades().addAll(Arrays.asList(mod2));
 		
-		Usuario usu1 = new Usuario("lucas", bCryptPasswordEncoder.encode("123"), "LUCAS", TipoUsuario.JOGADORFUTEBOL);
+		Usuario usu1 = new Usuario("lucas@gmail.com", bCryptPasswordEncoder.encode("123"), "LUCAS", TipoUsuario.JOGADORFUTEBOL);
 		usu1.addPerfil(Perfil.ADMIN);
 		usuarioRepository.save(Arrays.asList(usu1));
 		

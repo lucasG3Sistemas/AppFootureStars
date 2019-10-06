@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.lucasloose.appfooturestars.domain.Empresario;
 import com.lucasloose.appfooturestars.domain.Usuario;
+import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.dto.EmpresarioDTO;
 import com.lucasloose.appfooturestars.dto.EmpresarioNewDTO;
 import com.lucasloose.appfooturestars.repositories.EmpresarioRepository;
@@ -49,6 +50,21 @@ public class EmpresarioService {
 		return empresario;
 	}
 
+	public Empresario findByEmail(String email) {
+
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		Empresario obj = empresarioRepository.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Empresario.class.getName());
+		}
+		return obj;
+	}
+	
 	public Empresario fromDTO(EmpresarioDTO empresarioDTO) {
 		// passei a data como null
 		Usuario usuario = new Usuario(empresarioDTO.getIdUsuario());

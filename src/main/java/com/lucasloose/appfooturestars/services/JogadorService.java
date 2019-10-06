@@ -21,6 +21,7 @@ import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.domain.Modalidade;
 import com.lucasloose.appfooturestars.domain.ModalidadePosicao;
 import com.lucasloose.appfooturestars.domain.Usuario;
+import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
 import com.lucasloose.appfooturestars.repositories.JogadorRepository;
@@ -86,6 +87,21 @@ public class JogadorService {
 	public Page<Jogador> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return jogadorRepository.findAll(pageRequest);
+	}
+	
+	public Jogador findByEmail(String email) {
+
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		Jogador obj = jogadorRepository.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Jogador.class.getName());
+		}
+		return obj;
 	}
 
 	public Jogador fromDTO(JogadorDTO jogadorDTO) {

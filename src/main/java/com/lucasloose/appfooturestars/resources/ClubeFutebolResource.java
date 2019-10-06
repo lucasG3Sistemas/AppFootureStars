@@ -54,6 +54,12 @@ public class ClubeFutebolResource {
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
+	@RequestMapping(value="/email", method=RequestMethod.GET)
+	public ResponseEntity<ClubeFutebol> find(@RequestParam(value="value") String email) {
+		ClubeFutebol obj = clubeFutebolService.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClubeFutebolNewDTO clubeFutebolNewDTO) {
 		ClubeFutebol clubeFutebol = clubeFutebolService.fromDTO(clubeFutebolNewDTO);
