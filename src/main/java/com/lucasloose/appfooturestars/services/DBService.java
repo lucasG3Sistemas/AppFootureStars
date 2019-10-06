@@ -101,7 +101,9 @@ public class DBService {
 		
 		Usuario usu1 = new Usuario("lucas@gmail.com", bCryptPasswordEncoder.encode("123"), "LUCAS", TipoUsuario.JOGADORFUTEBOL);
 		usu1.addPerfil(Perfil.ADMIN);
-		usuarioRepository.save(Arrays.asList(usu1));
+		Usuario usu2 = new Usuario("teste@gmail.com", bCryptPasswordEncoder.encode("123"), "LUCAS", TipoUsuario.JOGADORFUTEBOL);
+		usu2.addPerfil(Perfil.ADMIN);
+		usuarioRepository.save(Arrays.asList(usu1, usu2));
 		
 		ClubeFutebol clube1 = new ClubeFutebol(null, "Gremio", 1, "12312312", "Brasil", "RS", "Rio Grande do Sul", "gremio@gg", "GREMIOOO");
 		ClubeFutebol clube2 = new ClubeFutebol(null, "Inter", 1, "19092018", "Brasil", "RS", "Rio Grande do Sul", "inti@gg", "INTI");
@@ -122,7 +124,7 @@ public class DBService {
 		Jogador jogador1 = new Jogador(null, "JOGADOR DANI", "teste@gmailc.ccc");
 		Jogador jogador2 = new Jogador(null, "JOGADOR LUCAS", "lucas@gmailc.com");
 		Jogador jogador3 = new Jogador(null, "DANI", "footure.stars@gmail.com");
-		
+		jogador1.setUsuario(usu2);
 //		mod1.getModalidadeJogadores().addAll(Arrays.asList(jogador1, jogador2, jogador3));
 //		mod2.getModalidadeJogadores().addAll(Arrays.asList(jogador1));
 //		
