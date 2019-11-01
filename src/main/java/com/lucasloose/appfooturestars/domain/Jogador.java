@@ -1,8 +1,8 @@
 package com.lucasloose.appfooturestars.domain;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -133,6 +133,53 @@ public class Jogador implements Serializable {
 		this.codigo_cbf = codigo_cbf;
 		this.modalidade = modalidade;
 		this.perna_preferida = perna_preferida;
+		this.prefixo_fone = prefixo_fone;
+		this.ddd_fone = ddd_fone;
+		this.fone = fone;
+		this.email = email;
+		this.complemento = complemento;
+		this.clubeFutebol = clubeFutebol;
+		this.empresario = empresario;
+		this.usuario = usuario;
+	}
+	
+	public Jogador(Integer id, String nome, String cpf, Date data_nasc, String nacionalidade,
+			String estado_nasc, String municipio_nasc, Integer sexo, Double altura, Double peso, Integer profissionalizacao,
+			String codigo_cbf, Modalidade modalidade, Integer perna_preferida, Integer prefixo_fone, Integer ddd_fone, Integer fone,
+			String email, String complemento) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.data_nasc = data_nasc;
+		this.nacionalidade = nacionalidade;
+		this.estado_nasc = estado_nasc;
+		this.municipio_nasc = municipio_nasc;
+		this.sexo = sexo;
+		this.altura = altura;
+		this.peso = peso;
+		this.profissionalizacao = profissionalizacao;
+		this.codigo_cbf = codigo_cbf;
+		this.modalidade = modalidade;
+		this.perna_preferida = perna_preferida;
+		this.prefixo_fone = prefixo_fone;
+		this.ddd_fone = ddd_fone;
+		this.fone = fone;
+		this.email = email;
+		this.complemento = complemento;
+	}
+	
+	public Jogador(Integer id, String nome, Double altura, Double peso, Integer profissionalizacao,
+			String codigo_cbf, Integer prefixo_fone, Integer ddd_fone, Integer fone,
+			String email, String complemento, ClubeFutebol clubeFutebol, Empresario empresario, Usuario usuario
+			) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.altura = altura;
+		this.peso = peso;
+		this.profissionalizacao = profissionalizacao;
+		this.codigo_cbf = codigo_cbf;
 		this.prefixo_fone = prefixo_fone;
 		this.ddd_fone = ddd_fone;
 		this.fone = fone;

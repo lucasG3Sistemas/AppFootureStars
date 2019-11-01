@@ -8,6 +8,7 @@ public class ListaObservacaoNewDTO  implements Serializable {
 	private Integer idJogador;
 	private Integer idClubeFutebol;
 	private Integer idEmpresario;
+	private String idUsuario;
 	
 	
 	public ListaObservacaoNewDTO() {
@@ -39,4 +40,12 @@ public class ListaObservacaoNewDTO  implements Serializable {
 		this.idEmpresario = idEmpresario;
 	}
 
+	public String getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(String idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+	
 }

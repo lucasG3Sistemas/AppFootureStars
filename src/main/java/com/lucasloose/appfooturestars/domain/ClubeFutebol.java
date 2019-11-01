@@ -40,8 +40,8 @@ public class ClubeFutebol implements Serializable {
 	private String estado;
 	private String municipio;
 	
-	//DADOS CONTATO
-	private String email;
+//	//DADOS CONTATO
+//	private String email;
 	
 	private String complemento;
 	
@@ -74,7 +74,7 @@ public class ClubeFutebol implements Serializable {
 	public ClubeFutebol(Integer id, String nome, 
 //			Modalidade modalidade,
 			Integer profissionalizacao,
-		String registro_cbf, String pais, String estado, String municipio, String email, String complemento, Usuario usuario) {
+		String registro_cbf, String pais, String estado, String municipio, String complemento, Usuario usuario) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -84,7 +84,7 @@ public class ClubeFutebol implements Serializable {
 		this.pais = pais;
 		this.estado = estado;
 		this.municipio = municipio;
-		this.email = email;
+//		this.email = email;
 		this.complemento = complemento;
 		this.usuario = usuario;
 	}
@@ -93,7 +93,9 @@ public class ClubeFutebol implements Serializable {
 //			byte foto,
 //			Modalidade modalidade,
 			Integer profissionalizacao,
-		String registro_cbf, String pais, String estado, String municipio, String email, String complemento) {
+		String registro_cbf, String pais, String estado, String municipio, 
+//		String email,
+		String complemento) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -104,7 +106,7 @@ public class ClubeFutebol implements Serializable {
 		this.pais = pais;
 		this.estado = estado;
 		this.municipio = municipio;
-		this.email = email;
+//		this.email = email;
 		this.complemento = complemento;
 	}
 	
@@ -177,13 +179,13 @@ public class ClubeFutebol implements Serializable {
 		this.municipio = municipio;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
 
 	public String getComplemento() {
 		return complemento;

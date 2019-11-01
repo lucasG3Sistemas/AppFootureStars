@@ -41,6 +41,12 @@ public class ListaObservacaoResource {
 		return ResponseEntity.ok().body(listaObservacao);
 	}
 	
+	@RequestMapping(value="/usuario", method=RequestMethod.GET)
+	public ResponseEntity<ListaObservacao> findListaClube(@RequestParam(value="value") String usuario) {
+		ListaObservacao obj = listaObservacaoService.findByListaUsuario(usuario);
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ListaObservacaoNewDTO listaObservacaoNewDTO) {
 		ListaObservacao listaObservacao = listaObservacaoService.fromDTO(listaObservacaoNewDTO);

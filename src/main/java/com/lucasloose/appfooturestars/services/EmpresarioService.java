@@ -17,17 +17,25 @@ import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.dto.EmpresarioDTO;
 import com.lucasloose.appfooturestars.dto.EmpresarioNewDTO;
 import com.lucasloose.appfooturestars.repositories.EmpresarioRepository;
+import com.lucasloose.appfooturestars.repositories.UsuarioRepository;
 import com.lucasloose.appfooturestars.security.UserSS;
 import com.lucasloose.appfooturestars.services.exceptions.AuthorizationException;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
+import com.lucasloose.appfooturestars.utils.ConverteUF;
 
 @Service
 public class EmpresarioService {
 
 	@Autowired
 	private EmpresarioRepository empresarioRepository;
-
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private ConverteUF converteUF;
+	
 	@Autowired
 	private S3Service s3Service;
 
@@ -57,7 +65,8 @@ public class EmpresarioService {
 			throw new AuthorizationException("Acesso negado");
 		}
 
-		Empresario obj = empresarioRepository.findByEmail(email);
+		Usuario usu = usuarioRepository.findOne(email);
+		Empresario obj = empresarioRepository.findByUsuario(usu);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
 					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Empresario.class.getName());
@@ -66,23 +75,25 @@ public class EmpresarioService {
 	}
 	
 	public Empresario fromDTO(EmpresarioDTO empresarioDTO) {
-		// passei a data como null
 		Usuario usuario = new Usuario(empresarioDTO.getIdUsuario());
-		Empresario empresario = new Empresario(null, empresarioDTO.getNome(), empresarioDTO.getCpf(), null,
+		Empresario empresario = new Empresario(null, empresarioDTO.getNome(), empresarioDTO.getCpf(), empresarioDTO.getData_nasc(),
 				empresarioDTO.getNacionalidade(), empresarioDTO.getEstado_nasc(), empresarioDTO.getMunicipio_nasc(),
 				empresarioDTO.getSexo(), empresarioDTO.getPrefixo_fone(), empresarioDTO.getDdd_fone(),
-				empresarioDTO.getFone(), empresarioDTO.getEmail(), empresarioDTO.getComplemento(), usuario);
+				empresarioDTO.getFone(), 
+//				empresarioDTO.getEmail(),
+				empresarioDTO.getComplemento(), usuario);
 
 		return empresario;
 	}
 
 	public Empresario fromDTO(EmpresarioNewDTO empresarioNewDTO) {
-		// passei a data como null
+		String uf = converteUF.converteCodToUF(Integer.parseInt(empresarioNewDTO.getEstado_nasc()));
 		Usuario usuario = new Usuario(empresarioNewDTO.getIdUsuario());
-		Empresario empresario = new Empresario(null, empresarioNewDTO.getNome(), empresarioNewDTO.getCpf(), null,
-				empresarioNewDTO.getNacionalidade(), empresarioNewDTO.getEstado_nasc(),
+		Empresario empresario = new Empresario(null, empresarioNewDTO.getNome(), empresarioNewDTO.getCpf(), empresarioNewDTO.getData_nasc(),
+				empresarioNewDTO.getNacionalidade(), uf,
 				empresarioNewDTO.getMunicipio_nasc(), empresarioNewDTO.getSexo(), empresarioNewDTO.getPrefixo_fone(),
-				empresarioNewDTO.getDdd_fone(), empresarioNewDTO.getFone(), empresarioNewDTO.getEmail(),
+				empresarioNewDTO.getDdd_fone(), empresarioNewDTO.getFone(), 
+//				empresarioNewDTO.getEmail(),
 				empresarioNewDTO.getComplemento(), usuario);
 
 		return empresario;
@@ -120,7 +131,7 @@ public class EmpresarioService {
 		newEmpresario.setPrefixo_fone(empresario.getPrefixo_fone());
 		newEmpresario.setDdd_fone(empresario.getDdd_fone());
 		newEmpresario.setFone(empresario.getFone());
-		newEmpresario.setEmail(empresario.getEmail());
+//		newEmpresario.setEmail(empresario.getEmail());
 		newEmpresario.setComplemento(empresario.getComplemento());
 		newEmpresario.setUsuario(empresario.getUsuario());
 	}

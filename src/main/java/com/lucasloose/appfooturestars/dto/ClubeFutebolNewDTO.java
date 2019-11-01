@@ -2,7 +2,6 @@ package com.lucasloose.appfooturestars.dto;
 
 import java.io.Serializable;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.lucasloose.appfooturestars.services.validation.ClubeFutebolInsert;
@@ -14,12 +13,10 @@ public class ClubeFutebolNewDTO  implements Serializable {
 	@NotEmpty(message = "Campo obrigatório")
 	private String nome;
 	
-	@NotEmpty(message = "Campo obrigatório")
 	private Integer idModalidade1;
 	
 	private Integer idModalidade2;
 	
-	@NotEmpty(message = "Campo obrigatório")
 	private Integer profissionalizacao;
 	
 	private String registro_cbf;
@@ -33,9 +30,9 @@ public class ClubeFutebolNewDTO  implements Serializable {
 	@NotEmpty(message = "Campo obrigatório")
 	private String municipio;
 	
-	@NotEmpty(message = "Campo obrigatório")
-	@Email(message = "E-mail inválido")
-	private String email;
+//	@NotEmpty(message = "Campo obrigatório")
+//	@Email(message = "E-mail inválido")
+//	private String email;
 	
 	private String complemento;
 	
@@ -111,13 +108,13 @@ public class ClubeFutebolNewDTO  implements Serializable {
 		this.municipio = municipio;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
 
 	public String getComplemento() {
 		return complemento;

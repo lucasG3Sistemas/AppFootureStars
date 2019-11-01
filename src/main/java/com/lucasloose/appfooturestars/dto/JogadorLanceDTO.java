@@ -11,19 +11,19 @@ public class JogadorLanceDTO  implements Serializable {
 	
 	private Integer id;
 	
-	private byte video;
+	private String titulo;
 	
 	private String urlVideo;
 	
 	private String descricao;
 	
 	private Date data_publicacao;
-	
-	private String pais_atual;
-	
-	private String estado_atual;
-	
-	private String municipio_atual;
+//	
+//	private String pais_atual;
+//	
+//	private String estado_atual;
+//	
+//	private String municipio_atual;
 	
 	private String complemento;
 	
@@ -36,13 +36,13 @@ public class JogadorLanceDTO  implements Serializable {
 
 	public JogadorLanceDTO(JogadorLance jogadorLance) {
 		this.id = jogadorLance.getId();
-		this.video = jogadorLance.getVideo();
+		this.titulo = jogadorLance.getTitulo();
 		this.urlVideo = jogadorLance.getUrlVideo();
 		this.descricao = jogadorLance.getDescricao();
 		this.data_publicacao = jogadorLance.getData_publicacao();
-		this.pais_atual = jogadorLance.getPais_atual();
-		this.estado_atual = jogadorLance.getEstado_atual();
-		this.municipio_atual = jogadorLance.getMunicipio_atual();
+//		this.pais_atual = jogadorLance.getPais_atual();
+//		this.estado_atual = jogadorLance.getEstado_atual();
+//		this.municipio_atual = jogadorLance.getMunicipio_atual();
 		this.complemento = jogadorLance.getComplemento();
 		this.idJogador = jogadorLance.getJogador().getId();
 	}
@@ -56,12 +56,12 @@ public class JogadorLanceDTO  implements Serializable {
 		this.id = id;
 	}
 
-	public byte getVideo() {
-		return video;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setVideo(byte video) {
-		this.video = video;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getUrlVideo() {
@@ -87,30 +87,30 @@ public class JogadorLanceDTO  implements Serializable {
 	public void setData_publicacao(Date data_publicacao) {
 		this.data_publicacao = data_publicacao;
 	}
-
-	public String getPais_atual() {
-		return pais_atual;
-	}
-
-	public void setPais_atual(String pais_atual) {
-		this.pais_atual = pais_atual;
-	}
-
-	public String getEstado_atual() {
-		return estado_atual;
-	}
-
-	public void setEstado_atual(String estado_atual) {
-		this.estado_atual = estado_atual;
-	}
-
-	public String getMunicipio_atual() {
-		return municipio_atual;
-	}
-
-	public void setMunicipio_atual(String municipio_atual) {
-		this.municipio_atual = municipio_atual;
-	}
+//
+//	public String getPais_atual() {
+//		return pais_atual;
+//	}
+//
+//	public void setPais_atual(String pais_atual) {
+//		this.pais_atual = pais_atual;
+//	}
+//
+//	public String getEstado_atual() {
+//		return estado_atual;
+//	}
+//
+//	public void setEstado_atual(String estado_atual) {
+//		this.estado_atual = estado_atual;
+//	}
+//
+//	public String getMunicipio_atual() {
+//		return municipio_atual;
+//	}
+//
+//	public void setMunicipio_atual(String municipio_atual) {
+//		this.municipio_atual = municipio_atual;
+//	}
 
 	public String getComplemento() {
 		return complemento;

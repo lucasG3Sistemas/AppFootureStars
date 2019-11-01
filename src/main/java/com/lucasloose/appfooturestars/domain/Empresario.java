@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -27,7 +26,7 @@ public class Empresario implements Serializable {
 	private String nome;
 	private String cpf;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	//@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date data_nasc;
 	
 	private String nacionalidade;
@@ -40,7 +39,7 @@ public class Empresario implements Serializable {
 	private Integer prefixo_fone;
 	private Integer ddd_fone;
 	private Integer fone;
-	private String email;
+//	private String email;
 	
 	private String complemento;
 	
@@ -50,10 +49,10 @@ public class Empresario implements Serializable {
 	private List<Jogador> jogadores = new ArrayList<Jogador>();;
 	
 //	@JsonBackReference
-	@JsonIgnore
-	@OneToOne
-	@OneToMany(mappedBy="empresario")
-	private ListaObservacao listaObservacao;
+//	@JsonIgnore
+//	@OneToOne
+//	@OneToMany(mappedBy="empresario")
+//	private ListaObservacao listaObservacao;
 	
 //	@JsonManagedReference
 	@OneToOne
@@ -66,7 +65,8 @@ public class Empresario implements Serializable {
 	}
 
 	public Empresario(Integer id, String nome, String cpf, Date data_nasc, String nacionalidade,
-			String estado_nasc, String municipio_nasc, Integer sexo, Integer prefixo_fone, Integer ddd_fone, Integer fone, String email,
+			String estado_nasc, String municipio_nasc, Integer sexo, Integer prefixo_fone, Integer ddd_fone, Integer fone,
+//			String email,
 			String complemento, Usuario usuario) {
 		super();
 		this.id = id;
@@ -80,7 +80,7 @@ public class Empresario implements Serializable {
 		this.prefixo_fone = prefixo_fone;
 		this.ddd_fone = ddd_fone;
 		this.fone = fone;
-		this.email = email;
+//		this.email = email;
 		this.complemento = complemento;
 		this.usuario = usuario;
 	}
@@ -90,6 +90,13 @@ public class Empresario implements Serializable {
 		this.id = id;
 		this.nome = nome;
 	}
+	
+//	public Empresario(Integer id, String nome, String email) {
+//		super();
+//		this.id = id;
+//		this.nome = nome;
+////		this.email = email;
+//	}
 	
 	public Empresario(Integer id) {
 		super();
@@ -184,13 +191,13 @@ public class Empresario implements Serializable {
 		this.fone = fone;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
 
 	public String getComplemento() {
 		return complemento;

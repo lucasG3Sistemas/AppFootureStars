@@ -24,8 +24,8 @@ public class ListaObservacao implements Serializable {
 //	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name = "LISTA_OBS_JOGADOR",
-		joinColumns = @JoinColumn(name = "id_jogador"),
-		inverseJoinColumns = @JoinColumn(name = "id_lista_observacao")
+		joinColumns = @JoinColumn(name = "id_lista_observacao"),
+		inverseJoinColumns = @JoinColumn(name = "id_jogador")
 	)
 	private List<Jogador> jogadores = new ArrayList<Jogador>();
 	

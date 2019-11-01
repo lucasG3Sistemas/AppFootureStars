@@ -3,7 +3,7 @@ package com.lucasloose.appfooturestars.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-public class HistoricoContratacaoNewDTO  implements Serializable {
+public class HistoricoContratacaoDTO  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer idJogador;
@@ -14,7 +14,7 @@ public class HistoricoContratacaoNewDTO  implements Serializable {
 	private String complemento;
 	
 	
-	public HistoricoContratacaoNewDTO() {
+	public HistoricoContratacaoDTO() {
 		
 	}
 

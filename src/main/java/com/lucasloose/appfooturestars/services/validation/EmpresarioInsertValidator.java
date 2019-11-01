@@ -27,10 +27,10 @@ public class EmpresarioInsertValidator implements ConstraintValidator<Empresario
 		
 		List<FieldMessage> list = new ArrayList<>();
 				
-		Empresario aux = empresarioRepository.findByEmail(objDto.getEmail());
-		if (aux != null) {
-			list.add(new FieldMessage("email", "Email já existente"));
-		}
+//		Empresario aux = empresarioRepository.findByEmail(objDto.getEmail());
+//		if (aux != null) {
+//			list.add(new FieldMessage("email", "Email já existente"));
+//		}
 
 		for (FieldMessage e : list) {
 			context.disableDefaultConstraintViolation();

@@ -99,14 +99,19 @@ public class DBService {
 		modPos9.getModalidades().addAll(Arrays.asList(mod2));
 		modPos10.getModalidades().addAll(Arrays.asList(mod2));
 		
-		Usuario usu1 = new Usuario("lucas@gmail.com", bCryptPasswordEncoder.encode("123"), "LUCAS", TipoUsuario.JOGADORFUTEBOL);
-		usu1.addPerfil(Perfil.ADMIN);
-		Usuario usu2 = new Usuario("teste@gmail.com", bCryptPasswordEncoder.encode("123"), "LUCAS", TipoUsuario.JOGADORFUTEBOL);
-		usu2.addPerfil(Perfil.ADMIN);
-		usuarioRepository.save(Arrays.asList(usu1, usu2));
+		Usuario usuJogador = new Usuario("lucasloose97@gmail.com", bCryptPasswordEncoder.encode("123"), TipoUsuario.JOGADORFUTEBOL);
+		usuJogador.addPerfil(Perfil.ADMIN);
+		Usuario usuEmpr = new Usuario("empresario@gmail.com", bCryptPasswordEncoder.encode("123"), TipoUsuario.EMPRESARIO);
+		usuEmpr.addPerfil(Perfil.ADMIN);
+		Usuario usuClub1 = new Usuario("clube1@gmail.com", bCryptPasswordEncoder.encode("123"), TipoUsuario.CLUBEFUTEBOL);
+		usuClub1.addPerfil(Perfil.ADMIN);
+		Usuario usuClub2 = new Usuario("clube2@gmail.com", bCryptPasswordEncoder.encode("123"), TipoUsuario.CLUBEFUTEBOL);
+		usuClub2.addPerfil(Perfil.ADMIN);
 		
-		ClubeFutebol clube1 = new ClubeFutebol(null, "Gremio", 1, "12312312", "Brasil", "RS", "Rio Grande do Sul", "gremio@gg", "GREMIOOO");
-		ClubeFutebol clube2 = new ClubeFutebol(null, "Inter", 1, "19092018", "Brasil", "RS", "Rio Grande do Sul", "inti@gg", "INTI");
+		usuarioRepository.save(Arrays.asList(usuJogador, usuEmpr, usuClub1, usuClub2));
+		
+		ClubeFutebol clube1 = new ClubeFutebol(null, "Gremio", 1, "12312312", "Brasil", "SC", "Palmitos", "GREMIOOO", usuClub1);
+		ClubeFutebol clube2 = new ClubeFutebol(null, "Inter", 2, "19092018", "Brasil", "SC", "Chapecó", "INTer", usuClub2);
 		
 //		mod1.getModalidadeClubes().addAll(Arrays.asList(clube1, clube2));
 //		mod2.getModalidadeClubes().addAll(Arrays.asList(clube1));
@@ -114,17 +119,23 @@ public class DBService {
 		modalidadeRepository.save(Arrays.asList(mod1, mod2, mod3, mod4, mod5, mod6, mod7, mod8, mod9, mod10));
 		modalidadePosicaoRepository.save(Arrays.asList(modPos1, modPos2, modPos3, modPos4, modPos5, modPos6, modPos7, modPos8, modPos9, modPos10));
 		
-		clube1.setUsuario(usu1);
+		clube1.setUsuario(usuClub1);
+		clube2.setUsuario(usuClub2);
 		
 		clube1.getModalidades().addAll(Arrays.asList(mod1, mod2));
 		clube2.getModalidades().addAll(Arrays.asList(mod1));
 		clubeFutebolRepository.save(Arrays.asList(clube1));
 		clubeFutebolRepository.save(Arrays.asList(clube2));
 		
-		Jogador jogador1 = new Jogador(null, "JOGADOR DANI", "teste@gmailc.ccc");
-		Jogador jogador2 = new Jogador(null, "JOGADOR LUCAS", "lucas@gmailc.com");
-		Jogador jogador3 = new Jogador(null, "DANI", "footure.stars@gmail.com");
-		jogador1.setUsuario(usu2);
+		Jogador jogador1 = new Jogador(null, "Pedro da Silva", "83633100008", new Date(), "Brasil",
+				"SC", "Palmitos", 1, 183.0, 78.0, 1, "23212360", mod1, 1, 55, 49, 988563215, usuJogador.getEmail(), "");
+		Jogador jogador2 = new Jogador(null, "Lucas da Silva", "62645237045", new Date(), "Brasil",
+				"SC", "Pinhalzinho", 1, 179.0, 72.0, 2, "", mod1, 1, 55, 49, 988501200, "lucas@gmail.com", "");
+		Jogador jogador3 = new Jogador(null, "Daniela Silveira", "19112208027", new Date(), "Brasil",
+				"SC", "Chapecó", 1, 167.0, 59.0, 1, "23212360", mod1, 1, 55, 49, 999365698, "footure.stars@gmail.com", "");
+		Jogador jogador4 = new Jogador(null, "Chico Bernardo", "98865798630", new Date(), "Brasil",
+				"SC", "Chapecó", 1, 167.0, 70.0, 2, "", mod1, 1, 55, 49, 999365698, "lucas.loose@unochapeco.edu.br", "");
+		jogador1.setUsuario(usuJogador);
 //		mod1.getModalidadeJogadores().addAll(Arrays.asList(jogador1, jogador2, jogador3));
 //		mod2.getModalidadeJogadores().addAll(Arrays.asList(jogador1));
 //		
@@ -135,33 +146,39 @@ public class DBService {
 //		jogador1.getModalidades().addAll(Arrays.asList(mod1, mod2));
 //		jogador2.getModalidades().addAll(Arrays.asList(mod1));
 //		jogador3.getModalidades().addAll(Arrays.asList(mod1));
-		jogador1.setModalidade(mod1);
-		jogador2.setModalidade(mod1);
-		jogador3.setModalidade(mod3);
-		jogador1.getPosicoes().addAll(Arrays.asList(modPos1, modPos2));
+		//jogador1.setModalidade(mod1);
+//		jogador2.setModalidade(mod1);
+//		jogador3.setModalidade(mod3);
+		jogador1.getPosicoes().addAll(Arrays.asList(modPos5, modPos6));
 		jogador2.getPosicoes().addAll(Arrays.asList(modPos1));
-		jogador3.getPosicoes().addAll(Arrays.asList(modPos7));
-		jogadorRepository.save(Arrays.asList(jogador1, jogador2, jogador3));
+		jogador3.getPosicoes().addAll(Arrays.asList(modPos4));
+		jogador4.getPosicoes().addAll(Arrays.asList(modPos4));
 		
 		Empresario emp1 = new Empresario(null, "Chico");
+		emp1.setUsuario(usuEmpr);
 		empresarioRepository.save(Arrays.asList(emp1));
 		
-		HistoricoContratacao hisContr1 = new HistoricoContratacao(null, jogador1, clube1, "MUITO FELIZ", "AGRADEÇO", "");
-		HistoricoContratacao hisContr2 = new HistoricoContratacao(null, jogador1, clube1, "A DANI É SARNA", "AMO A DANI", "");
+		jogador2.setEmpresario(emp1);
+		jogador3.setClubeFutebol(clube1);
+		jogadorRepository.save(Arrays.asList(jogador1, jogador2, jogador3, jogador4));
+		
+		HistoricoContratacao hisContr1 = new HistoricoContratacao(null, jogador1, clube1, new Date(),"É um grande jogador e estamos muitos felizes de podermos contar com ele", "É um prazer enorme em poder vestir essa camisa, espero trazer muitas alegrias para a torcida, com certeza serei muito feliz aqui!", "");
+		HistoricoContratacao hisContr2 = new HistoricoContratacao(null, jogador2, clube2, new Date(), "Felizes", "Feliz com a oportunidade", "");
 		historicoContratacaoRepository.save(Arrays.asList(hisContr1, hisContr2));
 		
 		Date data = new Date();
-		JogadorLance lance1 = new JogadorLance(null, data, "Brasil", "SC", "Palmitos", jogador1);
-		JogadorLance lance2 = new JogadorLance(null, data, "Brasil", "MG", "Belo Horizonte", jogador1);
-		JogadorLance lance3 = new JogadorLance(null, data, "Brasil", "RJ", "Rio de Janeiro", jogador2);
-		JogadorLance lance4 = new JogadorLance(null, data, "Brasil", "SP", "São Paulo", jogador3);
-		jogadorLanceRepository.save(Arrays.asList(lance1, lance2, lance3, lance4));
+		JogadorLance lance1 = new JogadorLance(null, "Gols no Campeonato Estadual", "https://www.youtube.com/embed/z87fGiSz_-o", "Gols no campeonato Estadual de Futebol realizado entre os dias 05 à 12.", data, "", jogador1);
+		JogadorLance lance2 = new JogadorLance(null, "Gols no Campeonato Brasileiro", "https://www.youtube.com/embed/is3Tr3fZCOI", "Gols no campeonato brasileiro de futebol de campo.", data, "", jogador2);
+		JogadorLance lance3 = new JogadorLance(null, "Gols de Falta", "https://www.youtube.com/embed/ALXkA9OxGpw", "Gols de falta no ano de 2018.", data, "", jogador2);
+//		JogadorLance lance3 = new JogadorLance(null, data, "Brasil", "RJ", "Rio de Janeiro", jogador2);
+//		JogadorLance lance4 = new JogadorLance(null, data, "Brasil", "SP", "São Paulo", jogador3);
+		jogadorLanceRepository.save(Arrays.asList(lance1, lance2, lance3));
 		
 		ListaObservacao lista1 = new ListaObservacao(null, clube1, null);
-//		ListaObservacao lista2 = new ListaObservacao(null, null, emp1);
+		ListaObservacao lista2 = new ListaObservacao(null, null, emp1);
 		lista1.getJogadores().addAll(Arrays.asList(jogador1, jogador2));
-//		lista2.getJogadores().addAll(Arrays.asList(jogador2, jogador3));
-		listaObservacaoRepository.save(Arrays.asList(lista1));
+		lista2.getJogadores().addAll(Arrays.asList(jogador3));
+		listaObservacaoRepository.save(Arrays.asList(lista1, lista2));
 	}
 	
 }

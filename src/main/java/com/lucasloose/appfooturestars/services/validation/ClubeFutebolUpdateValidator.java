@@ -37,10 +37,10 @@ public class ClubeFutebolUpdateValidator implements ConstraintValidator<ClubeFut
 		
 		List<FieldMessage> list = new ArrayList<>();
 				
-		ClubeFutebol aux = clubeFutebolRepository.findByEmail(objDto.getEmail());
-		if (aux != null && !aux.getId().equals(uriId)) {
-			list.add(new FieldMessage("email", "Email já existente"));
-		}
+//		ClubeFutebol aux = clubeFutebolRepository.findByEmail(objDto.getEmail());
+//		if (aux != null && !aux.getId().equals(uriId)) {
+//			list.add(new FieldMessage("email", "Email já existente"));
+//		}
 
 		for (FieldMessage e : list) {
 			context.disableDefaultConstraintViolation();

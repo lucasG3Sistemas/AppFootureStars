@@ -17,14 +17,12 @@ public class JogadorNewDTO  implements Serializable {
 	@NotEmpty(message = "Campo obrigatório")
 	private String nome;
 	
-	private byte foto;
-	
 	@NotEmpty(message = "Campo obrigatório")
 	@CPF
 	private String cpf;
 	
 //	@NotEmpty(message = "Campo obrigatório")
-	@JsonFormat(pattern = "dd/MM/yyyy")
+//	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date data_nasc;
 	
 	@NotEmpty(message = "Campo obrigatório")
@@ -110,14 +108,6 @@ public class JogadorNewDTO  implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public byte getFoto() {
-		return foto;
-	}
-
-	public void setFoto(byte foto) {
-		this.foto = foto;
 	}
 
 	public String getCpf() {

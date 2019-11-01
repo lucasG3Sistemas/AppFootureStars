@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucasloose.appfooturestars.domain.Jogador;
+import com.lucasloose.appfooturestars.domain.ListaObservacao;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
 import com.lucasloose.appfooturestars.resources.utils.URL;
@@ -31,9 +32,15 @@ public class JogadorResource {
 	private JogadorService jogadorService;
 	
 	
-	@RequestMapping(value="/lista", method=RequestMethod.GET)
+	@RequestMapping(value="/lista/todos", method=RequestMethod.GET)
 	public ResponseEntity<List<Jogador>> findAll() {
 		List<Jogador> listaJogadores = jogadorService.findAll();
+		return ResponseEntity.ok().body(listaJogadores);
+	}
+	
+	@RequestMapping(value="/lista", method=RequestMethod.GET)
+	public ResponseEntity<List<Jogador>> findLista(@RequestParam(value="idLista") String idLista, @RequestParam(value="usuario") String idUsuario) {
+		List<Jogador> listaJogadores = jogadorService.findIdListaObservacao(idLista, idUsuario);
 		return ResponseEntity.ok().body(listaJogadores);
 	}
 	
@@ -75,6 +82,12 @@ public class JogadorResource {
 	public ResponseEntity<Jogador> find(@RequestParam(value="value") String email) {
 		Jogador obj = jogadorService.findByEmail(email);
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(value="/usuario", method=RequestMethod.GET)
+	public ResponseEntity<List<Jogador>> listJogadores(@RequestParam(value="value") String usuario) {
+		List<Jogador> objs = jogadorService.findByJogadoresUsuario(usuario);
+		return ResponseEntity.ok().body(objs);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)

@@ -35,7 +35,7 @@ public class UsuarioService {
 	}
 	
 	public Usuario fromDTO(UsuarioNewDTO usuarioNewDTO) {
-		Usuario usuario = new Usuario(usuarioNewDTO.getEmail(), bCryptPasswordEncoder.encode(usuarioNewDTO.getSenha()), usuarioNewDTO.getNome(), TipoUsuario.toEnum(usuarioNewDTO.getTipoUsuario()));		
+		Usuario usuario = new Usuario(usuarioNewDTO.getEmail(), bCryptPasswordEncoder.encode(usuarioNewDTO.getSenha()), TipoUsuario.toEnum(usuarioNewDTO.getTipoUsuario()));		
 		return usuario;
 	}
 	

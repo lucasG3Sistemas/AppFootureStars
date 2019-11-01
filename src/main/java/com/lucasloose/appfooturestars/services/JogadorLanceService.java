@@ -12,12 +12,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.lucasloose.appfooturestars.domain.ClubeFutebol;
+import com.lucasloose.appfooturestars.domain.Empresario;
 import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.domain.JogadorLance;
+import com.lucasloose.appfooturestars.domain.Usuario;
+import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.dto.JogadorLanceDTO;
 import com.lucasloose.appfooturestars.dto.JogadorLanceNewDTO;
 import com.lucasloose.appfooturestars.repositories.JogadorLanceRepository;
 import com.lucasloose.appfooturestars.repositories.JogadorRepository;
+import com.lucasloose.appfooturestars.security.UserSS;
+import com.lucasloose.appfooturestars.services.exceptions.AuthorizationException;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
 
@@ -61,15 +67,69 @@ public class JogadorLanceService {
 		return jogadorLance;
 	}
 	
+	public List<JogadorLance> findByLancesJogador(String usuario) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !usuario.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		List<JogadorLance> lista = null;
+		Usuario usu = new Usuario(usuario);
+		Jogador jogador = jogadorRepository.findByUsuario(usu);
+		if (jogador != null) {
+			lista = jogadorLanceRepository.findByJogadorOrderByIdDesc(jogador);
+		}
+		
+		if (lista == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Jogador.class.getName());
+		}
+		return lista;
+		
+	}
+	
+	public List<JogadorLance> findByLancesIdJogador(Integer idJogador) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN)) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		List<JogadorLance> lista = null;
+		Jogador jogador = jogadorRepository.findOne(idJogador);
+		if (jogador != null) {
+			lista = jogadorLanceRepository.findByJogadorOrderByIdDesc(jogador);
+		}
+		if (lista == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Jogador.class.getName());
+		}
+		return lista;
+		
+	}
+	
 	public JogadorLance fromDTO(JogadorLanceDTO jogadorLanceDTO) {
 		Jogador jogador = new Jogador(jogadorLanceDTO.getIdJogador(), "");
-		JogadorLance jogadorLance = new JogadorLance(jogadorLanceDTO.getId(), jogadorLanceDTO.getVideo(), jogadorLanceDTO.getUrlVideo(), jogadorLanceDTO.getDescricao(), jogadorLanceDTO.getData_publicacao(), jogadorLanceDTO.getPais_atual(), jogadorLanceDTO.getEstado_atual(), jogadorLanceDTO.getMunicipio_atual(), jogadorLanceDTO.getComplemento(), jogador);
+		JogadorLance jogadorLance = new JogadorLance(jogadorLanceDTO.getId(), jogadorLanceDTO.getTitulo(), jogadorLanceDTO.getUrlVideo(), jogadorLanceDTO.getDescricao(), 
+				jogadorLanceDTO.getData_publicacao(), 
+//				jogadorLanceDTO.getPais_atual(), jogadorLanceDTO.getEstado_atual(), jogadorLanceDTO.getMunicipio_atual(),
+				jogadorLanceDTO.getComplemento(), jogador);
 		return jogadorLance;
 	}
 	
 	public JogadorLance fromDTO(JogadorLanceNewDTO jogadorLanceNewDTO) {
-		Jogador jogador = new Jogador(jogadorLanceNewDTO.getIdJogador(), "");
-		JogadorLance jogadorLance = new JogadorLance(null, jogadorLanceNewDTO.getVideo(), jogadorLanceNewDTO.getUrlVideo(), jogadorLanceNewDTO.getDescricao(), jogadorLanceNewDTO.getData_publicacao(), jogadorLanceNewDTO.getPais_atual(), jogadorLanceNewDTO.getEstado_atual(), jogadorLanceNewDTO.getMunicipio_atual(), jogadorLanceNewDTO.getComplemento(), jogador);
+		Integer idJogador = 0;
+		if (jogadorLanceNewDTO.getIdJogador() == null) {
+			Jogador jog = this.jogadorRepository.findByEmail(jogadorLanceNewDTO.getIdUsuario());
+			idJogador = jog.getId();
+		} else {
+			idJogador = jogadorLanceNewDTO.getIdJogador();
+		}
+		
+		Jogador jogador = new Jogador(idJogador, "");
+		JogadorLance jogadorLance = new JogadorLance(null, jogadorLanceNewDTO.getTitulo(), jogadorLanceNewDTO.getUrlVideo(), jogadorLanceNewDTO.getDescricao(),
+				new Date(), 
+//				jogadorLanceNewDTO.getPais_atual(), jogadorLanceNewDTO.getEstado_atual(), jogadorLanceNewDTO.getMunicipio_atual(),
+				jogadorLanceNewDTO.getComplemento(), jogador);
 		return jogadorLance;
 	}
 	
@@ -96,13 +156,13 @@ public class JogadorLanceService {
 	}
 	
 	private void updateData(JogadorLance newJogadorLance, JogadorLance jogadorLance) {
-		newJogadorLance.setVideo(jogadorLance.getVideo());
+		newJogadorLance.setTitulo(jogadorLance.getTitulo());
 		newJogadorLance.setUrlVideo(jogadorLance.getUrlVideo());
 		newJogadorLance.setDescricao(jogadorLance.getDescricao());
-		newJogadorLance.setData_publicacao(newJogadorLance.getData_publicacao());
-		newJogadorLance.setPais_atual(jogadorLance.getPais_atual());
-		newJogadorLance.setEstado_atual(jogadorLance.getEstado_atual());
-		newJogadorLance.setMunicipio_atual(jogadorLance.getMunicipio_atual());
+//		newJogadorLance.setData_publicacao(newJogadorLance.getData_publicacao());
+//		newJogadorLance.setPais_atual(jogadorLance.getPais_atual());
+//		newJogadorLance.setEstado_atual(jogadorLance.getEstado_atual());
+//		newJogadorLance.setMunicipio_atual(jogadorLance.getMunicipio_atual());
 		newJogadorLance.setComplemento(jogadorLance.getComplemento());
 		newJogadorLance.setJogador(jogadorLance.getJogador());
 	}

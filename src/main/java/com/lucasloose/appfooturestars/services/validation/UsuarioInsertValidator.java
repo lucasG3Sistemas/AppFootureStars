@@ -29,7 +29,7 @@ public class UsuarioInsertValidator implements ConstraintValidator<UsuarioInsert
 				
 		Usuario aux = usuarioRepository.findByEmail(objDto.getEmail());
 		if (aux != null) {
-			list.add(new FieldMessage("login", "Login já existente"));
+			list.add(new FieldMessage("email", "Email já existente"));
 		}
 
 		for (FieldMessage e : list) {

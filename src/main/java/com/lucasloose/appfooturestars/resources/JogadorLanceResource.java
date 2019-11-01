@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.domain.JogadorLance;
+import com.lucasloose.appfooturestars.domain.ListaObservacao;
 import com.lucasloose.appfooturestars.dto.JogadorLanceDTO;
 import com.lucasloose.appfooturestars.dto.JogadorLanceNewDTO;
 import com.lucasloose.appfooturestars.resources.utils.URL;
@@ -41,6 +43,24 @@ public class JogadorLanceResource {
 		JogadorLance jogadorLance = jogadorLanceService.find(id);
 		return ResponseEntity.ok().body(jogadorLance);
 	}
+	
+	@RequestMapping(value="/jogador", method=RequestMethod.GET)
+	public ResponseEntity<List<JogadorLance>> findLances(@RequestParam(value="usuario") String usuario) {
+		List<JogadorLance> obj = jogadorLanceService.findByLancesJogador(usuario);
+		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(value="/idJogador", method=RequestMethod.GET)
+	public ResponseEntity<List<JogadorLance>> findLancesJogador(@RequestParam(value="idJogador") String idJogador) {
+		List<JogadorLance> obj = jogadorLanceService.findByLancesIdJogador(Integer.parseInt(idJogador));
+		return ResponseEntity.ok().body(obj);
+	}
+	
+//	@RequestMapping(value="/lista", method=RequestMethod.GET)
+//	public ResponseEntity<List<Jogador>> findLista(@RequestParam(value="idLista") String idLista, @RequestParam(value="usuario") String idUsuario) {
+//		List<Jogador> listaJogadores = jogadorService.findLista(Integer.parseInt(idLista), idUsuario);
+//		return ResponseEntity.ok().body(listaJogadores);
+//	}
 	
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	public ResponseEntity<Page<JogadorLanceDTO>> findPage(

@@ -24,12 +24,16 @@ import com.lucasloose.appfooturestars.domain.Usuario;
 import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
+import com.lucasloose.appfooturestars.repositories.ClubeFutebolRepository;
+import com.lucasloose.appfooturestars.repositories.EmpresarioRepository;
 import com.lucasloose.appfooturestars.repositories.JogadorRepository;
 import com.lucasloose.appfooturestars.repositories.ModalidadePosicaoRepository;
+import com.lucasloose.appfooturestars.repositories.UsuarioRepository;
 import com.lucasloose.appfooturestars.security.UserSS;
 import com.lucasloose.appfooturestars.services.exceptions.AuthorizationException;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
+import com.lucasloose.appfooturestars.utils.ConverteUF;
 
 @Service
 public class JogadorService {
@@ -39,12 +43,24 @@ public class JogadorService {
 
 	@Autowired
 	private ModalidadePosicaoRepository posicaoRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
+	@Autowired
+	private ClubeFutebolRepository clubeFutebolRepository;
+	
+	@Autowired
+	private EmpresarioRepository empresarioRepository;
+	
 	@Autowired
 	private S3Service s3Service;
 
 	@Autowired
 	private ImageService imageService;
+	
+	@Autowired
+	private ConverteUF converteUF;
 	
 	@Value("${img.profile.size}")
 	private Integer size;
@@ -96,55 +112,153 @@ public class JogadorService {
 			throw new AuthorizationException("Acesso negado");
 		}
 
-		Jogador obj = jogadorRepository.findByEmail(email);
+		Usuario usu = usuarioRepository.findOne(email);
+		Jogador obj = jogadorRepository.findByUsuario(usu);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
 					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Jogador.class.getName());
 		}
 		return obj;
 	}
+	
+	public List<Jogador> findIdListaObservacao(String idLista, String usuario) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !usuario.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		List<Jogador> lista = null;
+		Usuario usu = new Usuario(usuario);
+		ClubeFutebol clube = clubeFutebolRepository.findByUsuario(usu);
+		if (clube != null) {
+			if (!idLista.equals("")) {
+				lista = jogadorRepository.listaJogadoresClubeFutebol(Integer.parseInt(idLista), clube.getId());
+			} else {
+				lista = jogadorRepository.listaJogadoresClubeFutebol(clube.getId());
+			}
+		} else {
+			Empresario empr = empresarioRepository.findByUsuario(usu);
+			if (empr != null) {
+				if (!idLista.equals("")) {
+					lista = jogadorRepository.listaJogadoresEmpresario(Integer.parseInt(idLista), empr.getId());
+				} else {
+					lista = jogadorRepository.listaJogadoresEmpresario(empr.getId());
+				}
+			}
+		}
+		
+		if (lista == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Jogador.class.getName());
+		}
+		return lista;
+		
+	}
+	
+	public List<Jogador> findByJogadoresUsuario(String usuario) {
+
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !usuario.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		List<Jogador> lista = null;
+		Usuario usu = new Usuario(usuario);
+		ClubeFutebol clube = clubeFutebolRepository.findByUsuario(usu);
+		if (clube != null) {
+			lista = jogadorRepository.findByClubeFutebol(clube);
+		} else {
+			Empresario empr = empresarioRepository.findByUsuario(usu);
+			if (empr != null) {
+				lista = jogadorRepository.findByEmpresario(empr);
+			}
+		}
+		
+		if (lista == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Jogador.class.getName());
+		}
+		return lista;
+	}
+	
 
 	public Jogador fromDTO(JogadorDTO jogadorDTO) {
-		Modalidade modalidade = new Modalidade(jogadorDTO.getIdModalidade(), "");
+//		Modalidade modalidade = new Modalidade(jogadorDTO.getIdModalidade(), "");
 		ClubeFutebol clube = new ClubeFutebol(jogadorDTO.getIdClubeFutebol());
 		Empresario empresario = new Empresario(jogadorDTO.getIdEmpresario());
 		Usuario usuario = new Usuario(jogadorDTO.getIdUsuario());
-		Jogador jogador = new Jogador(jogadorDTO.getId(), jogadorDTO.getNome(), jogadorDTO.getCpf(), null,
-				jogadorDTO.getNacionalidade(), jogadorDTO.getEstado_nasc(), jogadorDTO.getMunicipio_nasc(),
-				jogadorDTO.getSexo(), jogadorDTO.getAltura(), jogadorDTO.getPeso(), jogadorDTO.getProfissionalizacao(),
-				jogadorDTO.getCodigo_cbf(), modalidade, jogadorDTO.getPerna_preferida(), jogadorDTO.getPrefixo_fone(),
-				jogadorDTO.getDdd_fone(), jogadorDTO.getFone(), jogadorDTO.getEmail(), jogadorDTO.getComplemento(),
+		Jogador jogador = new Jogador(jogadorDTO.getId(), jogadorDTO.getNome(), 
+//				jogadorDTO.getCpf(), 
+//				null,
+//				jogadorDTO.getNacionalidade(), jogadorDTO.getEstado_nasc(), jogadorDTO.getMunicipio_nasc(),
+//				jogadorDTO.getSexo(), 
+				jogadorDTO.getAltura(), jogadorDTO.getPeso(), jogadorDTO.getProfissionalizacao(),
+				jogadorDTO.getCodigo_cbf(), 
+//				modalidade, jogadorDTO.getPerna_preferida(), 
+				jogadorDTO.getPrefixo_fone(),
+				jogadorDTO.getDdd_fone(), jogadorDTO.getFone(), 
+				jogadorDTO.getEmail(), 
+				jogadorDTO.getComplemento(),
 				clube, empresario, usuario);
 //		Modalidade mod = new Modalidade(jogadorDTO.getIdModalidade(), "");
 //		jogador.getModalidades().add(mod);
-		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorDTO.getIdPosicao1(), "");
-		jogador.getPosicoes().add(pos1);
-
-		if (jogadorDTO.getIdPosicao2() != null) {
-			ModalidadePosicao pos2 = new ModalidadePosicao(jogadorDTO.getIdPosicao2(), "");
-			jogador.getPosicoes().add(pos2);
-		}
-		if (jogadorDTO.getIdPosicao3() != null) {
-			ModalidadePosicao pos3 = new ModalidadePosicao(jogadorDTO.getIdPosicao3(), "");
-			jogador.getPosicoes().add(pos3);
-		}
+//		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorDTO.getIdPosicao1(), "");
+//		jogador.getPosicoes().add(pos1);
+//
+//		if (jogadorDTO.getIdPosicao2() != null) {
+//			ModalidadePosicao pos2 = new ModalidadePosicao(jogadorDTO.getIdPosicao2(), "");
+//			jogador.getPosicoes().add(pos2);
+//		}
+//		if (jogadorDTO.getIdPosicao3() != null) {
+//			ModalidadePosicao pos3 = new ModalidadePosicao(jogadorDTO.getIdPosicao3(), "");
+//			jogador.getPosicoes().add(pos3);
+//		}
 
 		return jogador;
 	}
 
 	public Jogador fromDTO(JogadorNewDTO jogadorNewDTO) {
-		// passei a data como null
 		Modalidade modalidade = new Modalidade(jogadorNewDTO.getIdModalidade(), "");
-		ClubeFutebol clube = new ClubeFutebol(jogadorNewDTO.getIdClubeFutebol());
-		Empresario empresario = new Empresario(jogadorNewDTO.getIdEmpresario());
-		Usuario usuario = new Usuario(jogadorNewDTO.getIdUsuario());
-		Jogador jogador = new Jogador(null, jogadorNewDTO.getNome(), jogadorNewDTO.getCpf(), null,
-				jogadorNewDTO.getNacionalidade(), jogadorNewDTO.getEstado_nasc(), jogadorNewDTO.getMunicipio_nasc(),
-				jogadorNewDTO.getSexo(), jogadorNewDTO.getAltura(), jogadorNewDTO.getPeso(),
-				jogadorNewDTO.getProfissionalizacao(), jogadorNewDTO.getCodigo_cbf(), modalidade,
-				jogadorNewDTO.getPerna_preferida(), jogadorNewDTO.getPrefixo_fone(), jogadorNewDTO.getDdd_fone(),
-				jogadorNewDTO.getFone(), jogadorNewDTO.getEmail(), jogadorNewDTO.getComplemento(), clube, empresario,
-				usuario);
+		
+		String uf = converteUF.converteCodToUF(Integer.parseInt(jogadorNewDTO.getEstado_nasc()));
+		
+		Jogador jogador = new Jogador(null, jogadorNewDTO.getNome(), jogadorNewDTO.getCpf(), jogadorNewDTO.getData_nasc(), jogadorNewDTO.getNacionalidade(),
+			uf, jogadorNewDTO.getMunicipio_nasc(), jogadorNewDTO.getSexo(), jogadorNewDTO.getAltura(),
+			jogadorNewDTO.getPeso(), jogadorNewDTO.getProfissionalizacao(),
+			jogadorNewDTO.getCodigo_cbf(), modalidade, jogadorNewDTO.getPerna_preferida(), jogadorNewDTO.getPrefixo_fone(), jogadorNewDTO.getDdd_fone(), jogadorNewDTO.getFone(),
+			jogadorNewDTO.getEmail(), jogadorNewDTO.getComplemento());
+		
+		Usuario usu = new Usuario(jogadorNewDTO.getIdUsuario());
+		ClubeFutebol clube = clubeFutebolRepository.findByUsuario(usu);
+		if (clube != null) {
+			jogador.setClubeFutebol(clube);
+			usu = null;
+		} else {
+			Empresario empr = empresarioRepository.findByUsuario(usu);
+			if (empr != null) {
+				jogador.setEmpresario(empr);
+				usu = null;
+			}
+		}
+		
+		
+		
+		
+//		if (jogadorNewDTO.getIdClubeFutebol() != null) {
+//			ClubeFutebol clube = new ClubeFutebol(jogadorNewDTO.getIdClubeFutebol());
+//			jogador.setClubeFutebol(clube);
+//		}
+//		
+//		if (jogadorNewDTO.getIdEmpresario() != null) {
+//			Empresario empresario = new Empresario(jogadorNewDTO.getIdEmpresario());
+//			jogador.setEmpresario(empresario);
+//		}
+		
+		if (jogadorNewDTO.getIdUsuario() != null && usu != null) {
+//			Usuario usuario = new Usuario(jogadorNewDTO.getIdUsuario());
+			jogador.setUsuario(usu);
+		}
+		
 //		Modalidade mod = new Modalidade(jogadorNewDTO.getIdModalidade(), "");
 //		jogador.getModalidades().add(mod);
 		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorNewDTO.getIdPosicao1(), "");

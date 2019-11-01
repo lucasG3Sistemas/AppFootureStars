@@ -7,23 +7,25 @@ import java.util.Date;
 public class JogadorLanceNewDTO  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private byte video;
+	private String titulo;
 	
 	private String urlVideo;
 	
 	private String descricao;
 	
 	private Date data_publicacao;
-	
-	private String pais_atual;
-	
-	private String estado_atual;
-	
-	private String municipio_atual;
+//	
+//	private String pais_atual;
+//	
+//	private String estado_atual;
+//	
+//	private String municipio_atual;
 	
 	private String complemento;
 	
 	private Integer idJogador;
+	
+	private String idUsuario;
 	
 	
 	public JogadorLanceNewDTO() {
@@ -31,12 +33,12 @@ public class JogadorLanceNewDTO  implements Serializable {
 	}
 
 	
-	public byte getVideo() {
-		return video;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setVideo(byte video) {
-		this.video = video;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getUrlVideo() {
@@ -62,30 +64,30 @@ public class JogadorLanceNewDTO  implements Serializable {
 	public void setData_publicacao(Date data_publicacao) {
 		this.data_publicacao = data_publicacao;
 	}
-
-	public String getPais_atual() {
-		return pais_atual;
-	}
-
-	public void setPais_atual(String pais_atual) {
-		this.pais_atual = pais_atual;
-	}
-
-	public String getEstado_atual() {
-		return estado_atual;
-	}
-
-	public void setEstado_atual(String estado_atual) {
-		this.estado_atual = estado_atual;
-	}
-
-	public String getMunicipio_atual() {
-		return municipio_atual;
-	}
-
-	public void setMunicipio_atual(String municipio_atual) {
-		this.municipio_atual = municipio_atual;
-	}
+//
+//	public String getPais_atual() {
+//		return pais_atual;
+//	}
+//
+//	public void setPais_atual(String pais_atual) {
+//		this.pais_atual = pais_atual;
+//	}
+//
+//	public String getEstado_atual() {
+//		return estado_atual;
+//	}
+//
+//	public void setEstado_atual(String estado_atual) {
+//		this.estado_atual = estado_atual;
+//	}
+//
+//	public String getMunicipio_atual() {
+//		return municipio_atual;
+//	}
+//
+//	public void setMunicipio_atual(String municipio_atual) {
+//		this.municipio_atual = municipio_atual;
+//	}
 
 	public String getComplemento() {
 		return complemento;
@@ -101,6 +103,14 @@ public class JogadorLanceNewDTO  implements Serializable {
 
 	public void setIdJogador(Integer idJogador) {
 		this.idJogador = idJogador;
+	}
+
+	public String getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(String idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 	
 }

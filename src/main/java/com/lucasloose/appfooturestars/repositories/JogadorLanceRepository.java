@@ -17,4 +17,7 @@ public interface JogadorLanceRepository extends JpaRepository<JogadorLance, Inte
 	@Transactional(readOnly = true)
 	Page<JogadorLance> findByJogadorIn(List<Jogador>jogadores, Pageable pageRequest);
 	
+	@Transactional(readOnly = true)
+	List<JogadorLance> findByJogadorOrderByIdDesc(Jogador jogador);
+	
 }

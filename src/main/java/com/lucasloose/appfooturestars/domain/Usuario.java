@@ -26,7 +26,6 @@ public class Usuario implements Serializable {
 	@JsonIgnore
 	private String senha;
 	
-	private String nome;
 	private Integer tipoUsuario;
 	
 //	@JsonBackReference
@@ -54,11 +53,11 @@ public class Usuario implements Serializable {
 		addPerfil(Perfil.ADMIN);
 	}
 	
-	public Usuario(String email, String senha, String nome, TipoUsuario tipoUsuario) {
+	public Usuario(String email, String senha, TipoUsuario tipoUsuario) {
 		super();
 		this.email = email;
 		this.senha = senha;
-		this.nome = nome;
+//		this.nome = nome;
 		this.tipoUsuario = (tipoUsuario==null) ? null : tipoUsuario.getId();
 //		this.clubeFutebol = clubeFutebol;
 //		this.empresario = empresario;
@@ -66,12 +65,11 @@ public class Usuario implements Serializable {
 		addPerfil(Perfil.ADMIN);
 	}
 	
-	public Usuario(String email, String senha, String nome, TipoUsuario tipoUsuario, ClubeFutebol clubeFutebol,
+	public Usuario(String email, String senha, TipoUsuario tipoUsuario, ClubeFutebol clubeFutebol,
 			Empresario empresario, Jogador jogador) {
 		super();
 		this.email = email;
 		this.senha = senha;
-		this.nome = nome;
 		this.tipoUsuario = (tipoUsuario==null) ? null : tipoUsuario.getId();
 		this.clubeFutebol = clubeFutebol;
 		this.empresario = empresario;
@@ -98,14 +96,6 @@ public class Usuario implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public TipoUsuario getTipoUsuario() {
@@ -161,7 +151,6 @@ public class Usuario implements Serializable {
 		result = prime * result + ((empresario == null) ? 0 : empresario.hashCode());
 //		result = prime * result + ((jogador == null) ? 0 : jogador.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		result = prime * result + ((tipoUsuario == null) ? 0 : tipoUsuario.hashCode());
 		return result;
@@ -196,11 +185,6 @@ public class Usuario implements Serializable {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
 			return false;
 		if (senha == null) {
 			if (other.senha != null)

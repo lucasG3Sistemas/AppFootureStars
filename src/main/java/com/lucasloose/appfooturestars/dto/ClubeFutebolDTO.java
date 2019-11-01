@@ -36,9 +36,9 @@ public class ClubeFutebolDTO  implements Serializable {
 	@NotEmpty(message = "Campo obrigatório")
 	private String municipio;
 	
-	@NotEmpty(message = "Campo obrigatório")
-	@Email
-	private String email;
+//	@NotEmpty(message = "Campo obrigatório")
+//	@Email
+//	private String email;
 	
 	private String complemento;
 	
@@ -57,7 +57,7 @@ public class ClubeFutebolDTO  implements Serializable {
 		this.pais = clubeFutebol.getPais();
 		this.estado = clubeFutebol.getEstado();
 		this.municipio = clubeFutebol.getMunicipio();
-		this.email = clubeFutebol.getEmail();
+//		this.email = clubeFutebol.getEmail();
 		this.complemento = clubeFutebol.getComplemento();
 	}
 	
@@ -134,13 +134,13 @@ public class ClubeFutebolDTO  implements Serializable {
 		this.municipio = municipio;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
 
 	public String getComplemento() {
 		return complemento;

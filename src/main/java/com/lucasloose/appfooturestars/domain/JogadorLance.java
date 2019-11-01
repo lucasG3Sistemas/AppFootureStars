@@ -21,11 +21,11 @@ public class JogadorLance implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	//DADOS PESSOAIS
 	private Integer id;
-	private byte video;
+	private String titulo;
 	private String urlVideo;
 	private String descricao;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
 	private Date data_publicacao;
 	
 	private String pais_atual;
@@ -44,31 +44,23 @@ public class JogadorLance implements Serializable {
 		
 	}
 
-	public JogadorLance(Integer id, byte video, String urlVideo, String descricao, Date data_publicacao, String pais_atual, String estado_atual, String municipio_atual,
+	public JogadorLance(Integer id, String titulo, String urlVideo, String descricao, 
+			Date data_publicacao, 
+//			String pais_atual, String estado_atual, String municipio_atual,
 			String complemento, Jogador jogador) {
 		super();
 		this.id = id;
-		this.video = video;
+		this.titulo = titulo;
 		this.urlVideo = urlVideo;
 		this.descricao = descricao;
 		this.data_publicacao = data_publicacao;
-		this.pais_atual = pais_atual;
-		this.estado_atual = estado_atual;
-		this.municipio_atual = municipio_atual;
+//		this.pais_atual = pais_atual;
+//		this.estado_atual = estado_atual;
+//		this.municipio_atual = municipio_atual;
 		this.complemento = complemento;
 		this.jogador = jogador;
 	}
 	
-	public JogadorLance(Integer id, Date data_publicacao, String pais_atual, String estado_atual, String municipio_atual, Jogador jogador) {
-		super();
-		this.id = id;
-		this.data_publicacao = data_publicacao;
-		this.pais_atual = pais_atual;
-		this.estado_atual = estado_atual;
-		this.municipio_atual = municipio_atual;
-		this.jogador = jogador;
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -77,12 +69,12 @@ public class JogadorLance implements Serializable {
 		this.id = id;
 	}
 
-	public byte getVideo() {
-		return video;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setVideo(byte video) {
-		this.video = video;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getUrlVideo() {

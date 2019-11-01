@@ -3,7 +3,6 @@ package com.lucasloose.appfooturestars.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -21,7 +20,7 @@ public class EmpresarioNewDTO  implements Serializable {
 	@CPF
 	private String cpf;
 	
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	//@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date data_nasc;
 	
 	private String nacionalidade;
@@ -39,9 +38,9 @@ public class EmpresarioNewDTO  implements Serializable {
 	
 	private Integer fone;
 	
-	@NotEmpty(message = "Campo obrigatório")
-	@Email(message = "E-mail inválido")
-	private String email;
+//	@NotEmpty(message = "Campo obrigatório")
+//	@Email(message = "E-mail inválido")
+//	private String email;
 	
 	private String complemento;
 	
@@ -133,13 +132,13 @@ public class EmpresarioNewDTO  implements Serializable {
 		this.fone = fone;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
 
 	public String getComplemento() {
 		return complemento;

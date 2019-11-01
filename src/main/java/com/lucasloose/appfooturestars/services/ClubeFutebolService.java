@@ -22,10 +22,12 @@ import com.lucasloose.appfooturestars.domain.enums.Perfil;
 import com.lucasloose.appfooturestars.dto.ClubeFutebolDTO;
 import com.lucasloose.appfooturestars.dto.ClubeFutebolNewDTO;
 import com.lucasloose.appfooturestars.repositories.ClubeFutebolRepository;
+import com.lucasloose.appfooturestars.repositories.UsuarioRepository;
 import com.lucasloose.appfooturestars.security.UserSS;
 import com.lucasloose.appfooturestars.services.exceptions.AuthorizationException;
 import com.lucasloose.appfooturestars.services.exceptions.DataIntegrityException;
 import com.lucasloose.appfooturestars.services.exceptions.ObjectNotFoundException;
+import com.lucasloose.appfooturestars.utils.ConverteUF;
 
 @Service
 public class ClubeFutebolService {
@@ -33,6 +35,12 @@ public class ClubeFutebolService {
 	@Autowired
 	private ClubeFutebolRepository clubeFutebolRepository;
 
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private ConverteUF converteUF;
+	
 	@Autowired
 	private S3Service s3Service;
 
@@ -76,7 +84,8 @@ public class ClubeFutebolService {
 			throw new AuthorizationException("Acesso negado");
 		}
 
-		ClubeFutebol obj = clubeFutebolRepository.findByEmail(email);
+		Usuario usu = usuarioRepository.findOne(email);
+		ClubeFutebol obj = clubeFutebolRepository.findByUsuario(usu);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
 					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + ClubeFutebol.class.getName());
@@ -88,7 +97,8 @@ public class ClubeFutebolService {
 		Usuario usuario = new Usuario(clubeFutebolDTO.getIdUsuario());
 		ClubeFutebol clubeFutebol = new ClubeFutebol(clubeFutebolDTO.getId(), clubeFutebolDTO.getNome(),
 				clubeFutebolDTO.getProfissionalizacao(), clubeFutebolDTO.getRegistro_cbf(), clubeFutebolDTO.getPais(),
-				clubeFutebolDTO.getEstado(), clubeFutebolDTO.getMunicipio(), clubeFutebolDTO.getEmail(),
+				clubeFutebolDTO.getEstado(), clubeFutebolDTO.getMunicipio(), 
+//				clubeFutebolDTO.getEmail(),
 				clubeFutebolDTO.getComplemento(), usuario);
 		Modalidade mod1 = new Modalidade(clubeFutebolDTO.getIdModalidade1(), "");
 		clubeFutebol.getModalidades().add(mod1);
@@ -101,11 +111,13 @@ public class ClubeFutebolService {
 	}
 
 	public ClubeFutebol fromDTO(ClubeFutebolNewDTO clubeFutebolNewDTO) {
+		String uf = converteUF.converteCodToUF(Integer.parseInt(clubeFutebolNewDTO.getEstado()));
 		Usuario usuario = new Usuario(clubeFutebolNewDTO.getIdUsuario());
 		ClubeFutebol clubeFutebol = new ClubeFutebol(null, clubeFutebolNewDTO.getNome(),
 				clubeFutebolNewDTO.getProfissionalizacao(), clubeFutebolNewDTO.getRegistro_cbf(),
-				clubeFutebolNewDTO.getPais(), clubeFutebolNewDTO.getEstado(), clubeFutebolNewDTO.getMunicipio(),
-				clubeFutebolNewDTO.getEmail(), clubeFutebolNewDTO.getComplemento(), usuario);
+				clubeFutebolNewDTO.getPais(), uf, clubeFutebolNewDTO.getMunicipio(),
+//				clubeFutebolNewDTO.getEmail(), 
+				clubeFutebolNewDTO.getComplemento(), usuario);
 		Modalidade mod1 = new Modalidade(clubeFutebolNewDTO.getIdModalidade1(), "");
 		clubeFutebol.getModalidades().add(mod1);
 		if (clubeFutebolNewDTO.getIdModalidade2() != null) {
@@ -153,8 +165,8 @@ public class ClubeFutebolService {
 				.setEstado(clubeFutebol.getEstado() != null ? clubeFutebol.getEstado() : newClubeFutebol.getEstado());
 		newClubeFutebol.setMunicipio(
 				clubeFutebol.getMunicipio() != null ? clubeFutebol.getMunicipio() : newClubeFutebol.getMunicipio());
-		newClubeFutebol
-				.setEmail(clubeFutebol.getEmail() != null ? clubeFutebol.getEmail() : newClubeFutebol.getEmail());
+//		newClubeFutebol
+//				.setEmail(clubeFutebol.getEmail() != null ? clubeFutebol.getEmail() : newClubeFutebol.getEmail());
 		newClubeFutebol.setComplemento(clubeFutebol.getComplemento() != null ? clubeFutebol.getComplemento()
 				: newClubeFutebol.getComplemento());
 		if (clubeFutebol.getModalidades() != null) {
