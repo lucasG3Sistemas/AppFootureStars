@@ -109,7 +109,11 @@ public class JogadorLanceService {
 	
 	public JogadorLance fromDTO(JogadorLanceDTO jogadorLanceDTO) {
 		Jogador jogador = new Jogador(jogadorLanceDTO.getIdJogador(), "");
-		JogadorLance jogadorLance = new JogadorLance(jogadorLanceDTO.getId(), jogadorLanceDTO.getTitulo(), jogadorLanceDTO.getUrlVideo(), jogadorLanceDTO.getDescricao(), 
+		String urlVideo = jogadorLanceDTO.getUrlVideo();
+		String palavra = "watch?v=";
+		String novaPalavra = "embed/";
+		String novaUrl = urlVideo.replace(palavra,novaPalavra);
+		JogadorLance jogadorLance = new JogadorLance(jogadorLanceDTO.getId(), jogadorLanceDTO.getTitulo(), novaUrl, jogadorLanceDTO.getDescricao(), 
 				jogadorLanceDTO.getData_publicacao(), 
 //				jogadorLanceDTO.getPais_atual(), jogadorLanceDTO.getEstado_atual(), jogadorLanceDTO.getMunicipio_atual(),
 				jogadorLanceDTO.getComplemento(), jogador);
@@ -126,7 +130,11 @@ public class JogadorLanceService {
 		}
 		
 		Jogador jogador = new Jogador(idJogador, "");
-		JogadorLance jogadorLance = new JogadorLance(null, jogadorLanceNewDTO.getTitulo(), jogadorLanceNewDTO.getUrlVideo(), jogadorLanceNewDTO.getDescricao(),
+		String urlVideo = jogadorLanceNewDTO.getUrlVideo();
+		String palavra = "watch?v=";
+		String novaPalavra = "embed/";
+		String novaUrl = urlVideo.replace(palavra,novaPalavra);
+		JogadorLance jogadorLance = new JogadorLance(null, jogadorLanceNewDTO.getTitulo(), novaUrl, jogadorLanceNewDTO.getDescricao(),
 				new Date(), 
 //				jogadorLanceNewDTO.getPais_atual(), jogadorLanceNewDTO.getEstado_atual(), jogadorLanceNewDTO.getMunicipio_atual(),
 				jogadorLanceNewDTO.getComplemento(), jogador);
