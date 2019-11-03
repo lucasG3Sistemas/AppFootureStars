@@ -69,6 +69,42 @@ public class JogadorService {
 	@Value("${img.prefix.jogador.profile}")
 	private String prefix;
 
+	
+	
+	public List<Jogador> searchNome(String idLista, String usuario, String nome) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !usuario.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		List<Jogador> lista = null;
+		Usuario usu = new Usuario(usuario);
+		ClubeFutebol clube = clubeFutebolRepository.findByUsuario(usu);
+		if (clube != null) {
+			if (!idLista.equals("")) {				
+				lista = jogadorRepository.listaJogadoresClubeFutebolPorNome(Integer.parseInt(idLista), clube.getId(), nome);
+			} else {
+				lista = jogadorRepository.jogadoresClubeFutebolPorNome(clube.getId(), nome);
+			}
+		} else {
+			Empresario empr = empresarioRepository.findByUsuario(usu);
+			if (empr != null) {
+				if (!idLista.equals("")) {
+					lista = jogadorRepository.listaJogadoresEmpresarioPorNome(Integer.parseInt(idLista), empr.getId(), nome);
+				} else {
+					lista = jogadorRepository.jogadoresEmpresarioPorNome(empr.getId(), nome);
+				}
+			}
+		}
+		
+		if (lista == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Jogador.class.getName());
+		}
+		return lista;
+		
+	}
+	
 	public Page<Jogador> search(String nome, List<Integer> idsPosicoes, Integer page, Integer linesPerPage,
 			String orderBy, String direction) {
 		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);

@@ -167,7 +167,7 @@ public class DBService {
 		historicoContratacaoRepository.save(Arrays.asList(hisContr1, hisContr2));
 		
 		Date data = new Date();
-		JogadorLance lance1 = new JogadorLance(null, "Gols no Campeonato Estadual", "https://www.youtube.com/embed/GMmGt0upVrY", "Gols no campeonato Estadual de Futebol realizado entre os dias 05 à 12.", data, "", jogador1);
+		JogadorLance lance1 = new JogadorLance(null, "Gols no Campeonato Estadual", "https://www.youtube.com/embed/ALXkA9OxGpw", "Gols no campeonato Estadual de Futebol realizado entre os dias 05 à 12.", data, "", jogador1);
 		JogadorLance lance2 = new JogadorLance(null, "Gols no Campeonato Brasileiro", "https://www.youtube.com/embed/is3Tr3fZCOI", "Gols no campeonato brasileiro de futebol de campo.", data, "", jogador2);
 		JogadorLance lance3 = new JogadorLance(null, "Gols de Falta", "https://www.youtube.com/embed/ALXkA9OxGpw", "Gols de falta no ano de 2018.", data, "", jogador2);
 //		JogadorLance lance3 = new JogadorLance(null, data, "Brasil", "RJ", "Rio de Janeiro", jogador2);

@@ -63,20 +63,30 @@ public class JogadorResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
-	//falta mostrar modalidade, posicao
-	public ResponseEntity<Page<JogadorDTO>> findPage(
-			@RequestParam(value = "nome", defaultValue = "") String nome,
-			@RequestParam(value = "posicoes", defaultValue = "") String posicoes,
-			@RequestParam(value = "page", defaultValue = "0") Integer page, 
-			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
-			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy, 
-			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+	public ResponseEntity <List <Jogador>> findJogNome(
+			@RequestParam(value="idLista") String idLista,
+			@RequestParam(value="usuario") String idUsuario,
+			@RequestParam(value = "nome", defaultValue = "") String nome) {
 		String nomeDecoded = URL.decodeParam(nome);
-		List<Integer> idsPosicoes = URL.decodeInList(posicoes);
-		Page<Jogador> listaJogadores = jogadorService.search(nomeDecoded, idsPosicoes, page, linesPerPage, orderBy, direction);
-		Page<JogadorDTO> listDTO = listaJogadores.map(obj -> new JogadorDTO(obj));
-		return ResponseEntity.ok().body(listDTO);
+		List<Jogador> objs = jogadorService.searchNome(idLista, idUsuario, nomeDecoded);
+		return ResponseEntity.ok().body(objs);
 	}
+	
+//	@RequestMapping(method=RequestMethod.GET)
+//	//falta mostrar modalidade, posicao
+//	public ResponseEntity<Page<JogadorDTO>> findPage(
+//			@RequestParam(value = "nome", defaultValue = "") String nome,
+//			@RequestParam(value = "posicoes", defaultValue = "") String posicoes,
+//			@RequestParam(value = "page", defaultValue = "0") Integer page, 
+//			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
+//			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy, 
+//			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+//		String nomeDecoded = URL.decodeParam(nome);
+//		List<Integer> idsPosicoes = URL.decodeInList(posicoes);
+//		Page<Jogador> listaJogadores = jogadorService.search(nomeDecoded, idsPosicoes, page, linesPerPage, orderBy, direction);
+//		Page<JogadorDTO> listDTO = listaJogadores.map(obj -> new JogadorDTO(obj));
+//		return ResponseEntity.ok().body(listDTO);
+//	}
 	
 	@RequestMapping(value="/email", method=RequestMethod.GET)
 	public ResponseEntity<Jogador> find(@RequestParam(value="value") String email) {

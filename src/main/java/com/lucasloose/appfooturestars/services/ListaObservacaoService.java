@@ -88,6 +88,31 @@ public class ListaObservacaoService {
 		return lista;
 	}
 
+	public ListaObservacao findByListaUsuarioNomeJogador(String usuario, String nomeJogador) {
+
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !usuario.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		ListaObservacao lista = null;
+		Usuario usu = new Usuario(usuario);
+		ClubeFutebol clube = clubeFutebolRepository.findByUsuario(usu);
+		if (clube != null) {
+			lista = listaObservacaoRepository.findByClubeFutebol(clube);
+		} else {
+			Empresario empr = empresarioRepository.findByUsuario(usu);
+			if (empr != null) {
+				lista = listaObservacaoRepository.findByEmpresario(empr);
+			}
+		}
+		
+//		if (lista == null) {
+//			throw new ObjectNotFoundException(
+//					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Jogador.class.getName());
+//		}
+		return lista;
+	}
 	
 	public ListaObservacao fromDTO(ListaObservacaoDTO listaObservacaoDTO) {
 //		ClubeFutebol clubeFutebol = new ClubeFutebol(listaObservacaoDTO.getIdClubeFutebol());

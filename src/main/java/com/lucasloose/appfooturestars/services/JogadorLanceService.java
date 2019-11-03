@@ -110,6 +110,7 @@ public class JogadorLanceService {
 	public JogadorLance fromDTO(JogadorLanceDTO jogadorLanceDTO) {
 		Jogador jogador = new Jogador(jogadorLanceDTO.getIdJogador(), "");
 		String urlVideo = jogadorLanceDTO.getUrlVideo();
+		//https://www.youtube.com/watch?v=59WkZv1xNl0
 		String palavra = "watch?v=";
 		String novaPalavra = "embed/";
 		String novaUrl = urlVideo.replace(palavra,novaPalavra);
