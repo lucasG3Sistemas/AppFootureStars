@@ -18,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.lucasloose.appfooturestars.domain.ListaObservacao;
 import com.lucasloose.appfooturestars.dto.ListaObservacaoDTO;
 import com.lucasloose.appfooturestars.dto.ListaObservacaoNewDTO;
-import com.lucasloose.appfooturestars.resources.utils.URL;
 import com.lucasloose.appfooturestars.services.ListaObservacaoService;
 
 @RestController
@@ -72,9 +71,8 @@ public class ListaObservacaoResource {
 	//Exclui jogador da lista 
 	@RequestMapping(method=RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteJogadorLista(@RequestParam(value = "id", defaultValue = "") String id,
-			@RequestParam(value = "jogadores", defaultValue = "") String jogadores) {
-		List<Integer> idsJogadores = URL.decodeInList(jogadores);
-		listaObservacaoService.deleteJogadorLista(Integer.parseInt(id), idsJogadores);
+			@RequestParam(value = "jogador", defaultValue = "") String idJogador) {
+		listaObservacaoService.deleteJogadorLista(Integer.parseInt(id), Integer.parseInt(idJogador));
 		return ResponseEntity.noContent().build();
 	}
 	

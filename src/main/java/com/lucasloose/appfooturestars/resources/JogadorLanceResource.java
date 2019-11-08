@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.lucasloose.appfooturestars.domain.Jogador;
 import com.lucasloose.appfooturestars.domain.JogadorLance;
-import com.lucasloose.appfooturestars.domain.ListaObservacao;
 import com.lucasloose.appfooturestars.dto.JogadorLanceDTO;
 import com.lucasloose.appfooturestars.dto.JogadorLanceNewDTO;
 import com.lucasloose.appfooturestars.resources.utils.URL;

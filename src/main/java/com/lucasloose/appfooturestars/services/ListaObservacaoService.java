@@ -197,11 +197,12 @@ public class ListaObservacaoService {
 	}
 	
 	//Excluir jogador da lista
-	public void deleteJogadorLista(Integer id, List<Integer> idsJogadores) {
-		try {
-			List<Jogador> jogadores = jogadorRepository.findAll(idsJogadores);
-			List<ListaObservacao> lista = listaObservacaoRepository.findByIdAndJogadoresIn(id, jogadores);
-			String a = "";
+	public void deleteJogadorLista(Integer id, Integer idJogador) {
+		try {	
+			Jogador jogador = jogadorRepository.findOne(idJogador);
+			ListaObservacao lista = listaObservacaoRepository.findOne(id);
+			lista.getJogadores().remove(jogador);
+			listaObservacaoRepository.save(lista);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Erro ao excluir Jogador da Lista de Observação!");
 		}	

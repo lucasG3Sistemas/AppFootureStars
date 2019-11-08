@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucasloose.appfooturestars.domain.Jogador;
-import com.lucasloose.appfooturestars.domain.ListaObservacao;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
 import com.lucasloose.appfooturestars.resources.utils.URL;
