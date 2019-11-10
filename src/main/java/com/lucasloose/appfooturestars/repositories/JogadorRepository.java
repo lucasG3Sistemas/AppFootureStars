@@ -43,22 +43,22 @@ public interface JogadorRepository extends JpaRepository<Jogador, Integer> {
 	List<Jogador> findDistinctByNomeContainingOrderByNomeAsc(String nome);
 	
 	@Query(					
-			value = "SELECT DISTINCT JOGADOR.* FROM JOGADOR WHERE NOT EXISTS (SELECT * FROM LISTA_OBS_JOGADOR WHERE ID_LISTA_OBSERVACAO=:idLista AND ID_JOGADOR=ID) AND (ID_EMPRESARIO<>:idEmpresario OR ID_EMPRESARIO IS NULL) AND JOGADOR.nome iLIKE %:nome%",
+			value = "SELECT DISTINCT JOGADOR.* FROM JOGADOR WHERE NOT EXISTS (SELECT * FROM LISTA_OBS_JOGADOR WHERE ID_LISTA_OBSERVACAO=:idLista AND ID_JOGADOR=ID) AND (ID_EMPRESARIO<>:idEmpresario OR ID_EMPRESARIO IS NULL) AND JOGADOR.nome LIKE %:nome%",
 			nativeQuery = true)
 	List<Jogador> listaJogadoresEmpresarioPorNome(@Param("idLista") Integer idLista, @Param("idEmpresario") Integer idEmpresario, @Param("nome") String nome);
 	
 	@Query(					
-			value = "SELECT DISTINCT JOGADOR.* FROM JOGADOR WHERE (ID_EMPRESARIO<>:idEmpresario OR ID_EMPRESARIO IS NULL) AND JOGADOR.nome iLIKE %:nome%",
+			value = "SELECT DISTINCT JOGADOR.* FROM JOGADOR WHERE (ID_EMPRESARIO<>:idEmpresario OR ID_EMPRESARIO IS NULL) AND JOGADOR.nome LIKE %:nome%",
 			nativeQuery = true)
 	List<Jogador> jogadoresEmpresarioPorNome(@Param("idEmpresario") Integer idEmpresario, @Param("nome") String nome);
 	
 	@Query(					
-			value = "SELECT DISTINCT JOGADOR.* FROM JOGADOR WHERE NOT EXISTS (SELECT * FROM LISTA_OBS_JOGADOR WHERE ID_LISTA_OBSERVACAO=:idLista AND ID_JOGADOR=ID) AND (ID_CLUBE_FUTEBOL<>:idClubeFutebol OR ID_CLUBE_FUTEBOL IS NULL) AND JOGADOR.nome iLIKE %:nome%",
+			value = "SELECT DISTINCT JOGADOR.* FROM JOGADOR WHERE NOT EXISTS (SELECT * FROM LISTA_OBS_JOGADOR WHERE ID_LISTA_OBSERVACAO=:idLista AND ID_JOGADOR=ID) AND (ID_CLUBE_FUTEBOL<>:idClubeFutebol OR ID_CLUBE_FUTEBOL IS NULL) AND JOGADOR.nome LIKE %:nome%",
 			nativeQuery = true)
 	List<Jogador> listaJogadoresClubeFutebolPorNome(@Param("idLista") Integer idLista, @Param("idClubeFutebol") Integer idClubeFutebol, @Param("nome") String nome);
 	
 	@Query(					
-			value = "SELECT DISTINCT JOGADOR.* FROM JOGADOR WHERE (ID_CLUBE_FUTEBOL<>:idClubeFutebol OR ID_CLUBE_FUTEBOL IS NULL) AND JOGADOR.nome iLIKE %:nome%",
+			value = "SELECT DISTINCT JOGADOR.* FROM JOGADOR WHERE (ID_CLUBE_FUTEBOL<>:idClubeFutebol OR ID_CLUBE_FUTEBOL IS NULL) AND JOGADOR.nome LIKE %:nome%",
 			nativeQuery = true)
 	List<Jogador> jogadoresClubeFutebolPorNome(@Param("idClubeFutebol") Integer idClubeFutebol, @Param("nome") String nome);
 	

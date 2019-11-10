@@ -138,6 +138,9 @@ public class JogadorLanceService {
 		String www = "m.youtube.com";
 		String novaWww = "www.youtube.com";
 		novaUrl = novaUrl.replace(www, novaWww);
+		String www1 = "youtu.be/";
+		String novaWww1 = "www.youtube.com/embed/";
+		novaUrl = novaUrl.replace(www1, novaWww1);
 		JogadorLance jogadorLance = new JogadorLance(null, jogadorLanceNewDTO.getTitulo(), novaUrl, jogadorLanceNewDTO.getDescricao(),
 				new Date(), 
 //				jogadorLanceNewDTO.getPais_atual(), jogadorLanceNewDTO.getEstado_atual(), jogadorLanceNewDTO.getMunicipio_atual(),
