@@ -219,36 +219,51 @@ public class JogadorService {
 	
 
 	public Jogador fromDTO(JogadorDTO jogadorDTO) {
+		
 //		Modalidade modalidade = new Modalidade(jogadorDTO.getIdModalidade(), "");
-		ClubeFutebol clube = new ClubeFutebol(jogadorDTO.getIdClubeFutebol());
-		Empresario empresario = new Empresario(jogadorDTO.getIdEmpresario());
-		Usuario usuario = new Usuario(jogadorDTO.getIdUsuario());
-		Jogador jogador = new Jogador(jogadorDTO.getId(), jogadorDTO.getNome(), 
+//		ClubeFutebol clube = new ClubeFutebol(jogadorDTO.getIdClubeFutebol());
+//		Empresario empresario = new Empresario(jogadorDTO.getIdEmpresario());
+//		Usuario usuario = new Usuario(jogadorDTO.getIdUsuario());
+		Modalidade modalidade = new Modalidade(jogadorDTO.getIdModalidade(), "");
+		
+		Jogador jogador = this.find(jogadorDTO.getId());
+		jogador.setAltura(jogadorDTO.getAltura());
+		jogador.setPeso(jogadorDTO.getPeso());
+		jogador.setProfissionalizacao(jogadorDTO.getProfissionalizacao());
+		jogador.setCodigo_cbf(jogadorDTO.getCodigo_cbf());
+		jogador.setModalidade(modalidade);
+		jogador.setPerna_preferida(jogadorDTO.getPerna_preferida());
+		jogador.setPrefixo_fone(jogadorDTO.getPrefixo_fone());
+		jogador.setDdd_fone(jogadorDTO.getDdd_fone());
+		jogador.setFone(jogadorDTO.getFone());
+		jogador.setComplemento(jogadorDTO.getComplemento());
+//		jogador = new Jogador(jogadorDTO.getId(), 
 //				jogadorDTO.getCpf(), 
 //				null,
 //				jogadorDTO.getNacionalidade(), jogadorDTO.getEstado_nasc(), jogadorDTO.getMunicipio_nasc(),
 //				jogadorDTO.getSexo(), 
-				jogadorDTO.getAltura(), jogadorDTO.getPeso(), jogadorDTO.getProfissionalizacao(),
-				jogadorDTO.getCodigo_cbf(), 
-//				modalidade, jogadorDTO.getPerna_preferida(), 
-				jogadorDTO.getPrefixo_fone(),
-				jogadorDTO.getDdd_fone(), jogadorDTO.getFone(), 
-				jogadorDTO.getEmail(), 
-				jogadorDTO.getComplemento(),
-				clube, empresario, usuario);
-//		Modalidade mod = new Modalidade(jogadorDTO.getIdModalidade(), "");
-//		jogador.getModalidades().add(mod);
-//		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorDTO.getIdPosicao1(), "");
-//		jogador.getPosicoes().add(pos1);
-//
-//		if (jogadorDTO.getIdPosicao2() != null) {
-//			ModalidadePosicao pos2 = new ModalidadePosicao(jogadorDTO.getIdPosicao2(), "");
-//			jogador.getPosicoes().add(pos2);
-//		}
-//		if (jogadorDTO.getIdPosicao3() != null) {
-//			ModalidadePosicao pos3 = new ModalidadePosicao(jogadorDTO.getIdPosicao3(), "");
-//			jogador.getPosicoes().add(pos3);
-//		}
+//				jogadorDTO.getAltura(), jogadorDTO.getPeso(), jogadorDTO.getProfissionalizacao(),
+//				jogadorDTO.getCodigo_cbf(), 
+//				modalidade, 
+//				jogadorDTO.getPerna_preferida(), 
+//				jogadorDTO.getPrefixo_fone(),
+//				jogadorDTO.getDdd_fone(), jogadorDTO.getFone(), 
+//				jogadorDTO.getEmail(), 
+//				jogadorDTO.getComplemento()
+//				clube, empresario, usuario
+//				);
+//		jogador.getModalidade().setId(jogadorDTO.getIdModalidade());
+		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorDTO.getIdPosicao1(), "");
+		jogador.getPosicoes().add(pos1);
+
+		if (jogadorDTO.getIdPosicao2() != null) {
+			ModalidadePosicao pos2 = new ModalidadePosicao(jogadorDTO.getIdPosicao2(), "");
+			jogador.getPosicoes().add(pos2);
+		}
+		if (jogadorDTO.getIdPosicao3() != null) {
+			ModalidadePosicao pos3 = new ModalidadePosicao(jogadorDTO.getIdPosicao3(), "");
+			jogador.getPosicoes().add(pos3);
+		}
 
 		return jogador;
 	}

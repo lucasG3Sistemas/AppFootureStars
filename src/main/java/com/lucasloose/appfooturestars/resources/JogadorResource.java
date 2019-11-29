@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.lucasloose.appfooturestars.domain.Jogador;
+import com.lucasloose.appfooturestars.dto.FiltroJogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorDTO;
 import com.lucasloose.appfooturestars.dto.JogadorNewDTO;
 import com.lucasloose.appfooturestars.resources.utils.URL;
@@ -34,6 +35,12 @@ public class JogadorResource {
 	@RequestMapping(value="/lista/todos", method=RequestMethod.GET)
 	public ResponseEntity<List<Jogador>> findAll() {
 		List<Jogador> listaJogadores = jogadorService.findAll();
+		return ResponseEntity.ok().body(listaJogadores);
+	}
+	
+	@RequestMapping(value="/filtro", method=RequestMethod.GET)
+	public ResponseEntity<List<Jogador>> findListaFiltro(@RequestParam(value="idLista") String idLista, @RequestParam(value="usuario") String idUsuario, @RequestParam FiltroJogadorDTO filtroJogadorDTO) {
+		List<Jogador> listaJogadores = jogadorService.findIdListaObservacao(idLista, idUsuario);
 		return ResponseEntity.ok().body(listaJogadores);
 	}
 	

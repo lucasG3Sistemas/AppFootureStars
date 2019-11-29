@@ -190,6 +190,23 @@ public class Jogador implements Serializable {
 		this.usuario = usuario;
 	}
 	
+	public Jogador(Integer id, Double altura, Double peso, Integer profissionalizacao,
+			String codigo_cbf, Modalidade modalidade, Integer perna_preferida, Integer prefixo_fone, Integer ddd_fone, Integer fone, String complemento
+			) {
+		super();
+		this.id = id;
+		this.altura = altura;
+		this.peso = peso;
+		this.profissionalizacao = profissionalizacao;
+		this.codigo_cbf = codigo_cbf;
+		this.modalidade = modalidade;
+		this.perna_preferida = perna_preferida;
+		this.prefixo_fone = prefixo_fone;
+		this.ddd_fone = ddd_fone;
+		this.fone = fone;
+		this.complemento = complemento;
+	}
+	
 //	public Jogador(Integer id, String nome, byte foto, String cpf, Date data_nasc, String nacionalidade,
 //			String estado_nasc, String municipio_nasc, Integer sexo, Double altura, Double peso, Integer profissionalizacao,
 //			String codigo_cbf, Integer perna_preferida, Integer prefixo_fone, Integer ddd_fone, Integer fone,

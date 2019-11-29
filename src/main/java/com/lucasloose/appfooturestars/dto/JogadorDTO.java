@@ -13,7 +13,7 @@ public class JogadorDTO  implements Serializable {
 	
 	private Integer id;
 	
-	@NotEmpty(message = "Campo obrigatório")
+//	@NotEmpty(message = "Campo obrigatório")
 	private String nome;
 	
 //	@NotEmpty(message = "Campo obrigatório")
@@ -49,14 +49,14 @@ public class JogadorDTO  implements Serializable {
 //	@NotEmpty(message = "Campo obrigatório")
 	private String codigo_cbf;
 	
-//	private Integer idModalidade;
+	private Integer idModalidade;
 	
-//	private Integer idPosicao1;
-//	private Integer idPosicao2;
-//	private Integer idPosicao3;
+	private Integer idPosicao1;
+	private Integer idPosicao2;
+	private Integer idPosicao3;
 	
 //	@NotEmpty(message = "Campo obrigatório")
-//	private Integer perna_preferida;
+	private Integer perna_preferida;
 //	
 //	//DADOS CONTATO
 //	@NotEmpty(message = "Campo obrigatório")
@@ -203,45 +203,45 @@ public class JogadorDTO  implements Serializable {
 		this.codigo_cbf = codigo_cbf;
 	}
 
-//	public Integer getIdModalidade() {
-//		return idModalidade;
-//	}
-//
-//	public void setIdModalidade(Integer idModalidade) {
-//		this.idModalidade = idModalidade;
-//	}
-//
-//	public Integer getIdPosicao1() {
-//		return idPosicao1;
-//	}
-//
-//	public void setIdPosicao1(Integer idPosicao1) {
-//		this.idPosicao1 = idPosicao1;
-//	}
-//
-//	public Integer getIdPosicao2() {
-//		return idPosicao2;
-//	}
-//
-//	public void setIdPosicao2(Integer idPosicao2) {
-//		this.idPosicao2 = idPosicao2;
-//	}
-//
-//	public Integer getIdPosicao3() {
-//		return idPosicao3;
-//	}
-//
-//	public void setIdPosicao3(Integer idPosicao3) {
-//		this.idPosicao3 = idPosicao3;
-//	}
-//
-//	public Integer getPerna_preferida() {
-//		return perna_preferida;
-//	}
-//
-//	public void setPerna_preferida(Integer perna_preferida) {
-//		this.perna_preferida = perna_preferida;
-//	}
+	public Integer getIdModalidade() {
+		return idModalidade;
+	}
+
+	public void setIdModalidade(Integer idModalidade) {
+		this.idModalidade = idModalidade;
+	}
+
+	public Integer getIdPosicao1() {
+		return idPosicao1;
+	}
+
+	public void setIdPosicao1(Integer idPosicao1) {
+		this.idPosicao1 = idPosicao1;
+	}
+
+	public Integer getIdPosicao2() {
+		return idPosicao2;
+	}
+
+	public void setIdPosicao2(Integer idPosicao2) {
+		this.idPosicao2 = idPosicao2;
+	}
+
+	public Integer getIdPosicao3() {
+		return idPosicao3;
+	}
+
+	public void setIdPosicao3(Integer idPosicao3) {
+		this.idPosicao3 = idPosicao3;
+	}
+
+	public Integer getPerna_preferida() {
+		return perna_preferida;
+	}
+
+	public void setPerna_preferida(Integer perna_preferida) {
+		this.perna_preferida = perna_preferida;
+	}
 
 	public Integer getPrefixo_fone() {
 		return prefixo_fone;
