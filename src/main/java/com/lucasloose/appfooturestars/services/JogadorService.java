@@ -253,7 +253,9 @@ public class JogadorService {
 //				clube, empresario, usuario
 //				);
 //		jogador.getModalidade().setId(jogadorDTO.getIdModalidade());
+		jogador.getPosicoes().removeAll(jogador.getPosicoes());
 		ModalidadePosicao pos1 = new ModalidadePosicao(jogadorDTO.getIdPosicao1(), "");
+		
 		jogador.getPosicoes().add(pos1);
 
 		if (jogadorDTO.getIdPosicao2() != null) {
@@ -336,9 +338,13 @@ public class JogadorService {
 	}
 
 	public Jogador update(Jogador jogador) {
-		Jogador newJogador = this.find(jogador.getId());
-		this.updateData(newJogador, jogador);
-		return jogadorRepository.save(newJogador);
+		//Integer posicao = jogador.getPosicoes().get(0).getId();
+		//Jogador newJogador = this.find(jogador.getId());
+		//newJogador.getPosicoes().removeAll(newJogador.getPosicoes());
+		//this.updateData(newJogador, jogador);
+		//ModalidadePosicao pos = new ModalidadePosicao(posicao, "");
+		//newJogador.getPosicoes().add(pos);
+		return jogadorRepository.save(jogador);
 	}
 
 	public void delete(Integer id) {
@@ -351,13 +357,13 @@ public class JogadorService {
 	}
 
 	private void updateData(Jogador newJogador, Jogador jogador) {
-		newJogador.setNome(jogador.getNome());
-		newJogador.setCpf(jogador.getCpf() != null ? jogador.getCpf() : newJogador.getCpf());
-		newJogador.setData_nasc(jogador.getData_nasc());
-		newJogador.setNacionalidade(jogador.getNacionalidade());
-		newJogador.setEstado_nasc(jogador.getEstado_nasc());
-		newJogador.setMunicipio_nasc(jogador.getMunicipio_nasc());
-		newJogador.setSexo(jogador.getSexo());
+//		newJogador.setNome(jogador.getNome());
+//		newJogador.setCpf(jogador.getCpf() != null ? jogador.getCpf() : newJogador.getCpf());
+//		newJogador.setData_nasc(jogador.getData_nasc());
+//		newJogador.setNacionalidade(jogador.getNacionalidade());
+//		newJogador.setEstado_nasc(jogador.getEstado_nasc());
+//		newJogador.setMunicipio_nasc(jogador.getMunicipio_nasc());
+//		newJogador.setSexo(jogador.getSexo());
 		newJogador.setAltura(jogador.getAltura());
 		newJogador.setPeso(jogador.getPeso());
 		newJogador.setProfissionalizacao(jogador.getProfissionalizacao());
@@ -379,14 +385,14 @@ public class JogadorService {
 		newJogador.setPrefixo_fone(jogador.getPrefixo_fone());
 		newJogador.setDdd_fone(jogador.getDdd_fone());
 		newJogador.setFone(jogador.getFone());
-		newJogador.setEmail(jogador.getEmail());
-		// lances
+//		newJogador.setEmail(jogador.getEmail());
+//		// lances
 		newJogador.setComplemento(jogador.getComplemento());
-		newJogador.setClubeFutebol(jogador.getClubeFutebol());
-		newJogador.setEmpresario(jogador.getEmpresario());
+//		newJogador.setClubeFutebol(jogador.getClubeFutebol());
+//		newJogador.setEmpresario(jogador.getEmpresario());
 		// lista observacao
 		// lista historico
-		newJogador.setUsuario(jogador.getUsuario());
+//		newJogador.setUsuario(jogador.getUsuario());
 	}
 
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
